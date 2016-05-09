@@ -11,3 +11,5 @@
 *** Testing each bit of functionality, maybe basic security testing (SQL injection)
 ** Github integration
 *** Give github username and repo, automatically pulls and runs make (run every time or only once?)
+** Middleware
+*** Connects backend with frontend

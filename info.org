@@ -1,0 +1,13 @@
+* Division of Labor
+** Front end
+*** Interactive gallery options
+*** Beautification 
+** Database 
+*** Storing images
+*** Accounts? 
+** Documentation/Deployment/Testing
+*** Writing up documentation for future generations
+*** Deploying the app on a Digital Ocean box
+*** Testing each bit of functionality, maybe basic security testing (SQL injection)
+** Github integration
+*** Give github username and repo, automatically pulls and runs make (run every time or only once?)

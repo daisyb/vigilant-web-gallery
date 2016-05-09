@@ -18,3 +18,14 @@ Ideas: use CSS
 * side panel to choose assignment page instead of nav bar
 * home button in corner
 * Decent color scheme
+* put the preview images in a table 
+  * scale images to certain dimention
+ 
+
+To-Do List:
+* Talk to DW
+* Figure out roles
+* Pick toolset
+* figure out file structure
+* get started!!!
+

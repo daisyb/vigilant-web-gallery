@@ -1,15 +1,23 @@
 * Division of Labor
-** Front end
-*** Interactive gallery options
-*** Beautification 
-** Database 
-*** Storing images
-*** Accounts? 
-** Documentation/Deployment/Testing
-*** Writing up documentation for future generations
-*** Deploying the app on a Digital Ocean box
-*** Testing each bit of functionality, maybe basic security testing (SQL injection)
-** Github integration
-*** Give github username and repo, automatically pulls and runs make (run every time or only once?)
-** Middleware
-*** Connects backend with frontend
+
+*** Front end - Daisy
+- Interactive gallery options
+- Beautification 
+
+*** Uploading - Krzysztof
+- php stuff
+- works with backend
+
+*** Database - David
+- Storing images
+- Python + file saving?
+
+*** Documentation/Deployment/Testing - Nicholas
+- Writing up documentation for future generations
+- Deploying the app on a Digital Ocean box
+ Testing each bit of functionality, maybe basic security testing (SQL injection)
+
+
+*** Middleware - Michael
+- Flask
+- Connects backend with frontend

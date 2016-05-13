@@ -1,0 +1,5 @@
+* Uploading an image
+** Characteristic Information
+*** Goal in context: Student should upload image (png, gif), get confirmation of upload, and be able to view it in the gallary
+ 
+  

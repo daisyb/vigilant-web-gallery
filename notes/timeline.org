@@ -1,0 +1,15 @@
+* Week 0 (5/8-5/9) - Work
+* Week 1 (5/15-5/21) - Work
+* Week 2 (5/22-5/29) - 2nd Client Meeting
+* Week 3 (5/30-6/4) - Work
+* Week 4 (6/5-6/13) - Deploy, demo, 3rd Client Meeting 
+* Demos at end of the week
+
+| Week | Date      | Content                          |
+|------+-----------+----------------------------------|
+|    0 | 5/8-5/14  | Work, demo                       |
+|    1 | 5/15-5/21 | Work, demo                       |
+|    2 | 5/22-5/29 | 2nd client meeting               |
+|    3 | 5/30-6/4  | Work, demo                       |
+|    4 | 6/5-6/13  | Deploy, demo, 3rd client meeting |
+

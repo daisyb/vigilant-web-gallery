@@ -3,10 +3,27 @@
   <head>
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="../static/style.css" />
-    <link rel="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-      {% block contents %}{% endblock %}
+      <div class ="container">
+	  <div class="row">
+	      <div class="col-md-1 nav-top">
+		  <a herf="/home">home</a>
+		  <form action="POST">
+		      <input type="text" name="search" value="search">
+		  </form>
+	      </div>
+	  </div>
+	  <div>
+	      <ul class="nav-side">
+		  {% for page in galleries %}
+		  <li><a href ="/{{ page }}">{{ page }}</a></li>
+		  {% endfor %}
+	      </ul>
+	  </div>
+	  {% block contents %}{% endblock %}
+      </div>
   </body>
 </html>

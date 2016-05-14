@@ -6,24 +6,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-    <div class="nav-top">
+    <div id="nav-top">
       <div class="nav-contents">
 	<a herf="/home">Home</a>
 	<div class="search-div">
-	  <form>
+	  <form method="post">
 	    <input type="text" name="search" placeholder="Search">
-	    <input type="submit" value="&#128269;";
+	    <input type="submit" value="&#128269;">
 	  </form>
 	</div>
       </div>
     </div>
-    <div>
-      <ul class="nav-side">
-	{% for page in galleries %}
-	<li><a href ="/{{ page }}">{{ page }}</a></li>
-	{% endfor %}
+    <div id="nav-side" class="nav-side">
+      <ul>
+	<li><a href="upload">Upload</a></li>
+      </ul>
+      <ul>
+	<!-- {% for page in galleries %} -->
+	<!-- <li><a href ="/{{ page }}">{{ page }}</a></li>-->
+	<!-- {% endfor %} -->
+	<li id="test"><a href="page1">page1</a></li>
+	<li><a href="page2">page2</a></li>
+	<li><a href="page3">page3</a></li>
+	<li><a href="page4">page4</a></li>
+	<li><a href="page5">mdlsgads</a></li>
       </ul>
     </div>
-    {% block contents %}{% endblock %}
+    <script>
+     window.addEventListener('resize', function(e){
+	 
+	 if (document.documentElement.clientWidth < 800){
+             console.log("hohoohoh");
+	     /* working on making the side menu a dropdown when
+	     window is small */
+	     var sNav = document.getElementById("nav-side");
+	     sNav.className = "dropdown-contents";
+	     
+	     for(var i = 0; i < sNav.childElementCount; i++){
+                 sNav.children[i].className = "dropdown-content";
+	     }
+	     
+	     var tNav = document.getElementById("nav-top");
+	     var dropmenu = document.createElement("span");
+             dropmenu.className = "dropmenu";
+             dropmenu.innerHTML = "menu";
+	     tNav.appendChild(dropmenu);
+	 };
+     });
+    </script>
+    <div class="main">
+
+    </div>
+
+    
+
   </body>
 </html>

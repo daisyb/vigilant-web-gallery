@@ -4,7 +4,6 @@ from flask import Flask, render_template, session, request, redirect, url_for
 from database import *
 
 app = Flask(__name__)
-cgallery = ""
 
 @app.route("/",methods=["GET","POST"])
 @app.route("/home",methods=["GET","POST"])
@@ -23,19 +22,20 @@ def home():
             for gallery in galleries:
                 if button == gallery:
                     cgallery = gallery
-                    return redirect(url_for(gallery))
+                    return redirect(url_for("gallery",g=gallery))
 
 @app.route("/gallery",methods=["GET","POST"])
+@app.route("/gallery/<g>",methods=["GET","POST"])
 def gallery():
     if request.method == "GET":
-        if cgallery == "":
+        if g == None:
             return redirect(url_for("home"))
         else:
             """checks global cgallery for gallery name
             display thumbnails for the galleries
             """
             """not sure if we need this but , gallery=gallery function, thumbnail=thumbnail function,code=code function, name=name function"""
-            return render_template("gallery.html")
+            return render_template("gallery.html",thumbnails=t,names=n,images=i,code=c)
     else:
         button = request.form['button']
         if button == "about":
@@ -54,8 +54,8 @@ def upload():
     if request.method == "GET":
         return render_template("upload.html")
     else:
-button = request.form['button']
-        if button == "about":
+        button = request.form['button']
+        if button == "upload":
             return redirect(url_for("about"))
         elif button == "home":
             return redirect(url_for("home"))

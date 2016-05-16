@@ -1,5 +1,65 @@
 * Uploading an image
 ** Characteristic Information
-*** Goal in context: Student should upload image (png, gif), get confirmation of upload, and be able to view it in the gallary
+*** Goal in context:
+**** Student should be able to:
+***** Upload image (png, gif),
+***** Get confirmation of upload,  
+***** Upload code snippet and give link to github repository
+***** Be able to view it in the gallery
+*** Scope: Student
+*** Level: Summary
+*** Preconditions: Student has png or gif file
+*** Success End Condition: File, link to repo, student name, image name and github link are in gallery
+*** Failed End Condition: File, link to repo, student name, image name and github link  are not in gallery
+*** Primary Actor: Student
+*** Trigger: Student uploads image
+** Main Success Scenario
+*** User uploads image with student name, image name and github link
+*** User gets confirmation of upload
+*** Image, student name, image name and link to code snippet are visible in gallery
+** Extensions
+*** Wrong image format: error message
+** Open Issues
+*** Github link or code snippet?
+*** Uploading?
+
+
+
  
   
+* Removing an image
+** Characteristic Information
+*** Goal in Context:
+**** Admin should be able to run a script on their computer and delete image
+**** OR run script while ssh-ed into Digital Ocean box
+*** Scope: Admin
+*** Level: Summary
+*** Preconditions: Wrong image is in gallery. Script is in admin computer
+*** Sucesss End Condition: Image along with data is removed from database and gallery
+*** Failed End Condition: Image and data are not removed from database and gallery
+*** Trigger: Admin runs script 
+** Main Success Scenario
+*** Admin runs script on computer
+*** Script asks which gallery and which image
+*** Script ssh's into Digital Ocean box, removes image row from database, and deletes file
+*** Admin gets confirmation
+
+
+* Removing a gallery
+** Characteristic Information
+*** Goal in Context:
+**** Admin should be able to run a script on their computer and delete gallery
+**** OR run script while ssh-ed into Digital Ocean box
+*** Scope: Admin
+*** Level: Summary
+*** Preconditions: Gallery is bad. Script is in admin computer
+*** Sucesss End Condition: Image along with data is removed from database and gallery
+*** Failed End Condition: Image and data are not removed from database and gallery
+*** Trigger: Admin runs script 
+** Main Success Scenario
+*** Admin runs script on computer
+*** Script asks which gallery
+*** Script ssh's into Digital Ocean box, removes image row from database, and deletes file
+*** Admin gets confirmation
+
+

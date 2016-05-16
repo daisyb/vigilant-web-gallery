@@ -1,25 +1,24 @@
 * Division of Labor
-
 *** Front end - Daisy
-- Interactive gallery options
-- Beautification 
+- Slide show
+- Side bar with other galleries
 
 *** Uploading - Krzysztof
-- php stuff
-- works with backend
+- Main goal: Custom uploading software that ties into backend
+- Stretch goal: Drag and drop uploading
 
 *** Database - David
-- Storing images
-- Python + file saving?
+- Storing images in file system
 
 *** Documentation/Deployment/Testing - Nicholas
 - Writing up documentation for future generations
-- Deploying the app on a Digital Ocean box
- Testing each bit of functionality, maybe basic security testing (SQL injection)
+- Deploying the app on a Digital Ocean box. Deployment should ideally by a simple script
+- Testing each bit of functionality, maybe basic security testing (SQL injection)
 
 
 *** Middleware - Michael
-- Flask
+- Flask application
 - Connects backend with frontend
+
 
   

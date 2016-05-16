@@ -5,63 +5,27 @@ from database import *
 
 app = Flask(__name__)
 
-@app.route("/",methods=["GET","POST"])
-@app.route("/home",methods=["GET","POST"])
-@app.route("/menu",methods=["GET","POST"])
+@app.route("/")
+@app.route("/home")
+@app.route("/menu")
 def home():
-    if request.method == "GET":
-        return render_template("home.html")
-    else:
-        button = request.form['button']
-        if button == "about":
-            return redirect(url_for("about"))
-        elif button == "home":
-            return redirect(url_for("home"))
-        else:
-            galleries = """Implement a function herer which interates through the list of galleries and returns redirect(url_for("gallery")) and sets a global cgallery to the name of the gallery"""
-            for gallery in galleries:
-                if button == gallery:
-                    cgallery = gallery
-                    return redirect(url_for("gallery",g=gallery))
+    """get gallery names"""
+    return render_template("home.html",gallerynames=gn)
 
-@app.route("/gallery",methods=["GET","POST"])
-@app.route("/gallery/<g>",methods=["GET","POST"])
+@app.route("/gallery")
+@app.route("/gallery/<g>")
 def gallery():
-    if request.method == "GET":
-        if g == None:
-            return redirect(url_for("home"))
-        else:
-            """checks global cgallery for gallery name
-            display thumbnails for the galleries
-            """
-            """not sure if we need this but , gallery=gallery function, thumbnail=thumbnail function,code=code function, name=name function"""
-            return render_template("gallery.html",thumbnails=t,names=n,images=i,code=c)
+    if g == None:
+        return redirect(url_for("home"))
     else:
-        button = request.form['button']
-        if button == "about":
-            return redirect(url_for("about"))
-        elif button == "home":
-            return redirect(url_for("home"))
-        else:
-            galleries = """Implement a function herer which interates through the list of galleries and returns redirect(url_for("gallery")) and sets a global cgallery to the name of the gallery"""
-            for gallery in galleries:
-                if button == gallery:
-                    cgallery = gallery
-                    return redirect(url_for(gallery))
+        """checks global cgallery for gallery name
+        display thumbnails for the galleries
+        """
+        """not sure if we need this but , gallery=gallery function, thumbnail=thumbnail function,code=code function, name=name function"""
+    return render_template("gallery.html",thumbnails=t,gallerynames=gn,names=n,images=i,code=c)
+    
 
 @app.route("/upload",methods=["GET","POST"])
 def upload():
-    if request.method == "GET":
-        return render_template("upload.html")
-    else:
-        button = request.form['button']
-        if button == "upload":
-            return redirect(url_for("about"))
-        elif button == "home":
-            return redirect(url_for("home"))
-        else:
-            galleries = """Implement a function herer which interates through the list of galleries and returns redirect(url_for("gallery")) and sets a global cgallery to the name of the gallery"""
-            for gallery in galleries:
-                if button == gallery:
-                    cgallery = gallery
-                    return redirect(url_for(gallery))
+    """get gallery names"""
+    return render_template("upload.html",gallerynames=gn)

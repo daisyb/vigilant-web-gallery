@@ -44,7 +44,7 @@ a:hover {
     .search-div {
 	display:inline-block;
 	padding-left:50px;
-       
+       	postition:absolute;
     }
     
         .search-div form {

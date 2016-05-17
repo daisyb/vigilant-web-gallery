@@ -52,14 +52,14 @@
 **** OR run script while ssh-ed into Digital Ocean box
 *** Scope: Admin
 *** Level: Summary
-*** Preconditions: Gallery is bad. Script is in admin computer
-*** Sucesss End Condition: Image along with data is removed from database and gallery
-*** Failed End Condition: Image and data are not removed from database and gallery
+*** Preconditions: There is a wrong gallery. Script is in admin computer
+*** Sucesss End Condition: The gallery table is removed from the database and the gallery page is deleted
+*** Failed End Condition: The gallery table is still in the database and the page is still accessable 
 *** Trigger: Admin runs script 
 ** Main Success Scenario
 *** Admin runs script on computer
 *** Script asks which gallery
-*** Script ssh's into Digital Ocean box, removes image row from database, and deletes file
+*** Script ssh's into Digital Ocean box, removes the gallery from the database (deletes table), removes the html file and any links to gallery
 *** Admin gets confirmation
 
 

@@ -22,10 +22,27 @@ def gallery():
         display thumbnails for the galleries
         """
         """not sure if we need this but , gallery=gallery function, thumbnail=thumbnail function,code=code function, name=name function"""
-    return render_template("gallery.html",thumbnails=t,gallerynames=gn,names=n,images=i,code=c)
+    return render_template("gallery.html",cgallery=g,gallerynames=gn)
     
 
 @app.route("/upload",methods=["GET","POST"])
 def upload():
-    """get gallery names"""
-    return render_template("upload.html",gallerynames=gn)
+    if request.method == "GET":
+        """get gallery names"""
+        return render_template("upload.html",gallerynames=gn)
+    else:
+        """method which gets stuff from"""
+        return redirect(url_for("gallery",g=gallname))
+
+
+@app.route("/getimages", methods=['POST'])
+def getimages():
+    return json.dumps """stuff"""
+
+@app.route("/getthumbnails", methods=['POST'])
+def getthumbnails():
+    return json.dumps """stuff"""
+
+@app.route("/getcode", methods=['POST'])
+def getcode():
+    return json.dumps """stuff"""

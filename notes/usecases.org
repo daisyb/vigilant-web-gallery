@@ -21,7 +21,7 @@
 *** Wrong image format: error message
 ** Open Issues
 *** Github link or code snippet?
-*** How are we doing uploading?
+*** Uploading?
 
 
 
@@ -43,10 +43,6 @@
 *** Script asks which gallery and which image
 *** Script ssh's into Digital Ocean box, removes image row from database, and deletes file
 *** Admin gets confirmation
-** Extension
-*** If image does not exist, returns error
-** Open Issues
-*** Python script stored locally or on Digital Ocean box? 
 
 
 * Removing a gallery
@@ -65,10 +61,5 @@
 *** Script asks which gallery
 *** Script ssh's into Digital Ocean box, removes the gallery from the database (deletes table), removes the html file and any links to gallery
 *** Admin gets confirmation
-** Extension
-*** If gallery does not exist, returns error
-** Open Issues
-*** Python script stored locally or on Digital Ocean box?
-
 
 

@@ -10,6 +10,30 @@ def createNewGallery(galleryname):
     
     con.commit()
     con.close()
+
+def getGallery(galleryname):      #basically gets everything for you
+    con = sqlite3.connect("imagegallery.db")
+    cur = con.cursor()
+    gallery = []
+    sql = "SELECT * FROM " + galleryname
+    for row in cur.execute(sql).fetchall():
+        tempdict = {"studentname" : row[0],
+                    "imagename" : row[1],
+                    "imagepath" : row[2],
+                    "thumbnailpath" : row[3],
+                    "githublink" : row[4]}
+        gallery.append(path)
+    con.close()
+    return gallery
+
+def getAllGalleries():
+    con = sqlite3.connect("imagegallery.db")
+    cur = con.cursor()
+    glist = []
+    sql = "SELECT name FROM sqlite_master WHERE type='table'"
+    for table in cur.execute(sql).fetchall():
+        glist.append(table)
+    return glist
     
 def storeNewImage(galleryname, studentname, imagename,imagepath, thumbnailpath, githublink):
     con = sqlite3.connect("imagegallery.db")
@@ -30,7 +54,7 @@ def getImagePaths(galleryname):
     con = sqlite3.connect("imagegallery.db")
     cur = con.cursor()
     imagepaths = []
-    sql = "SELECT * FROM " + galleryname + " where rowid = imagepath"
+    sql = "SELECT imagepath FROM " + galleryname
     for path in cur.execute(sql).fetchall():
         imagepaths.append(path)
     con.close()
@@ -40,23 +64,8 @@ def getThumbnailPaths(galleryname):
     con = sqlite3.connect("imagegallery.db")
     cur = con.cursor()
     thumbnailpaths = []
-    sql = "SELECT * FROM " + galleryname + " where rowid = thumbnailpath"
+    sql = "SELECT thumbnailpath FROM " + galleryname
     for path in cur.execute(sql).fetchall():
         thumbnailpaths.append(path)
     con.close()
     return thumbnailpaths
-
-def getGallery(galleryname):      #basically gets everything for you
-    con = sqlite3.connect("imagegallery.db")
-    cur = con.cursor()
-    gallery = []
-    sql = "SELECT * FROM " + galleryname
-    for row in cur.execute(sql).fetchall():
-        tempdict = {"studentname" : row[0],
-                    "imagename" : row[1],
-                    "imagepath" : row[2],
-                    "thumbnailpath" : row[3],
-                    "githublink" : row[4]}
-        gallery.append(path)
-    con.close()
-    return gallery

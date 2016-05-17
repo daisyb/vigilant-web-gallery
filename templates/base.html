@@ -3,7 +3,8 @@
   <head>
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="../static/css/style.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="UTF-8"/>
   </head>
   <body>
     <div id="nav-top">
@@ -22,23 +23,18 @@
 	<li><a href="upload">Upload</a></li>
       </ul>
       <ul>
-	<!-- {% for page in galleries %} -->
-	<!-- <li><a href ="/{{ page }}">{{ page }}</a></li>-->
-	<!-- {% endfor %} -->
-	<li id="test"><a href="page1">page1</a></li>
-	<li><a href="page2">page2</a></li>
-	<li><a href="page3">page3</a></li>
-	<li><a href="page4">page4</a></li>
-	<li><a href="page5">mdlsgads</a></li>
+	  {% for page in gallerynames %}
+	  <li><a href ="/{{ page }}">{{ page }}</a></li>-->
+	  {% endfor %}
       </ul>
     </div>
     <script>
      window.addEventListener('resize', function(e){
-	 
+     /*
 	 if (document.documentElement.clientWidth < 800){
              console.log("hohoohoh");
-	     /* working on making the side menu a dropdown when
-	     window is small */
+	     // working on making the side menu a dropdown when
+	     //window is small
 	     var sNav = document.getElementById("nav-side");
 	     sNav.className = "dropdown-contents";
 	     
@@ -51,14 +47,14 @@
              dropmenu.className = "dropmenu";
              dropmenu.innerHTML = "menu";
 	     tNav.appendChild(dropmenu);
+				
 	 };
+	 */
      });
     </script>
     <div class="main">
-
+	{% block contents %}
+	{% endblock %}
     </div>
-
-    
-
   </body>
 </html>

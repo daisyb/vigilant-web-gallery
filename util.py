@@ -1,11 +1,21 @@
 import sqlite3
+import PythonMagick
+
+def createThumbnail(imagepath):
+    image = PythonMagick.Image(imagepath)
+    geometry = image.size()
+    w, h = geometry.width(), geometry.height()
+    new_size = 100                       #I didn't crop yet
+    image.resize("{}x{}".format(new_size, new_size))
+    image.write("thumbnail.png")
+    return True
 
 def createNewGallery(galleryname):
     con = sqlite3.connect("imagegallery.db")
     
     cur = con.cursor()
     
-    sql = "CREATE TABLE IF NOT EXISTS "+ galleryname +"(studentname TEXT, imagename TEXT, imagepath TEXT, thumbnailpath TEXT, githublink TEXT)"
+    sql = "CREATE TABLE IF NOT EXISTS "+ galleryname +"(title TEXT, imagepath TEXT, thumbnailpath TEXT, githublink TEXT)"
     cur.execute(sql)
     
     con.commit()
@@ -17,11 +27,10 @@ def getGallery(galleryname):      #basically gets everything for you
     gallery = []
     sql = "SELECT * FROM " + galleryname
     for row in cur.execute(sql).fetchall():
-        tempdict = {"studentname" : row[0],
-                    "imagename" : row[1],
-                    "imagepath" : row[2],
-                    "thumbnailpath" : row[3],
-                    "githublink" : row[4]}
+        tempdict = {"title" : row[0],
+                    "imagepath" : row[1],
+                    "thumbnailpath" : row[2],
+                    "githublink" : row[3]}
         gallery.append(path)
     con.close()
     return gallery
@@ -35,11 +44,12 @@ def getAllGalleries():
         glist.append(table)
     return glist
     
-def storeNewImage(galleryname, studentname, imagename,imagepath, thumbnailpath, githublink):
+def storeNewImage(galleryname, title, githublink):
     con = sqlite3.connect("imagegallery.db")
     cur=con.cursor()
-    filepath = galleryname
-    sql = "INSERT INTO " + galleryname + "(studentname, imagename, imagepath, thumbnailpath, githublink) VALUES(\"%s\",\"%s\",\"%s\",\"%s\")" % (studentname, imagename, imagepath, thumbnailpath, githublink)
+    imagepath = galleryname + "/" + title + "image.png"
+    thumbnailpath = galleryname + "/" + title + "thumbnail.png"
+    sql = "INSERT INTO " + galleryname + "(title, imagepath, thumbnailpath, githublink) VALUES(\"%s\",\"%s\",\"%s\",\"%s\")" % (title, imagepath, thumbnailpath, githublink)
     try:
         cur.execute(sql)
         con.commit()

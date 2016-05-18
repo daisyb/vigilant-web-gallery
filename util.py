@@ -69,3 +69,8 @@ def getThumbnailPaths(galleryname):
         thumbnailpaths.append(path)
     con.close()
     return thumbnailpaths
+
+
+# Just a test function for bash script
+def testGetGalleries():
+	print " Line \n Edge"

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="UTF-8"/>
+  </head>
+  <body>
+    <div id="nav-top">
+      <div class="nav-contents">
+	<a herf="/home">Home</a>&nbsp;&nbsp;&nbsp;
+	<a herf="/home"><strong style="color:white;">Upload</strong></a>
+      </div>
+    </div>
+    <div class="main">
+	{% block contents %}
+	{% endblock %}
+    </div>
+  </body>
+</html>

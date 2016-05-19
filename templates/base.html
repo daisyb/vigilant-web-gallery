@@ -8,23 +8,24 @@
   </head>
   <body>
     <div id="nav-top">
-      <div class="nav-contents">
-	<a herf="/home">Home</a>
-	<div class="search-div">
-	  <form method="post">
-	    <input type="text" name="search" placeholder="Search">
-	    <input type="submit" value="&#128269;">
-	  </form>
-	</div>
+	<div class="nav-contents">
+	    <ul id="top-list">
+		<li><a herf="/home">Home</a></li>
+		<li>
+		    <div class="search-div">
+			<form method="post">
+			    <input type="text" name="search" placeholder="Search">
+			    <input type="submit" value="&#128269;">
+			</form>
+		    </div>
+		</li>
+		<li><a href="/upload">Upload</a></li>
       </div>
     </div>
     <div id="nav-side" class="nav-side">
-      <ul>
-	<li><a href="upload">Upload</a></li>
-      </ul>
-      <ul>
+      <ul id ="gall-list">
 	  {% for page in gallerynames %}
-	  <li><a href ="/{{ page }}">{{ page }}</a></li>-->
+	  <li><a href ="/gallery/{{ page }}">{{ page }}</a></li>
 	  {% endfor %}
       </ul>
     </div>

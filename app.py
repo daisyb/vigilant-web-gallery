@@ -1,9 +1,11 @@
 import urllib2,json
 import hashlib
 from flask import Flask, render_template, session, request, redirect, url_for
-from database import *
+#from database import *
 
 app = Flask(__name__)
+gn = ["page1","page2","page3"]
+
 
 @app.route("/")
 @app.route("/home")
@@ -12,12 +14,13 @@ def home():
     """get gallery names"""
     return render_template("home.html",gallerynames=gn)
 
-@app.route("/gallery")
+
 @app.route("/gallery/<g>")
-def gallery():
+def gallery(g):
     if g == None:
         return redirect(url_for("home"))
     else:
+        cgallery = g
         """checks global cgallery for gallery name
         display thumbnails for the galleries
         """
@@ -35,14 +38,21 @@ def upload():
         return redirect(url_for("gallery",g=gallname))
 
 
-@app.route("/getimages", methods=['POST'])
-def getimages():
-    return json.dumps """stuff"""
+# @app.route("/getimages", methods=['POST'])
+# def getimages():
+#     return json.dumps """stuff"""
 
-@app.route("/getthumbnails", methods=['POST'])
-def getthumbnails():
-    return json.dumps """stuff"""
+# @app.route("/getthumbnails", methods=['POST'])
+# def getthumbnails():
+#     return json.dumps """stuff"""
 
-@app.route("/getcode", methods=['POST'])
-def getcode():
-    return json.dumps """stuff"""
+# @app.route("/getcode", methods=['POST'])
+# def getcode():
+#     return json.dumps """stuff"""
+
+
+
+if __name__ == "__main__":
+    app.debug = True
+    app.run('0.0.0.0',port=8001)
+

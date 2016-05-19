@@ -30,6 +30,8 @@ a:hover {
 	position:relative;
     }
 
+    #top-list {}
+
     .nav-contents a {
 	color:#A7A9B0;
     }
@@ -89,26 +91,29 @@ a:hover {
 	marigin:0px;
     }
 
-        .nav-side li {
+    .nav-side li {
 	    width:100%;
 	    padding:10px 0px 10px 0px;
+	    display:block;
+	    position:relative;
+	    padding-left: 30px;
 	}
 
-        .nav-side li:hover{
+        #gall-list li:hover{
 	    background-color:#D9DADE;
 	}
 
-	    .nav-side li a {
-		display:block;
-		position:relative;
-		padding-left: 30px;
+	    #gall-list li a {
+
 		color: #76767A/*#8C8D91;*/
 	    }
 
-	    .nav-side li a:hover {
+	    #gall-list li a:hover {
 		text-decoration:none;
 	    }
 
+		
+	    
 .main {
 }
 

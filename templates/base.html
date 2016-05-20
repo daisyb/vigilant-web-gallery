@@ -3,60 +3,37 @@
   <head>
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="../static/css/style.css" />
+    <link rel="icon" href="../static/images/thluffy.png" type="image/png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta charset="UTF-8"/>
   </head>
   <body>
     <div id="nav-top">
-	<div class="nav-contents">
-	    <ul id="top-list">
-		<li><a herf="/home">Home</a></li>
-		<li>
-		    <div class="search-div">
-			<form method="post">
-			    <input type="text" name="search" placeholder="Search">
-			    <input type="submit" value="&#128269;">
-			</form>
-		    </div>
-		</li>
-		<li><a href="/upload">Upload</a></li>
-      </div>
+      <span id="threelines" onclick="toggleBar(sNav)">&#9776;</span>
+      <span style="padding-left:45%"><a href="/home"><img src="../static/images/thluffy.png"></a></span>
     </div>
-    <div id="nav-side" class="nav-side">
-      <ul id ="gall-list">
-	  {% for page in gallerynames %}
-	  <li><a href ="/gallery/{{ page }}">{{ page }}</a></li>
-	  {% endfor %}
+    
+    <div id="nav-side">
+      <ul>
+	<span class="ul-title">MENU</span><br>
+	&nbsp;
+	<li ><a href ="/home" >Home</a></li>
+	<li><a href ="/upload">Upload</a></li>
+      </ul>
+      <ul>
+	<span class="ul-title">GALLERIES</span><br>
+	&nbsp;
+	{% for page in gallerynames %}
+	<li><a href ="/gallery/{{ page }}">{{ page }}</a></li>
+	{% endfor %}
       </ul>
     </div>
-    <script>
-     window.addEventListener('resize', function(e){
-     /*
-	 if (document.documentElement.clientWidth < 800){
-             console.log("hohoohoh");
-	     // working on making the side menu a dropdown when
-	     //window is small
-	     var sNav = document.getElementById("nav-side");
-	     sNav.className = "dropdown-contents";
-	     
-	     for(var i = 0; i < sNav.childElementCount; i++){
-                 sNav.children[i].className = "dropdown-content";
-	     }
-	     
-	     var tNav = document.getElementById("nav-top");
-	     var dropmenu = document.createElement("span");
-             dropmenu.className = "dropmenu";
-             dropmenu.innerHTML = "menu";
-	     tNav.appendChild(dropmenu);
-				
-	 };
-	 */
-     });
+    <script src="../static/js/base.js">
     </script>
     <div class="main">
-	{% block contents %}
-	{% endblock %}
+      {% block contents %}
+      {% endblock %}
     </div>
   </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 </html>

@@ -1,6 +1,4 @@
 
-
-
 //just some resizing stuff for when page gets small
 /*
 var wisBig = true; 
@@ -26,3 +24,7 @@ var changeTableSpacing = function(){
 $( window ).resize();
 
 */
+
+
+
+

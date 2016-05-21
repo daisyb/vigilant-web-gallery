@@ -1,5 +1,0 @@
-
-
-var makeActiveLink = function(){
-    this.style.className = "active";
-}

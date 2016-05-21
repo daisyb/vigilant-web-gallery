@@ -1,0 +1,33 @@
+.gtable {
+    border-spacing:30px;
+}
+
+.gtable td {
+    position:relative;
+}
+
+.gtable img {
+    width: 100%;
+    height: auto;
+    margin:auto;
+}
+
+.imgTitle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color:white;
+    
+    visibility: hidden;
+    opacity: 0;
+}
+
+
+
+.gtable td:hover .imgTitle {
+    background: rgba(0, 0, 0, 0.3);
+    visibility:visible;
+    opacity:1;
+}

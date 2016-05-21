@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="../static/css/style.css" />
+    {% block head %}
+    {% endblock %}
+    <link rel="stylesheet" type="text/css" href="../static/css/base.css" />
     <link rel="icon" href="../static/images/thluffy.png" type="image/png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta charset="UTF-8"/>
@@ -28,12 +29,13 @@
 	{% endfor %}
       </ul>
     </div>
-    <script src="../static/js/base.js">
-    </script>
+    <script src="../static/js/base.js"></script>
     <div class="main">
       {% block contents %}
       {% endblock %}
     </div>
   </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  {% block scripts %}
+  {% endblock %}
 </html>

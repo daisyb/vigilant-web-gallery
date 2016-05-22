@@ -1,3 +1,9 @@
+* {
+    margin:0;
+    padding:0;
+}
+
+
 body {
     text-align:left;
     margin:0;
@@ -16,113 +22,87 @@ a:hover {
     text-decoration:underline;
 }
 
+.hidden {
+    display:none;
+}
+
+.active {
+    background-color:#adafb8;
+}
+
+li.active:hover {
+    background-color:#adafb8;
+}
+
+.ul-title {
+    padding-left:30px;
+}
+
 #nav-top {
     background-color:#161F3D;/*#CAD8E3;*/
-    padding:10px;
-    font-size:1.8em;
+    font-size:2em;
     width:100%;
-}  
 
-    .nav-contents {
-        padding-left:20%;
-	width:80%;
-	margin:auto;
-	position:relative;
-    }
+}
 
-    .nav-contents a {
-	color:#A7A9B0;
-    }
-	
-        .nav-contents a:hover {
-	    color:white;
-	    text-decoration:none;
-	    cursor:pointer;
-	}
-
-	
-    .search-div {
+    #threelines {
+	color:white;
+	padding-left:15px;
+	font-size:1em;
 	display:inline-block;
-	padding-left:50px;
-       	postition:absolute;
     }
+
+    #threelines:hover{
+	cursor:pointer;
+	color:#D9DADE;
+    }
+
+    #nav-top img {
+	display:inline-block;
+	margin:auto;
+    }
+
+
     
-        .search-div form {
-	    display:flex;
-	}
-   
-        .search-div input[type=text] {   
-	    width: 90%;
-	    padding: 5px 5px 5px 10px;
-	    font-size:15px;
-	    border-radius:3px 0px 0px 3px;
-	    border-width:1px;
-	}
-
-	.search-div input[type=submit] {
-	    border:0px solid #C4C7CC;
-	    border-left: 0px;
-	    border-radius:0px 3px 3px 0px;
-	    padding: 0px 15px 0px 15px;
-	    cursor:pointer;
-	}
-
-	.search-div input[type=submit]:hover {
-	    border-width:1px;
-	    color: #9E9E9D;
-	}
-	 
-
-.nav-side {
+#nav-side {
     background-color:#eeeeee;
     width:200px;
     height:100vh;
     padding: 15px 0px 0px 0px;
     font-size:1em;
     float:left;
+    	
 }
 
-    .nav-side ul {
+    #nav-side ul {
 	list-style-type: none;
-	width:100%;
-	padding-left:0px;
-	marigin:0px;
+	width:170px;
+	padding-top:60px;
+	
     }
 
-        .nav-side li {
+
+    #nav-side li {
 	    width:100%;
 	    padding:10px 0px 10px 0px;
+	    display:block;
+	    padding-left: 30px;
 	}
 
-        .nav-side li:hover{
+        li:hover{
 	    background-color:#D9DADE;
 	}
 
-	    .nav-side li a {
+	    #nav-side li a {
 		display:block;
-		position:relative;
-		padding-left: 30px;
-		color: #76767A/*#8C8D91;*/
+		color: #585B5C;/*#8C8D91;*/
 	    }
 
-	    .nav-side li a:hover {
+	    #nav-side li a:hover {
 		text-decoration:none;
 	    }
-
+	    
+ 
+	    
 .main {
 }
-
-.dropdown {
-    position:relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display:none;
-    position:absolute;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-

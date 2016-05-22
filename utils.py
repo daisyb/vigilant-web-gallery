@@ -1,5 +1,5 @@
 import sqlite3
-import PythonMagick
+#import PythonMagick
 
 def createThumbnail(imagepath):
     image = PythonMagick.Image(imagepath)
@@ -82,5 +82,12 @@ def getThumbnailPaths(galleryname):
 
 
 # Just a test function for bash script
-def testGetGalleries():
-	print " Line \n Edge"
+def printGalleries(galleryfunct):
+	galleries = galleryfunct()
+	out = ""
+	for index, gallery in enumerate(galleries):
+		out = out + str(index) + ": " + gallery[0] + " \n"
+	print out
+
+def printAllGalleries():
+	printGalleries(getAllGalleries)

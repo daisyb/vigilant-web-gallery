@@ -7,8 +7,9 @@ var currentPath = window.location.pathname;
 
 // highlights current link in sidebar
 var links = sNav.querySelectorAll('a[href="' + currentPath + '"]');
-links[0].parentElement.className="active";     
-
+if(links.length > 0 ){
+    links[0].parentElement.className="active";     
+}
 
 //for collapsable sidebar
 var hideBar = function(bar){
@@ -37,11 +38,14 @@ if (document.documentElement.clientWidth > 1300){
     hideBar(tNav); //hides topbar
 }
 
-window.addEventListener('resize',function(e){
+var windowResizeEvent = function(e){
     if(document.documentElement.clientWidth < 1300){
 	showBar(tNav); //shows topbar
     } else {
 	hideBar(tNav);
 	showBar(sNav);
     }
-});
+};
+
+window.addEventListener('resize', windowResizeEvent);
+

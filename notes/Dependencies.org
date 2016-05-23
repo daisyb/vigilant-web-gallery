@@ -1,8 +1,0 @@
-* Dependencies
-
-- pip
-- PythonMagick
-- Imagemagick
-- Sqlite
-- python-dev 
-- nginx

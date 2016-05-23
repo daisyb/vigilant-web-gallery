@@ -1,3 +1,6 @@
 [submodule "notes"]
 	path = notes
 	url = https://github.com/daisyb/vigilant-web-gallery.wiki.git
+[submodule "note"]
+	path = note
+	url = https://github.com/daisyb/vigilant-web-gallery.wiki.git

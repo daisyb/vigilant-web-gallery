@@ -1,9 +1,6 @@
 * Dependencies
 
 - pip
-   - virtualenv 
-   - uwsgi
-   - flask
 - PythonMagick
 - Imagemagick
 - Sqlite

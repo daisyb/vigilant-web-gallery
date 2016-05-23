@@ -5,14 +5,12 @@ from flask import Flask, render_template, session, request, redirect, url_for
 #from database import *
 
 app = Flask(__name__)
-gn = ["page1","page2","page3"]
 
 
 @app.route("/")
 @app.route("/home")
-@app.route("/menu")
 def home():
-    gallerynames = getAllGalleries()
+    gn = utils.getAllGalleries()
     return render_template("home.html",gallerynames=gn)
 
 
@@ -20,17 +18,16 @@ def home():
 def gallery(g):
     if g == None:
         return redirect(url_for("home"))
-    else:
-        cgallery = g
-        if g in getAllGalleries():
-            gallerynames = getAllGalleries()
-    return render_template("gallery.html",cgallery=g,gallerynames=gn)
+    elif g in utils.getAllGalleries():
+        gn = utils.getAllGalleries()
+        return render_template("gallery.html",cgallery=g,gallerynames=gn)
+    return redirect(url_for("home"))
     
 
 @app.route("/upload",methods=["GET","POST"])
 def upload():
     if request.method == "GET":
-        gallerynames = getAllGalleries()
+        gn = utils.getAllGalleries()
         return render_template("upload.html",gallerynames=gn)
     else:
         """method which gets stuff from"""
@@ -40,12 +37,12 @@ def upload():
 
 @app.route("/getimages", methods=['POST'])
 def getimages():
-    d = getImagePaths(gallery)
+    d = utils.getImagePaths(gallery)
     return json.dumps(d)
 
 @app.route("/getthumbnails", methods=['POST'])
 def getthumbnails():
-    d = getThumbnailPaths(galleryname)
+    d = utils.getThumbnailPaths(galleryname)
     return json.dumps(d)
 
 #@app.route("/getcode", methods=['POST'])

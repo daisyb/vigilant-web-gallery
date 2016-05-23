@@ -1,0 +1,11 @@
+* Improvements for DW
+** Way to upload image
+*** No need to authenticate user
+*** Way to enter/attach name and code
+*** Restrict upload formats to gif, png, jpg
+** Galleries
+*** View abailable galleries
+*** View all thumbnails
+*** Somehow view code 
+**** How? Maybe through github
+*** Retain/don't generate image on the fly (stored image)

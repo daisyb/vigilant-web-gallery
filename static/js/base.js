@@ -36,11 +36,14 @@ var toggleBar = function(bar){
 
 if (document.documentElement.clientWidth > 1300){
     hideBar(tNav); //hides topbar
+} else {
+    hideBar(sNav);
 }
 
 var windowResizeEvent = function(e){
     if(document.documentElement.clientWidth < 1300){
 	showBar(tNav); //shows topbar
+	hideBar(sNav);
     } else {
 	hideBar(tNav);
 	showBar(sNav);

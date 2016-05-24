@@ -8,7 +8,7 @@ body {
     text-align:left;
     margin:0;
     padding:0;
-    font-family:"Helvetica";
+    font-family:"Helvetica",sans-serif;
     width:100%;
 }
 
@@ -71,7 +71,7 @@ li.active:hover {
     padding: 15px 0px 0px 0px;
     font-size:1em;
     float:left;
-    	
+
 }
 
     #nav-side ul {
@@ -105,4 +105,5 @@ li.active:hover {
  
 	    
 .main {
+    display:flex;
 }

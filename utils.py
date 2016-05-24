@@ -1,4 +1,5 @@
 import sqlite3
+import json
 #import PythonMagick
 
 def createThumbnail(imagepath):
@@ -125,7 +126,8 @@ def outputJSON():
             image_out["image_author"] = image[3]
             gallery_out.append(image_out)
         out[gallery[0]] = gallery_out
-    print out
+    with open('out.json', 'w') as fp:
+        json.dump(out, fp)
 
 def loadTestDB():
     galleries = ['picmaker', 'line', 'edge', 'polygon']

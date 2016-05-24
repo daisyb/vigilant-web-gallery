@@ -91,3 +91,33 @@ def printGalleries(galleryfunct):
 
 def printAllGalleries():
 	printGalleries(getAllGalleries)
+
+def outputJSON():
+    out = {}
+    galleries = getAllGalleries()
+    con = sqlite3.connect("imagegallery.db")
+    cur = con.cursor()
+    for gallery in galleries:
+        sql = "SELECT * FROM " + gallery[0]
+        images = cur.execute(sql).fetchall()
+        gallery_out = []
+        for image in images:
+            image_out = {}
+            image_out["image_name"] = image[0]
+            image_out["image_file"] = image[1]
+            image_out["image_thumbnail"] = image[2]
+            image_out["image_author"] = image[3]
+            gallery_out.append(image_out)
+        out[gallery[0]] = gallery_out
+    print out
+
+def loadTestDB():
+    galleries = ['picmaker', 'line', 'edge', 'polygon']
+    imagenames = ['krzysztofs image', 'daisys image', 'michaels image', 'davids image', 'nicholas image']
+    github = ['khoch', 'daisyb', 'MGRiv', 'songdavid98', 'NicholasLYang']
+    for gallery in galleries:
+        createNewGallery(gallery)
+        for i in range (0, 5):
+            storeNewImage(gallery, imagenames[i], github[i])
+    
+    

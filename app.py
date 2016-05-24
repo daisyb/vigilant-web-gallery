@@ -58,6 +58,18 @@ def getthumbnails():
     d = utils.getThumbnailPaths(t[i])
     return json.dumps(d)
 
+@app.route("/getall", methods=['POST'])
+def getall():
+    gallery=request.form
+    t = gallery.split('/')
+    i = len(t) - 1
+    while i >= 0:
+        if t[i] != None:
+            break
+        i-=1
+    d = utils.getGallery(t[i])
+     return json.dumps(d)
+    
 #@app.route("/getcode", methods=['POST'])
 #def getcode():
 #    return json.dumps """stuff"""

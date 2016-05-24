@@ -28,43 +28,34 @@ $( window ).resize();
 function getThumbs() {
     console.log('getThumbs');
     $.ajax({
-	url: '/getthumbnails',
-	data: window.location.pathname,
+	url: '/getall',
+	data: {gallery:window.location.pathname}
 	type: 'POST',
 	success: function(e) {
-	    var stuff = [];
-	    $.ajax({
-		url: '/getthumbnails',
-		data: window.location.pathname,
-		type: 'POST',
-		success: function(q) {
-		    stuff = JSON.parse(q);
-		}
-		error: function(error) {
-		    console.log(error);
-		}  
-	    });
 	    var paths=JSON.parse(e);
-	    if(stuff.length != paths.length){
-		$(".main").append("<ul id='table'></ul>");
-		for(i=0; i<paths.length; i++){
-		    var img = new Image();
-		    img.src = paths[i];
-		    img.onclick = function() {
-			/*
-			  Do the pop-up thing
-			  
-			*/
-		    };
-		    document.getElementById("table").appendChild(img);
-		}
-	    }else{
-		console.log("Unequal number of thumbnails to images");
-		console.log("Image Call");
-		console.log(stuff);
-		console.log("Thumbnail Call");
-		console.log(JSON.parse(e));
+	    $(".main").append("<table class='gtable'></table>");
+	    count = 0;
+	    temp = [];
+	    for(i in paths){
+		var img = new Image();
+		img.src = i['thumbnailpath'];
+		img.alt = i['title'];
+		img.onclick = function() {
+		    /*
+		      Do the pop-up thing
+		      
+		    */
+		};
+		temp.push(img);
+		count++;
+		if(count == 3){
+		    $(".gtable").append("<tr><td><img src='" + temp[0].src + "'><div class='imgTitle'>" + temp[0].alt + "</div></td>");
+		    $(".gtable").append("<td><img src='" + temp[1].src + "'><div class='imgTitle'>" + temp[1].alt + "</div></td>");
+		    $(".gtable").append("<td><img src='" + temp[2].src + "'><div class='imgTitle'>" + temp[2].alt + "</div></td></tr>");
+		    count = 0;
+		};
 	    }
+	    $(".gtable").append("</table>");
 	}
 	error: function(error) {
 	    console.log(error);

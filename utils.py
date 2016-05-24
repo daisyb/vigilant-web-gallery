@@ -21,7 +21,7 @@ def createThumbnail(imagepath):
                    w,                            #right
                    (center + w/2))               #bottomimage.crop()
 
-    new_size = 100
+    new_size = 175
     image.resize("{}x{}".format(new_size, new_size))
     #image.resize(new_size, new_size)
     image.write("thumbnail.png")

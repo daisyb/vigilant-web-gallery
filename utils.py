@@ -5,8 +5,24 @@ def createThumbnail(imagepath):
     image = PythonMagick.Image(imagepath)
     geometry = image.size()
     w, h = geometry.width(), geometry.height()
-    new_size = 100                       #I didn't crop yet
+    square = w                       #length of side of square
+    if (w > h):
+        square = h
+        center = w/2
+        image.crop((center - h/2),  #left
+                   0,               #top
+                   (center + h/2),  #right
+                   h)               #bottom
+    else:
+        center = h/2
+        image.crop(0,                            #left
+                   (center - w/2),               #top
+                   w,                            #right
+                   (center + w/2))               #bottomimage.crop()
+
+    new_size = 100
     image.resize("{}x{}".format(new_size, new_size))
+    #image.resize(new_size, new_size)
     image.write("thumbnail.png")
     return True
 
@@ -21,7 +37,7 @@ def createNewGallery(galleryname):
     con.commit()
     con.close()
 
-def getGallery(galleryname):      #basically gets everything for you
+def getGallery(galleryname):      #basically gets everything for you, as a list of dictionaries
     con = sqlite3.connect("imagegallery.db")
     cur = con.cursor()
     gallery = []

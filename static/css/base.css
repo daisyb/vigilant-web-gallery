@@ -105,5 +105,6 @@ li.active:hover {
  
 	    
 .main {
-    display:flex;
+    overflow:auto;
+    height:100%;
 }

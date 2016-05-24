@@ -1,9 +1,6 @@
-#nav-top {
-    min-width: 900px;
-}
-
 .gtable {
     border-spacing:30px;
+
 }
 
 .gtable td {
@@ -13,7 +10,7 @@
 }
 
 .gtable img {
-    min-width:200px;
+    min-width:100px;
 
     /* image resizes with window */
     width: 100%;

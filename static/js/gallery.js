@@ -25,6 +25,25 @@ $( window ).resize();
 
 */
 
+var getThumbs = function getThumbs() {
+    console.log('getThumbs');
+    $.ajax({
+	url: '/getthumbnails',
+	data: window.location.pathname,
+	type: 'POST',
+	success: function(e) {
+	    var paths=JSON.parse(e);
+	    $(".main").append("<ul>");
+	    for(i=0; i<paths.length; i++){
+		$(".main").append("<il><img src=" + paths[i] + "></li>");
+	    }
+	}
+	error: function(error) {
+	    console.log(error);
+	}
+    });
+};
+
 
 
 

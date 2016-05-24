@@ -36,12 +36,26 @@ def upload():
 
 @app.route("/getimages", methods=['POST'])
 def getimages():
-    d = utils.getImagePaths(gallery)
+    gallery=request.form
+    t = gallery.split('/')
+    i = len(t) - 1
+    while i >= 0:
+        if t[i] != None:
+            break
+        i-=1
+    d = utils.getImagePaths(t[i])
     return json.dumps(d)
 
 @app.route("/getthumbnails", methods=['POST'])
 def getthumbnails():
-    d = utils.getThumbnailPaths(galleryname)
+    gallery=request.form
+    t = gallery.split('/')
+    i = len(t) - 1
+    while i >= 0:
+        if t[i] != None:
+            break
+        i-=1
+    d = utils.getThumbnailPaths(t[i])
     return json.dumps(d)
 
 #@app.route("/getcode", methods=['POST'])

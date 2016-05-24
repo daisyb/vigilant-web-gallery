@@ -25,17 +25,45 @@ $( window ).resize();
 
 */
 
-var getThumbs = function getThumbs() {
+function getThumbs() {
     console.log('getThumbs');
     $.ajax({
 	url: '/getthumbnails',
 	data: window.location.pathname,
 	type: 'POST',
 	success: function(e) {
+	    var stuff = [];
+	    $.ajax({
+		url: '/getthumbnails',
+		data: window.location.pathname,
+		type: 'POST',
+		success: function(q) {
+		    stuff = JSON.parse(q);
+		}
+		error: function(error) {
+		    console.log(error);
+		}  
+	    });
 	    var paths=JSON.parse(e);
-	    $(".main").append("<ul>");
-	    for(i=0; i<paths.length; i++){
-		$(".main").append("<il><img src=" + paths[i] + "></li>");
+	    if(stuff.length != paths.length){
+		$(".main").append("<ul id='table'></ul>");
+		for(i=0; i<paths.length; i++){
+		    var img = new Image();
+		    img.src = paths[i];
+		    img.onclick = function() {
+			/*
+			  Do the pop-up thing
+			  
+			*/
+		    };
+		    document.getElementById("table").appendChild(img);
+		}
+	    }else{
+		console.log("Unequal number of thumbnails to images");
+		console.log("Image Call");
+		console.log(stuff);
+		console.log("Thumbnail Call");
+		console.log(JSON.parse(e));
 	    }
 	}
 	error: function(error) {
@@ -44,6 +72,4 @@ var getThumbs = function getThumbs() {
     });
 };
 
-
-
-
+window.onload = getThumbs();

@@ -58,7 +58,7 @@ def getAllGalleries():
     glist = []
     sql = "SELECT name FROM sqlite_master WHERE type='table'"
     for table in cur.execute(sql).fetchall():
-        glist.append(table)
+        glist.append(table[0])
     return glist
     
 def storeNewImage(galleryname, title, githublink):

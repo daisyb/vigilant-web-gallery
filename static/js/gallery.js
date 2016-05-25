@@ -53,8 +53,16 @@ function getThumbs() {
 		    $(".gtable").append("<td><img src='" + temp[1].src + "'><div class='imgTitle'>" + temp[1].alt + "</div></td>");
 		    $(".gtable").append("<td><img src='" + temp[2].src + "'><div class='imgTitle'>" + temp[2].alt + "</div></td></tr>");
 		    count = 0;
+		    temp = [];
 		};
 	    }
+	    if(temp.length > 0){
+		$(".gtable").append("<tr>");
+		for(i in temp){
+		    $(".gtable").append("<td><img src='" + i.src + "'><div class='imgTitle'>" + i.alt + "</div></td>");
+		};
+		$(".gtable").append("</tr>");
+	    };
 	    $(".gtable").append("</table>");
 	}
 	error: function(error) {

@@ -32,7 +32,7 @@ function getThumbs() {
 	data: {gallery:window.location.pathname}
 	type: 'POST',
 	success: function(e) {
-	    var paths=JSON.parse(e);
+	    var paths=[{'thumbnailpath':"../static/images/goat.jpg",'title':"goat1"},{'thumbnailpath':"../static/images/goat.jpg",'title':"goat2"},{'thumbnailpath':"../static/images/goat.jpg",'title':"goat3"},{'thumbnailpath':"../static/images/goat.jpg",'title':"goat4"},{'thumbnailpath':"../static/images/goat.jpg",'title':"goat5"},{'thumbnailpath':"../static/images/goat.jpg",'title':"goat6"},{'thumbnailpath':"../static/images/goat.jpg",'title':"goat7"},{'thumbnailpath':"../static/images/goat.jpg",'title':"goat8"}]
 	    $(".main").append("<table class='gtable'></table>");
 	    count = 0;
 	    temp = [];
@@ -40,12 +40,6 @@ function getThumbs() {
 		var img = new Image();
 		img.src = i['thumbnailpath'];
 		img.alt = i['title'];
-		img.onclick = function() {
-		    /*
-		      Do the pop-up thing
-		      
-		    */
-		};
 		temp.push(img);
 		count++;
 		if(count == 3){

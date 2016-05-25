@@ -68,8 +68,9 @@ def getall():
             break
         i-=1
     d = utils.getGallery(t[i])
-     return json.dumps(d)
-    
+    return json.dumps(d)
+
+
 #@app.route("/getcode", methods=['POST'])
 #def getcode():
 #    return json.dumps """stuff"""

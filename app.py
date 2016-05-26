@@ -71,6 +71,24 @@ def getall():
     return json.dumps(d)
 
 
+@app.route("/getgalleries/<key>")
+def getgalleries(key):
+    if key == "nyang":
+        gn = utils.getAllGalleries()
+        return json.dumps(gn)
+    return
+
+@app.route("/getimagename/<key>/<name>")
+def getimagename(key,name):
+    if key == "nyang":
+        g = utils.getGallery(name)
+        temp = []
+        for i in g:
+            temp.append(i['title'])
+        return json.dumps(temp)
+    return
+
+
 #@app.route("/getcode", methods=['POST'])
 #def getcode():
 #    return json.dumps """stuff"""

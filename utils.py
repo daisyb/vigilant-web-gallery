@@ -2,7 +2,7 @@ import sqlite3
 import json
 #import PythonMagick
 
-def createThumbnail(imagepath):
+def createThumbnail(imagepath):   #just returns True for now. creates a thumbnail named "thumbnail.png"
     image = PythonMagick.Image(imagepath)
     geometry = image.size()
     w, h = geometry.width(), geometry.height()
@@ -27,7 +27,7 @@ def createThumbnail(imagepath):
     image.write("thumbnail.png")
     return True
 
-def createNewGallery(galleryname):
+def createNewGallery(galleryname):               #creates a table named galleryname
     con = sqlite3.connect("imagegallery.db")
     
     cur = con.cursor()
@@ -38,7 +38,7 @@ def createNewGallery(galleryname):
     con.commit()
     con.close()
 
-def getGallery(galleryname):      #basically gets everything for you, as a list of dictionaries
+def getGallery(galleryname):      #basically gets everything for you, as a list of dictionaries, containing title, imagepath, thumbnailpath, and githublink
     con = sqlite3.connect("imagegallery.db")
     cur = con.cursor()
     gallery = []
@@ -52,7 +52,7 @@ def getGallery(galleryname):      #basically gets everything for you, as a list 
     con.close()
     return gallery
 
-def getAllGalleries():
+def getAllGalleries():            #returns a list of the names of all the galleries
     con = sqlite3.connect("imagegallery.db")
     cur = con.cursor()
     glist = []
@@ -61,7 +61,7 @@ def getAllGalleries():
         glist.append(table[0])
     return glist
     
-def storeNewImage(galleryname, title, githublink):
+def storeNewImage(galleryname, title, githublink):      #inserts the info into galleryname table
     con = sqlite3.connect("imagegallery.db")
     cur=con.cursor()
     imagepath = galleryname + "/" + title + "image.png"

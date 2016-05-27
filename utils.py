@@ -32,7 +32,7 @@ def createNewGallery(galleryname):               #creates a table named galleryn
     
     cur = con.cursor()
     
-    sql = "CREATE TABLE IF NOT EXISTS "+ galleryname +"(title TEXT, imagepath TEXT, thumbnailpath TEXT, githublink TEXT)"
+    sql = "CREATE TABLE IF NOT EXISTS "+ galleryname +"(title TEXT, imagepath TEXT, thumbnailpath TEXT, codepath TEXT)"
     cur.execute(sql)
     
     con.commit()
@@ -47,7 +47,7 @@ def getGallery(galleryname):      #basically gets everything for you, as a list 
         tempdict = {"title" : row[0],
                     "imagepath" : row[1],
                     "thumbnailpath" : row[2],
-                    "githublink" : row[3]}
+                    "codepath" : row[3]}
         gallery.append(path)
     con.close()
     return gallery
@@ -61,12 +61,13 @@ def getAllGalleries():            #returns a list of the names of all the galler
         glist.append(table[0])
     return glist
     
-def storeNewImage(galleryname, title, code):      #inserts the info into galleryname table
+def storeNewImage(galleryname, title):      #inserts the info into galleryname table
     con = sqlite3.connect("imagegallery.db")
     cur=con.cursor()
-    imagepath = galleryname + "/" + title + "image.png"
-    thumbnailpath = galleryname + "/" + title + "thumbnail.png"
-    sql = "INSERT INTO " + galleryname + "(title, imagepath, thumbnailpath, code) VALUES(\"%s\",\"%s\",\"%s\",\"%s\")" % (title, imagepath, thumbnailpath, code)
+    imagepath = galleryname + "/" + title + "/image.png"
+    thumbnailpath = galleryname + "/" + title + "/thumbnail.png"
+    codepath = galleryname + "/" + title + "/code.txt"
+    sql = "INSERT INTO " + galleryname + "(title, imagepath, thumbnailpath, code) VALUES(\"%s\",\"%s\",\"%s\",\"%s\")" % (title, imagepath, thumbnailpath, codepath)
     try:
         cur.execute(sql)
         con.commit()
@@ -96,6 +97,27 @@ def getThumbnailPaths(galleryname):
         thumbnailpaths.append(path)
     con.close()
     return thumbnailpaths
+
+def deleteImage(galleryname, title):
+    con = sqlite3.connect("imagegallery.db")
+    cur = con.cursor()
+    sql = "DELETE FROM " + galleryname + " WHERE title = " + title
+    cur.execute(sql)
+    con.commit()
+    con.close()
+    return True
+
+def deleteGallery(galleryname):
+    con = sqlite3.connect("imagegallery.db")
+    cur = con.cursor()
+    sql = "DROP TABLE " + galleryname
+    
+    cur.execute(sql)
+    con.commit()
+    con.close()
+    return True
+
+
 
 
 # Just a test function for bash script
@@ -132,10 +154,10 @@ def outputJSON():
 def loadTestDB():
     galleries = ['picmaker', 'line', 'edge', 'polygon']
     imagenames = ['krzysztofs image', 'daisys image', 'michaels image', 'davids image', 'nicholas image']
-    github = ['khoch', 'daisyb', 'MGRiv', 'songdavid98', 'NicholasLYang']
+    codepath = ['khoch', 'daisyb', 'MGRiv', 'songdavid98', 'NicholasLYang']
     for gallery in galleries:
         createNewGallery(gallery)
         for i in range (0, 5):
-            storeNewImage(gallery, imagenames[i], code[i])
+            storeNewImage(gallery, imagenames[i], codepath[i])
     
     

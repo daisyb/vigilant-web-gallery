@@ -4,6 +4,10 @@ import utils
 from flask import Flask, render_template, session, request, redirect, url_for
 #from database import *
 
+UPLOAD_FOLDER = 'galleries/'
+ALLOWED_EXTENSIONS = set(['txt', 'png', 'gif'])
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -21,16 +25,20 @@ def gallery(g):
         gn = utils.getAllGalleries()
         return render_template("gallery.html",cgallery=g,gallerynames=gn)
     return redirect(url_for("home"))
-    
-
+	
 @app.route("/upload",methods=["GET","POST"])
 def upload():
     if request.method == "GET":
         gn = utils.getAllGalleries()
         return render_template("upload.html",gallerynames=gn)
     else:
-        """method which gets stuff from"""
-        return redirect(url_for("gallery",g=gallname))
+        file = request.files['file']
+        #gallname = request.form
+        if file and allowed_file(file.filename): #is a valid file type
+            filename = secure_filename(file.filename) #prevents security exploits
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'] + gallname + "/", filename))
+            #return redirect(url_for('uploaded_file', filename=filename))
+            return redirect(url_for("gallery",g=gallname))
 
 #Temporarily commented out below so that app could run
 

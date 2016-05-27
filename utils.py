@@ -61,12 +61,12 @@ def getAllGalleries():            #returns a list of the names of all the galler
         glist.append(table[0])
     return glist
     
-def storeNewImage(galleryname, title, githublink):      #inserts the info into galleryname table
+def storeNewImage(galleryname, title, code):      #inserts the info into galleryname table
     con = sqlite3.connect("imagegallery.db")
     cur=con.cursor()
     imagepath = galleryname + "/" + title + "image.png"
     thumbnailpath = galleryname + "/" + title + "thumbnail.png"
-    sql = "INSERT INTO " + galleryname + "(title, imagepath, thumbnailpath, githublink) VALUES(\"%s\",\"%s\",\"%s\",\"%s\")" % (title, imagepath, thumbnailpath, githublink)
+    sql = "INSERT INTO " + galleryname + "(title, imagepath, thumbnailpath, code) VALUES(\"%s\",\"%s\",\"%s\",\"%s\")" % (title, imagepath, thumbnailpath, code)
     try:
         cur.execute(sql)
         con.commit()
@@ -136,6 +136,6 @@ def loadTestDB():
     for gallery in galleries:
         createNewGallery(gallery)
         for i in range (0, 5):
-            storeNewImage(gallery, imagenames[i], github[i])
+            storeNewImage(gallery, imagenames[i], code[i])
     
     

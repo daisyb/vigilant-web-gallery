@@ -29,42 +29,37 @@ function getThumbs() {
     console.log('getThumbs');
     $.ajax({
 	url: '/getall',
-	data: {gallery:window.location.pathname}
+	data: {gallery:window.location.pathname},
 	type: 'POST',
 	success: function(e) {
 	    var paths=JSON.parse(e);
-	    $(".main").append("<table class='gtable'></table>");
+	    $(".main").append("<center><table class='gtable'></table>");
+	    row = 0;
 	    count = 0;
-	    temp = [];
 	    for(i in paths){
-		var img = new Image();
-		img.src = i['thumbnailpath'];
-		img.alt = i['title'];
-		img.onclick = function() {
-		    /*
-		      Do the pop-up thing
-		      
-		    */
+		if(count % 3 == 0){
+		    $(".gtable").append("<tr id='r" + row.toString() + "'>");
 		};
-		temp.push(img);
+		var img = new Image();
+		img.src = paths[i]['thumbnailpath'];
+		img.alt = paths[i]['title'];
+		console.log(i);
+		$("#r" + row.toString()).append("<td id='" + count.toString() + "'>");
+		document.getElementById(count.toString()).appendChild(img);
+		$("#r" + row.toString()).append("<div class='imgTitle'>" + img.alt + "</div>");
+		$("#r" + row.toString()).append("</td>");
 		count++;
-		if(count == 3){
-		    $(".gtable").append("<tr><td><img src='" + temp[0].src + "'><div class='imgTitle'>" + temp[0].alt + "</div></td>");
-		    $(".gtable").append("<td><img src='" + temp[1].src + "'><div class='imgTitle'>" + temp[1].alt + "</div></td>");
-		    $(".gtable").append("<td><img src='" + temp[2].src + "'><div class='imgTitle'>" + temp[2].alt + "</div></td></tr>");
-		    count = 0;
-		    temp = [];
+		if(count % 3 == 0){
+		    row++;
+		    console.log(count);
+		    $(".gtable").append("</tr>");
 		};
 	    }
-	    if(temp.length > 0){
-		$(".gtable").append("<tr>");
-		for(i in temp){
-		    $(".gtable").append("<td><img src='" + i.src + "'><div class='imgTitle'>" + i.alt + "</div></td>");
-		};
+	    if(count % 3 != 0){
 		$(".gtable").append("</tr>");
 	    };
-	    $(".gtable").append("</table>");
-	}
+	    $(".gtable").append("</table></center>");
+	},
 	error: function(error) {
 	    console.log(error);
 	}

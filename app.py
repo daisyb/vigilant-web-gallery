@@ -94,7 +94,13 @@ def getimagename(key,name):
         for i in g:
             temp.append(i['title'])
         return json.dumps(temp)
-    return
+    return "Error"
+
+@app.route("/deletion/<key>/<gallery>/<name>")
+def deletion(key,gallery,name):
+    if key == "nyang":
+        # Delete stuff
+    return "Error"
 
 
 #@app.route("/getcode", methods=['POST'])

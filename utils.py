@@ -6,9 +6,7 @@ def createThumbnail(imagepath):   #just returns True for now. creates a thumbnai
     image = PythonMagick.Image(imagepath)
     geometry = image.size()
     w, h = geometry.width(), geometry.height()
-    square = w                       #length of side of square
     if (w > h):
-        square = h
         center = w/2
         image.crop((center - h/2),  #left
                    0,               #top
@@ -25,6 +23,19 @@ def createThumbnail(imagepath):   #just returns True for now. creates a thumbnai
     image.resize("{}x{}".format(new_size, new_size))
     #image.resize(new_size, new_size)
     image.write("thumbnail.png")
+    return True
+
+def limitSize(imagepath):
+    image = PythonMagick.Image(imagepath)
+    geometry = image.size()
+    w, h = geometry.width(), geometry.height()
+
+    new_size = 1000
+    if (w > new_size and h > new_size):
+        image.resize("{}x{}".format(new_size, new_size))
+        #image.resize(new_size, new_size)
+    
+    image.write("image.png")
     return True
 
 def createNewGallery(galleryname):               #creates a table named galleryname

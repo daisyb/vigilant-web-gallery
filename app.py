@@ -1,21 +1,22 @@
 import urllib2,json
 import hashlib
 import utils
+import os
 from flask import Flask, render_template, session, request, redirect, url_for
+from werkzeug.utils import secure_filename
 #from database import *
+
+app = Flask(__name__)
 
 UPLOAD_FOLDER = 'galleries/'
 ALLOWED_EXTENSIONS = set(['txt', 'png', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-app = Flask(__name__)
 
 @app.route("/")
 @app.route("/home")
 def home():
     gn = utils.getAllGalleries()
     return render_template("home.html",gallerynames=gn)
-
 
 @app.route("/gallery/<g>")
 def gallery(g):
@@ -25,13 +26,23 @@ def gallery(g):
         gn = utils.getAllGalleries()
         return render_template("gallery.html",cgallery=g,gallerynames=gn)
     return redirect(url_for("home"))
-	
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
 @app.route("/upload",methods=["GET","POST"])
 def upload():
     if request.method == "GET":
         gn = utils.getAllGalleries()
-        return render_template("upload.html",gallerynames=gn)
+        print gn
+        galleries = ""
+        for i in gn:
+            print i
+            galleries += '<option value="%s">%s</option>' % (i, i)
+        print galleries
+        return render_template("upload.html", gallerynames=gn, galleries=gn)
     else:
+	print request.form
         file = request.files['file']
         #gallname = request.form
         if file and allowed_file(file.filename): #is a valid file type
@@ -99,7 +110,7 @@ def getimagename(key,name):
 @app.route("/deletion/<key>/<gallery>/<name>")
 def deletion(key,gallery,name):
     if key == "nyang":
-        # Delete stuff
+        pass # Delete stuff
     return "Error"
 
 

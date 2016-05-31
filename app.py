@@ -51,7 +51,7 @@ def upload():
             #return redirect(url_for('uploaded_file', filename=filename))
             return redirect(url_for("gallery",g=gallname))
 
-#Temporarily commented out below so that app could run
+
 
 @app.route("/getimages", methods=['POST'])
 def getimages():

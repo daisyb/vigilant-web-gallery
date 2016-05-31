@@ -48,6 +48,9 @@ def upload():
         if file and allowed_file(file.filename): #is a valid file type
             filename = secure_filename(file.filename) #prevents security exploits
             file.save(os.path.join(app.config['UPLOAD_FOLDER'] + gallname + "/", filename))
+            utils.storeNewImage(gallname,filename)
+            utils.limitSize(app.config['UPLOAD_FOLDER'] + gallname + "/", filename)
+            utils.createThumbnail(app.config['UPLOAD_FOLDER'] + gallname + "/", filename)
             #return redirect(url_for('uploaded_file', filename=filename))
             return redirect(url_for("gallery",g=gallname))
 

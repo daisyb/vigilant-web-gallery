@@ -1,6 +1,6 @@
 .gtable {
-    border-spacing:30px;
-
+    border-spacing:60px;
+    margin:0 auto;
 }
 
 .gtable td {
@@ -54,37 +54,114 @@
     background: -ms-linear-gradient( rgba(0,0,0,0) 0%,rgba(0,0,0,1) 56%,rgba(0,0,0,1) 100%);
     background: linear-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,.8) 50%,rgba(0,0,0,1) 100%);
 
-   
+    cursor:pointer;
 }
+
+
+
+
+
+
+
+
 
 .gradientBox {
     background: rgba(0, 0, 0, 0.8);
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
+    /*
+    visibility: hidden;
+    opacity: 0;
+   */
+    
 }
 
-.pictureText {
-    width: 1%;
-    display: table;
-}
-    .gradientBox img {
-	position:absolute;
-	margin: auto;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;	
-	max-width:70%;
-	max-height:70%;
-	height:auto;
-	width:auto;
-    }
+#currentImg {
+    position:absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;	
+    z-index:100;
 
-    .infoPanel {
-	position:absolute;
-	margin: auto;
-	top: 20%;
-    }
+    max-width:70%;
+    max-height:70%;
+    height:auto;
+    width:auto;
+   
+}
+
+
+.infoPanel {
+    height:40px;
+    width:100%;
+    background-color:lightsteelblue;
+    color:black;
+    display:table;
+    line-height: 40px;
+    font-size:1.5em;
+
+}
+
+#name {
+    padding: 0px 0px 0px 100px;
+    float: left;
+}
+
+.bttnWrap {
+    display:table-cell;
+    vertical-align:middle;
+    padding: 0px 100px 0px 0px;
+    height:40px;
+   
+}
+#code {
+    height:100%;
+    padding: 0px 10px 0px 10px;
+    vertical-align: middle;
+    font-size:1em;
+    display: block;
+    float: right;
+
+    background-color:lightsteelblue;   
+    color:black;
+    border:1px solid #eeeeee;
+    border-radius:5px;
+
+
+}
+
+#code:hover {
+    cursor:pointer;
+    background-color:white;
+}
+
+
+span.arrow {
+    color:white;
+    font-size:3em;
+    padding:20px;
+    display: block;
+    margin-top: -40px;
+    
+    position: absolute;
+   
+    top: 50%;
+}
+
+span.arrow:hover {
+    cursor:pointer;
+}
+
+#leftA {
+    right:90%;
+}
+
+#rightA {
+    left:90%;
+}
+

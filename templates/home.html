@@ -6,7 +6,7 @@
 
 {% block contents %}
 <!-- <img src="../static/images/goat.jpg">-->
- <center><table class="gtable">
+<table class="gtable">
   <tr>
     <td>
       <img src="../static/images/goat.jpg" title="goat">
@@ -49,17 +49,55 @@
     </td>
   </tr>
 
- </table></center>
- <div class="gradientBox">
+</table>
 
-     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Planets2013.svg/2000px-Planets2013.svg.png"/>
-     <div class="infoPanel">
-	 <span id="name">
-	 </span>
-	 <button id="code">view code</button>
-     </div>
- </div>
+<div class="gradientBox"">
+  <div class="contents">
+    <div class="imgWrap">
+      
+      <img id="currentImg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Planets2013.svg/2000px-Planets2013.svg.png"/>
+      
+      <div class="infoPanel">
+	<span id="name">Solar System</span>
+	<div class="bttnWrap">
+	  <button id="code">View Code</button>
+	</div>
+      </div>
+    
+    </div>
+
+  <span id="leftA" class="arrow">&#10096;</span>
+  <span id="rightA" class="arrow">&#10097;</span>
+
+  </div>
+</div>
+
+
+<!-- The script below is TEMPORARY. 
+     Delete it after proper 
+     functionality exits in gallery.js -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script>
+ //TEMPORARY
+ //part of onclick function for slideshow view
+ $(".gradientBox").click(function(e){
+     //this makes all the expanded image stuff disapear
+     $(this).css("visibility","hidden");
+     //to make it reapear
+     //visibility: visible;
+
+     //to change image $(#currentImg).attr("src","NEWIMAGE");
+     //to change image name, edit inner html of $(#name)
+     //to change where view code button leads, write click function for $(#code) 
+ });
  
+//makes sure click function doesn't apply to div children
+ $(".gradientBox > .contents").click(function(e){
+     e.stopPropagation();
+ });
+     
+</script>
+
  {% endblock %}
 
 {% block scripts %}

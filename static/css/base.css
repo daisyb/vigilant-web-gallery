@@ -39,7 +39,7 @@ li.active:hover {
 }
 
 #nav-top {
-    background-color:#161F3D;/*#CAD8E3;*/
+    background-color:lightsteelblue;/*DW Blue*/
     font-size:2em;
     width:100%;
 
@@ -60,6 +60,8 @@ li.active:hover {
     #nav-top img {
 	display:inline-block;
 	margin:auto;
+	/*width:28px;
+	height:28px;*/
     }
 
 
@@ -73,6 +75,12 @@ li.active:hover {
     float:left;
 
 }
+
+    #nav-side img{
+	max-width:150px;
+	margin:auto;
+	display:block;
+    }
 
     #nav-side ul {
 	list-style-type: none;

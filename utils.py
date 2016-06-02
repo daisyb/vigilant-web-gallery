@@ -1,5 +1,6 @@
 import sqlite3
 import json
+from datetime import date
 #import PythonMagick
 
 def createThumbnail(imagepath):   #just returns True for now. creates a thumbnail named "thumbnail.png"
@@ -45,9 +46,12 @@ def createNewGallery(galleryname):               #creates a table named galleryn
     
     sql = "CREATE TABLE IF NOT EXISTS "+ galleryname +"(title TEXT, imagepath TEXT, thumbnailpath TEXT, codepath TEXT)"
     cur.execute(sql)
+    year = date.today().year
+    sql = "INSERT INTO allGalleries(year, galleryname, visible) VALUES(\"%s\",\"%s\",\"%s\")" % (year, galleryname, 1)
     
     con.commit()
     con.close()
+    
 
 def getGallery(galleryname):      #basically gets everything for you, as a list of dictionaries, containing title, imagepath, thumbnailpath, and githublink
     con = sqlite3.connect("imagegallery.db")
@@ -67,7 +71,7 @@ def getAllGalleries():            #returns a list of the names of all the galler
     con = sqlite3.connect("imagegallery.db")
     cur = con.cursor()
     glist = []
-    sql = "SELECT name FROM sqlite_master WHERE type='table'"
+    sql = "SELECT galleryname FROM allGalleries"
     for table in cur.execute(sql).fetchall():
         glist.append(table[0])
     return glist

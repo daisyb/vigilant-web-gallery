@@ -1,7 +1,8 @@
 import sqlite3
 import json
-from datetime import date
 #import PythonMagick
+
+currentyear = 2016 #this will be the school year
 
 def createThumbnail(imagepath):   #just returns True for now. creates a thumbnail named "thumbnail.png"
     image = PythonMagick.Image(imagepath)
@@ -46,9 +47,7 @@ def createNewGallery(galleryname):               #creates a table named galleryn
     
     sql = "CREATE TABLE IF NOT EXISTS "+ galleryname +"(title TEXT, imagepath TEXT, thumbnailpath TEXT, codepath TEXT)"
     cur.execute(sql)
-    year = date.today().year
-    sql = "INSERT INTO allGalleries(year, galleryname, visible) VALUES(\"%s\",\"%s\",\"%s\")" % (year, galleryname, 1)
-    
+    sql = "INSERT INTO allGalleries(year, galleryname, visible) VALUES(\"%s\",\"%s\",\"%s\")" % (currentyear, galleryname, 1)
     con.commit()
     con.close()
     

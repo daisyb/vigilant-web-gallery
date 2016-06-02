@@ -31,7 +31,7 @@ def limitSize(imagepath):
     w, h = geometry.width(), geometry.height()
 
     new_size = 1000
-    if (w > new_size and h > new_size):
+    if (w > new_size or h > new_size):
         image.resize("{}x{}".format(new_size, new_size))
         #image.resize(new_size, new_size)
     

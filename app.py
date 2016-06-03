@@ -110,10 +110,24 @@ def getimagename(key,name):
         return json.dumps(temp)
     return "Error"
 
-@app.route("/deletion/<key>/<gallery>/<name>")
-def deletion(key,gallery,name):
+@app.route("/deleteimage/<key>/<gallery>/<name>")
+def deleteimage(key,gallery,name):
     if key == "nyang":
-        pass # Delete stuff
+        if gallery in utils.getAllGalleries():
+            temp =[]
+            for i in g:
+                temp.append(i['title'])
+            if name in temp:
+                utils.deleteImage(gallery,name)
+                return
+    return "Error"
+
+@app.route("/deletegallery/<key>/<gallery>")
+def deletegallery(key,gallery):
+    if key == "nyang":
+        if gallery in utils.getAllGalleries():
+            utils.deleteGallery(gallery)
+            return
     return "Error"
 
 

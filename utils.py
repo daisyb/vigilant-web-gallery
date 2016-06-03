@@ -88,7 +88,8 @@ def getAllGalleries():            #returns a list of the names of all the galler
     con = sqlite3.connect("imagegallery.db")
     cur = con.cursor()
     glist = []
-    sql = "SELECT galleryname FROM allGalleries"
+    #sql = "SELECT galleryname FROM allGalleries"
+    sql = "SELECT name FROM sqlite_master WHERE type='table'"
     for table in cur.execute(sql).fetchall():
         glist.append(table[0])
     return glist

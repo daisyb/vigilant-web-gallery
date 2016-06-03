@@ -43,6 +43,38 @@ function getThumbs() {
 		var img = new Image();
 		img.src = paths[i]['thumbnailpath'];
 		img.alt = paths[i]['title'];
+		img.onclick=function(){
+		    $(".gradientBox").attr("visibility","visible");
+		    $("#currentImg").attr("src",paths[i]['imagepath']);
+		    $("#name").text(paths[i]['title']);
+		    $("#code").text(paths[i]['codepath']);
+		    if(count > 0 && count < paths.length - 1){
+			$("#leftA").click(function(){
+			    $("#currentImg").attr("src",paths[i-1]['imagepath']);
+			    $("#name").text(paths[i-1]['title']);
+			    $("#code").text(paths[i-1]['codepath']);
+			});
+			$("#rightA").click(function(){
+			    $("#currentImg").attr("src",paths[i+1]['imagepath']);
+			    $("#name").text(paths[i+1]['title']);
+			    $("#code").text(paths[i+1]['codepath']);
+			});
+		    };
+		    if(count == 0){
+			$("#rightA").click(function(){
+			    $("#currentImg").attr("src",paths[i+1]['imagepath']);
+			    $("#name").text(paths[i+1]['title']);
+			    $("#code").text(paths[i+1]['codepath']);
+			});
+		    };
+		    if(count == paths.length -1){
+			$("#leftA").click(function(){
+			    $("#currentImg").attr("src",paths[i-1]['imagepath']);
+			    $("#name").text(paths[i-1]['title']);
+			    $("#code").text(paths[i-1]['codepath']);
+			});
+		    };
+		};
 		console.log(i);
 		$("#r" + row.toString()).append("<td id='" + count.toString() + "'>");
 		document.getElementById(count.toString()).appendChild(img);

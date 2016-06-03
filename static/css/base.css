@@ -26,8 +26,13 @@ a:hover {
     display:none;
 }
 
-.active {
+li.active {
     background-color:#adafb8;
+}
+
+
+#nav-side .active a {
+    color:#211F1F;
 }
 
 li.active:hover {
@@ -92,9 +97,8 @@ li.active:hover {
 
     #nav-side li {
 	    width:100%;
-	    padding:10px 0px 10px 0px;
-	    display:block;
-	    padding-left: 30px;
+	    padding:10px 0px 10px 30px;
+	    display:block;    
 	}
 
         li:hover{

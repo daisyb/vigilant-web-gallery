@@ -1,34 +1,45 @@
-.gtable {
-    border-spacing:60px;
+
+
+
+/************ For displaying the thumbnails *************/
+
+/* all the thumbnails */
+div.thumbs {
+    
     margin:0 auto;
+    min-width: 500px;
+
 }
 
-.gtable td {
+div.thumbs > div {
+    display:table-row;
+}
+
+/* individual thumbnails*/
+div.thumbnail {
+    /* thumbnail positioning*/
+    vertical-align: top;
     position:relative;
+    display: inline-block;
+    margin:3% 0 3% 6%;
+    width: 175px;
+
+    /* text styling */
     text-shadow: 1px 1px 1px #000000;
     font-family:"Trebuchet MS", Helvetica, sans-serif;
-}
+    text-align: center;
+
+ }
 
 .thumbnail img {
     min-width:100px;
-
+    object-fit:contain;
     /* image resizes with window */
     width: 100%;
     height: auto;
     margin:auto;
+    display:block;
 }
-
-div.thumbnail {
-     vertical-align: top;
-     position:relative;
-     display: inline-block;
-     margin:3% 0 3% 6%;
-
-     text-shadow: 1px 1px 1px #000000;
-     font-family:"Trebuchet MS", Helvetica, sans-serif;
-     text-align: center;
-
- }
 
 .imgTitle {
     /* div position */
@@ -70,29 +81,8 @@ div.thumbnail:hover .imgTitle {
 }
 
 
-.gtable td:hover .imgTitle {
-    background: rgba(0, 0, 0, 0.3);
-    /* make title visible */
-    visibility:visible;
-    opacity:1;
 
-    /* gradient background */
-    background: -moz-linear-gradient(rgba(0,0,0,0) 10%, rgba(0,0,0,1) 56%, rgba(0,0,0,1) 100%);
-    background: -webkit-gradient(linear, color-stop(0%,rgba(0,0,0,0)), color-stop(56%,rgba(0,0,0,1)), color-stop(100%,rgba(0,0,0,1)));
-    background: -webkit-linear-gradient( rgba(0,0,0,0) 10%,rgba(0,0,0,1) 56%,rgba(0,0,0,1) 100%);
-    background: -o-linear-gradient( rgba(0,0,0,0) 0%,rgba(0,0,0,1) 56%,rgba(0,0,0,1) 100%);
-    background: -ms-linear-gradient( rgba(0,0,0,0) 0%,rgba(0,0,0,1) 56%,rgba(0,0,0,1) 100%);
-    background: linear-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,.8) 50%,rgba(0,0,0,1) 100%);
-
-    cursor:pointer;
-}
-
-
-
-
-
-
-
+/********** For slideshow view ************/
 
 
 .gradientBox {
@@ -133,9 +123,9 @@ div.thumbnail:hover .imgTitle {
     display:table;
     line-height: 40px;
     font-size:1.5em;
-
 }
 
+/* span with image name in it*/
 #name {
     padding: 0px 0px 0px 100px;
     float: left;
@@ -148,6 +138,8 @@ div.thumbnail:hover .imgTitle {
     height:40px;
    
 }
+
+/* view code button */
 #code {
     height:100%;
     padding: 0px 10px 0px 10px;
@@ -194,3 +186,87 @@ span.arrow:hover {
     left:90%;
 }
 
+/******************* /Upload style **************/
+
+/*
+Most of the css here is non-specific.
+That isn't a big deal since /upload is the only 
+route on this site with a form, but if that 
+changes this specific styling may no longer 
+be desirable for everything.Just a heads up.
+- Daisy
+*/
+
+#upload {
+    width:80%;
+    height:20%;
+    margin:auto;
+    border-left: thin solid #999;
+
+    /*text*/
+    font-family:"Trebuchet MS", Helvetica, sans-serif;
+    font-size:1em;
+    color: #3f3f3f;
+    font-weight: bold;
+    line-height:normal;
+}
+
+fieldset {
+    position:relative;
+    margin:80px 0px 0px 50px;
+    border:none;
+ 
+}
+
+legend {
+    padding-bottom:20px;
+
+    color:#5A94E0;
+    font-weight:bold;
+    font-size:1.7em;
+}
+    
+label {
+
+    float: left;
+    width: 100px;
+    
+}
+
+input[type="text"], textarea {
+    padding: 4px 6px 2px;
+    border:1px solid #999;
+ }
+
+input:focus {
+    border-color: #828282;
+}
+
+textarea {
+    padding:10px;
+}
+
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:     #662F99;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #662F99;
+   opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:     #662F99;
+   opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:    #662F99;
+}
+
+
+span.usrMsg {
+    color:green;
+}
+
+div.usrMsg:hover + span.usrMsg {
+    color:green;
+}

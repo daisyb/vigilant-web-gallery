@@ -4,6 +4,7 @@
     {% block head %}
     {% endblock %}
     <link rel="stylesheet" type="text/css" href="../static/css/base.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/gallery.css" />
     <link rel="icon" href="../static/images/thluffy.png" type="image/png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta charset="UTF-8"/>
@@ -19,14 +20,14 @@
       <ul>
 	<span class="ul-title">MENU</span><br>
 	&nbsp;
-	<li ><a href ="/home" >Home</a></li>
-	<li><a href ="/upload">Upload</a></li>
+	<li id="/home"><a href ="/home" >Home</a></li>
+	<li id="/upload"><a href ="/upload">Upload</a></li>
       </ul>
       <ul>
 	<span class="ul-title">GALLERIES</span><br>
 	&nbsp;
 	{% for page in gallerynames %}
-	<li><a href ="/gallery/{{ page }}">{{ page }}</a></li>
+	<li id="/gallery/{{page}}"><a href ="/gallery/{{ page }}">{{ page }}</a></li>
 	{% endfor %}
       </ul>
     </div>

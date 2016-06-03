@@ -58,7 +58,7 @@ def upload():
 
 @app.route("/getimages", methods=['POST'])
 def getimages():
-    gallery=request.form
+    gallery=request.form[0]
     t = gallery.split('/')
     i = len(t) - 1
     while i >= 0:
@@ -70,7 +70,7 @@ def getimages():
 
 @app.route("/getthumbnails", methods=['POST'])
 def getthumbnails():
-    gallery=request.form
+    gallery=request.form[0]
     t = gallery.split('/')
     i = len(t) - 1
     while i >= 0:
@@ -82,7 +82,7 @@ def getthumbnails():
 
 @app.route("/getall", methods=['POST'])
 def getall():
-    gallery=request.form
+    gallery=request.form[0]
     t = gallery.split('/')
     i = len(t) - 1
     while i >= 0:

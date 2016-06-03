@@ -50,6 +50,24 @@ def createNewGallery(galleryname):               #creates a table named galleryn
     sql = "INSERT INTO allGalleries(year, galleryname, visible) VALUES(\"%s\",\"%s\",\"%s\")" % (currentyear, galleryname, 1)
     con.commit()
     con.close()
+
+def makeGalleriesVisible(year):
+    con = sqlite3.connect("imagegallery.db")
+    
+    cur = con.cursor()
+    sql = "UPDATE allGalleries set visible = 1 where year = " + str(year)
+    cur.execute(sql)
+    con.commit()
+    con.close()
+    
+def makeGalleriesInvisible(year):
+    con = sqlite3.connect("imagegallery.db")
+    
+    cur = con.cursor()
+    sql = "UPDATE allGalleries set visible = 0 where year = " + str(year)
+    cur.execute(sql)
+    con.commit()
+    con.close()
     
 
 def getGallery(galleryname):      #basically gets everything for you, as a list of dictionaries, containing title, imagepath, thumbnailpath, and githublink

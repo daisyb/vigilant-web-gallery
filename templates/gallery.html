@@ -1,22 +1,11 @@
 {% extends "base.html" %}
 {% block head %}
 <title>{{ cgallery }}</title>
-<link rel="stylesheet" type="text/css" href="../static/css/gallery.css" />
 {% endblock %}
 
 {% block contents %}
-
-<style>
-
- div.thumbnail {
-     vertical-align: top;
-     display: inline-block;
-     /* To horizontally center images and caption */
-     text-align: center;
-     padding:3% 0 3% 6%;
- }
-</style>
-
+<div class="thumbs">
+  <div>
   <div class="thumbnail">
     <img src="../static/images/goat.jpg" title="goat">
     <div class="imgTitle">Look a goat!</div>
@@ -52,6 +41,30 @@
   <div class="thumbnail">
     <img src="../static/images/goat.jpg">
   </div>
+  </div>
+</div>
+
+<div class="gradientBox">
+  <div class="contents">
+
+    <div class="imgWrap">
+      <img id="currentImg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Planets2013.svg/2000px-Planets2013.svg.png"/>
+
+      <div class="infoPanel">
+	<span id="name">Solar System</span>
+	<div class="bttnWrap">
+	  <button id="code">View Code</button>
+	</div>
+      </div>
+
+    </div>
+	  
+    <span id="leftA" class="arrow">&#10096;</span>
+    <span id="rightA" class="arrow">&#10097;</span>
+
+  </div>
+</div>
+
 
 
 

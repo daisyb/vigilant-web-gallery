@@ -2,6 +2,8 @@ import sqlite3
 import json
 #import PythonMagick
 
+currentyear = 2016 #this will be the school year
+
 def createThumbnail(imagepath):   #just returns True for now. creates a thumbnail named "thumbnail.png"
     image = PythonMagick.Image(imagepath)
     geometry = image.size()
@@ -31,7 +33,7 @@ def limitSize(imagepath):
     w, h = geometry.width(), geometry.height()
 
     new_size = 1000
-    if (w > new_size and h > new_size):
+    if (w > new_size or h > new_size):
         image.resize("{}x{}".format(new_size, new_size))
         #image.resize(new_size, new_size)
     
@@ -45,9 +47,28 @@ def createNewGallery(galleryname):               #creates a table named galleryn
     
     sql = "CREATE TABLE IF NOT EXISTS "+ galleryname +"(title TEXT, imagepath TEXT, thumbnailpath TEXT, codepath TEXT)"
     cur.execute(sql)
-    
+    sql = "INSERT INTO allGalleries(year, galleryname, visible) VALUES(\"%s\",\"%s\",\"%s\")" % (currentyear, galleryname, 1)
     con.commit()
     con.close()
+
+def makeGalleriesVisible(year):
+    con = sqlite3.connect("imagegallery.db")
+    
+    cur = con.cursor()
+    sql = "UPDATE allGalleries set visible = 1 where year = " + str(year)
+    cur.execute(sql)
+    con.commit()
+    con.close()
+    
+def makeGalleriesInvisible(year):
+    con = sqlite3.connect("imagegallery.db")
+    
+    cur = con.cursor()
+    sql = "UPDATE allGalleries set visible = 0 where year = " + str(year)
+    cur.execute(sql)
+    con.commit()
+    con.close()
+    
 
 def getGallery(galleryname):      #basically gets everything for you, as a list of dictionaries, containing title, imagepath, thumbnailpath, and githublink
     con = sqlite3.connect("imagegallery.db")
@@ -67,6 +88,7 @@ def getAllGalleries():            #returns a list of the names of all the galler
     con = sqlite3.connect("imagegallery.db")
     cur = con.cursor()
     glist = []
+    #sql = "SELECT galleryname FROM allGalleries"
     sql = "SELECT name FROM sqlite_master WHERE type='table'"
     for table in cur.execute(sql).fetchall():
         glist.append(table[0])

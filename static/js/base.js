@@ -4,12 +4,12 @@ var sNav = document.getElementById("nav-side"); //sidebar
 var tNav = document.getElementById("nav-top"); //topbar
 var currentPath = window.location.pathname;
 
+if (currentPath == "/"){
+    currentPath = "/home";
+}
 
 // highlights current link in sidebar
-var links = sNav.querySelectorAll('a[href="' + currentPath + '"]');
-if(links.length > 0 ){
-    links[0].parentElement.className="active";     
-}
+document.getElementById(currentPath).className = "active";
 
 //for collapsable sidebar
 var hideBar = function(bar){
@@ -47,7 +47,7 @@ var windowResizeEvent = function(e){
 
     } else {
 	hideBar(tNav);
-
+	showBar(sNav);
     }
 };
 

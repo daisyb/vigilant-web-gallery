@@ -1,21 +1,44 @@
-.gtable {
-    border-spacing:60px;
-    margin:0 auto;
+
+
+
+/************ For displaying the thumbnails *************/
+
+/* all the thumbnails */
+div.thumbs {
+    
+    margin: 0 auto;
+    min-width: 500px;
+
 }
 
-.gtable td {
-    position:relative;
+div.thumbs > div {
+    display: table-row;
+}
+
+/* individual thumbnails*/
+div.thumbnail {
+    /* thumbnail positioning*/
+    vertical-align: top;
+    position: relative;
+    display: inline-block;
+    margin: 3% 0 3% 6%;
+    width: 175px;
+
+    /* text styling */
     text-shadow: 1px 1px 1px #000000;
-    font-family:"Trebuchet MS", Helvetica, sans-serif;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    text-align: center;
+
 }
 
-.gtable img {
-    min-width:100px;
-
+.thumbnail img {
+    min-width: 100px;
+    object-fit: contain;
     /* image resizes with window */
     width: 100%;
     height: auto;
-    margin:auto;
+    margin: auto;
+    display: block;
 }
 
 .imgTitle {
@@ -25,7 +48,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    color:white;
+    color: white;
     
     /* text position */
     display: flex;
@@ -36,15 +59,15 @@
     /* visibility */
     visibility: hidden;
     opacity: 0;
-   
+    
 }
 
 
-.gtable td:hover .imgTitle {
+div.thumbnail:hover .imgTitle {
     background: rgba(0, 0, 0, 0.3);
     /* make title visible */
-    visibility:visible;
-    opacity:1;
+    visibility: visible;
+    opacity: 1;
 
     /* gradient background */
     background: -moz-linear-gradient(rgba(0,0,0,0) 10%, rgba(0,0,0,1) 56%, rgba(0,0,0,1) 100%);
@@ -54,15 +77,12 @@
     background: -ms-linear-gradient( rgba(0,0,0,0) 0%,rgba(0,0,0,1) 56%,rgba(0,0,0,1) 100%);
     background: linear-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,.8) 50%,rgba(0,0,0,1) 100%);
 
-    cursor:pointer;
+    cursor: pointer;
 }
 
 
 
-
-
-
-
+/********** For slideshow view ************/
 
 
 .gradientBox {
@@ -72,96 +92,198 @@
     bottom: 0;
     left: 0;
     right: 0;
-    /*
+    
     visibility: hidden;
-    opacity: 0;
-   */
+    
     
 }
 
 #currentImg {
-    position:absolute;
+    position: absolute;
     margin: auto;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;	
-    z-index:100;
+    z-index: 100;
 
-    max-width:70%;
-    max-height:70%;
-    height:auto;
-    width:auto;
-   
+    max-width: 70%;
+    max-height: 70%;
+    height: auto;
+    width: auto;
+    
 }
 
 
 .infoPanel {
-    height:40px;
-    width:100%;
-    background-color:lightsteelblue;
-    color:black;
-    display:table;
-    line-height: 40px;
-    font-size:1.5em;
-
+    height: 40px;
+    width: 100%;
+    background-color: lightsteelblue;
+    color: black;
+    display: table;
+    line-height:  40px;
+    font-size: 1.5em;
 }
 
+/* span with image name in it*/
 #name {
     padding: 0px 0px 0px 100px;
     float: left;
 }
 
 .bttnWrap {
-    display:table-cell;
-    vertical-align:middle;
+    display: table-cell;
+    vertical-align: middle;
     padding: 0px 100px 0px 0px;
-    height:40px;
-   
+    height: 40px;
+    
 }
+
+/* view code button */
 #code {
-    height:100%;
+    height: 100%;
     padding: 0px 10px 0px 10px;
     vertical-align: middle;
-    font-size:1em;
+    font-size: 1em;
     display: block;
     float: right;
 
-    background-color:lightsteelblue;   
-    color:black;
-    border:1px solid #eeeeee;
-    border-radius:5px;
+    background-color: lightsteelblue;   
+    color: black;
+    border: 1px solid #eeeeee;
+    border-radius: 5px;
 
 
 }
 
 #code:hover {
-    cursor:pointer;
-    background-color:white;
+    cursor: pointer;
+    background-color: white;
 }
 
 
 span.arrow {
-    color:white;
-    font-size:3em;
-    padding:20px;
+    color: white;
+    font-size: 3em;
+    padding: 20px;
     display: block;
     margin-top: -40px;
     
     position: absolute;
-   
+    
     top: 50%;
 }
 
 span.arrow:hover {
-    cursor:pointer;
+    cursor: pointer;
 }
 
 #leftA {
-    right:90%;
+    right: 90%;
 }
 
 #rightA {
-    left:90%;
+    left: 90%;
+}
+
+/******************* /Upload style **************/
+
+/*
+Most of the css here is non-specific.
+That isn't a big deal since /upload is the only 
+route on this site with a form, but if that 
+changes this specific styling may no longer 
+be desirable for everything.Just a heads up.
+- Daisy
+*/
+
+#upload {
+    width: 80%;
+    height: 20%;
+    margin: auto;
+    border-left: thin solid #999;
+
+    /*text*/
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 1em;
+    color: #3f3f3f;
+    font-weight: bold;
+    line-height: normal;
+}
+
+fieldset {
+    position: relative;
+    margin: 80px 0px 0px 50px;
+    border: none;
+    
+}
+
+legend {
+    padding-bottom: 20px;
+
+    color: #5A94E0;
+    font-weight: bold;
+    font-size: 1.7em;
+}
+
+label {
+
+    float: left;
+    width: 100px;
+    
+}
+
+input[type="text"], textarea {
+    padding: 4px 6px 2px;
+    border: 1px solid #999;
+}
+
+input:focus {
+    border-color: #828282;
+}
+
+textarea {
+    padding: 10px;
+}
+
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: #4D4D4D;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #4D4D4D;
+    opacity: 1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #4D4D4D;
+    opacity: 1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #4D4D4D;
+}
+
+
+span.usrMsg {
+    color: #5A94E0;
+    /*color: transparent;*/
+}
+
+/*
+no longer relevant
+would have made text appear on hover
+div.usrMsg:hover + span.usrMsg {
+      color: #5A94E0;
+}
+*/
+
+
+input[type="submit"] {
+    padding: 10px 30px 10px 30px;
+    border: 1px solid grey;
+}
+
+select, option {
+    padding: 5px 40px 5px 40px;
+    text-align: center;
 }
 

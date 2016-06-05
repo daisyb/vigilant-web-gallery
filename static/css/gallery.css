@@ -93,12 +93,13 @@ div.thumbnail:hover .imgTitle {
     left: 0;
     right: 0;
     
-    visibility: hidden;
     
+    visibility: hidden;
     
 }
 
 #currentImg {
+    
     position: absolute;
     margin: auto;
     top: 0;
@@ -114,7 +115,28 @@ div.thumbnail:hover .imgTitle {
     
 }
 
+#currentCode{
+    display: none;
+    border: none;
+    background-color: white;
+    padding: 20px;
+    
+    /*positioning*/
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;	
+    z-index: 100;
 
+    max-width:400px;
+    width:70%;
+    height: 70%;
+
+}
+
+ 
 .infoPanel {
     height: 40px;
     width: 100%;
@@ -278,12 +300,9 @@ div.usrMsg:hover + span.usrMsg {
 
 
 input[type="submit"] {
-    padding: 10px 30px 10px 30px;
-    border: 1px solid grey;
 }
 
 select, option {
-    padding: 5px 40px 5px 40px;
     text-align: center;
 }
 

@@ -29,7 +29,7 @@ function getThumbs() {
     console.log('getThumbs');
     $.ajax({
 	url: '/getall',
-	data: {gallery:window.location.pathname},
+	data: window.location.pathname,
 	type: 'POST',
 	success: function(e) {
 	    var paths=JSON.parse(e);

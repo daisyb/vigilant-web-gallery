@@ -2,31 +2,51 @@ import sqlite3
 import json
 from datetime import date
 import PythonMagick
+
 database = "/var/www/vigilantwebgallery/vigilantwebgallery/imagegallery.db"
+
+
+def Crop(image, x1, y1, w, h):
+    img = PythonMagick.Image(image) # make a copy
+    rect = "%sx%s+%s+%s" % (w, h, x1, y1)
+    img.crop(rect)
+    return img
+
+def Resize(image, w, h):
+    img = PythonMagick.Image(image) # copy
+    s = "!%sx%s" % (w, h)
+    img.sample(s)
+    return img
+
+
 def createThumbnail(imagepath):   #just returns True for now. creates a thumbnail named "thumbnail.png"
     image = PythonMagick.Image(str(imagepath))
+    #image = image.write("thumbnail.png")
     geometry = image.size()
     w, h = geometry.width(), geometry.height()
     if (w > h):
         center = w/2
-        image.crop(int((center - h/2)),  #left
-                   0,               #top
-                   int((center + h/2)),  #right
-                   int(h))               #bottom
+        image = Crop(image, int(center - h/2), 0, h, h)
+        #image.crop(int((center - h/2)),  #left
+        #           0,               #top
+        #           int((center + h/2)),  #right
+        #           int(h))               #bottom
     else:
         center = h/2
-        image.crop(0,                            #left
-                   int((center - w/2)),               #top
-                   int(w),                            #right
-                   int((center + w/2)))               #bottomimage.crop()
+        image = Crop(image, 0, int(center - w/2), w, w)
+        #image.crop(0,                            #left
+        #           int((center - w/2)),               #top
+        #           int(w),                            #right
+        #           int((center + w/2)))               #bottomimage.crop()
 
     new_size = 175
-    image.resize("{}x{}".format(new_size, new_size))
+    image = Resize(image, new_size, new_size)
+    #image.resize("{}x{}".format(new_size, new_size))
     #image.resize(new_size, new_size)
     image.write("thumbnail.png")
     return True
 
-def limitSize(imagepath):
+def limitSize(imagepath,folderpath):
     print imagepath 
     image = PythonMagick.Image(str(imagepath))
     geometry = image.size()
@@ -34,10 +54,11 @@ def limitSize(imagepath):
 
     new_size = 1000
     if (w > new_size or h > new_size):
-        image.resize("{}x{}".format(new_size, new_size))
+        image = Resize(image, new_size, new_size)
+        #image.resize("{}x{}".format(new_size, new_size))
         #image.resize(new_size, new_size)
     
-    image.write("image.png")
+    image.write(str(folderpath))
     return True
 
 def createNewGallery(galleryname):               #creates a table named galleryname
@@ -82,7 +103,7 @@ def getGallery(galleryname):      #basically gets everything for you, as a list 
                     "imagepath" : row[1],
                     "thumbnailpath" : row[2],
                     "codepath" : row[3]}
-        gallery.append(path)
+        gallery.append(tempdict)
     con.close()
     return gallery
 
@@ -102,7 +123,7 @@ def storeNewImage(galleryname, title):      #inserts the info into galleryname t
     imagepath = galleryname + "/" + title + "/image.png"
     thumbnailpath = galleryname + "/" + title + "/thumbnail.png"
     codepath = galleryname + "/" + title + "/code.txt"
-    sql = "INSERT INTO " + galleryname + "(title, imagepath, thumbnailpath, code) VALUES(\"%s\",\"%s\",\"%s\",\"%s\")" % (title, imagepath, thumbnailpath, codepath)
+    sql = "INSERT INTO " + galleryname + "(title, imagepath, thumbnailpath, codepath) VALUES(\"%s\",\"%s\",\"%s\",\"%s\")" % (title, imagepath, thumbnailpath, codepath)
     try:
         cur.execute(sql)
         con.commit()

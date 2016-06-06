@@ -11,6 +11,7 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'images'
 ALLOWED_EXTENSIONS = set(['txt', 'png', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024 #max filesize limit of 10mb
 
 @app.route("/")
 @app.route("/home")
@@ -35,23 +36,28 @@ def upload():
     if request.method == "GET":
         gn = utils.getAllGalleries()
         return render_template("upload.html", gallerynames=gn, galleries=gn)
-    else:
+    else: 
         print request.form
-        file = request.files['file'] 
+        #tmp = request.files['file']
+        #tmp = tmp.read()
+        #print len(tmp)
+        file = request.files['file']
         gallname = request.form['Gallery']
         print gallname
         if file and allowed_file(file.filename): #is a valid file type
             print "is valid file"
-            filename = secure_filename(file.filename) #prevents security exploits
-            print filename
-            print os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename))
+            foldername = secure_filename(request.form['name'] ) #prevents security exploits
+            #print os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename)
+            finalpath = os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername)
+            if not os.path.exists(finalpath):
+                os.makedirs(finalpath)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "image.png"))
             print "file saved"
-            utils.storeNewImage(gallname,filename)
+            utils.storeNewImage(gallname,foldername)
             print "image stored"
-            utils.limitSize(os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename))
-            utils.createThumbnail(os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename))
-            print "thumbnail created"
+            utils.limitSize(os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "image.png"),os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "thumbnail.png"))
+            #utils.createThumbnail(os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename))
+            #print "thumbnail created"
             return redirect(url_for("gallery",g=gallname))
 
 
@@ -82,7 +88,9 @@ def getthumbnails():
 
 @app.route("/getall", methods=['POST'])
 def getall():
-    gallery=request.form[0]
+    q=request.form
+    gallery=q['gallery']
+    print gallery
     t = gallery.split('/')
     i = len(t) - 1
     while i >= 0:
@@ -98,7 +106,7 @@ def getgalleries(key):
     if key == "nyang":
         gn = utils.getAllGalleries()
         return json.dumps(gn)
-    return
+    return "Error"
 
 @app.route("/getimagename/<key>/<name>")
 def getimagename(key,name):
@@ -119,7 +127,7 @@ def deleteimage(key,gallery,name):
                 temp.append(i['title'])
             if name in temp:
                 utils.deleteImage(gallery,name)
-                return
+                return redirect(url_for("home"))
     return "Error"
 
 @app.route("/deletegallery/<key>/<gallery>")
@@ -127,9 +135,30 @@ def deletegallery(key,gallery):
     if key == "nyang":
         if gallery in utils.getAllGalleries():
             utils.deleteGallery(gallery)
-            return
+            return redirect(url_for("home"))
     return "Error"
 
+@app.route("/creategallery/<key>/<gallery>")
+def creategallery(key,gallery):
+    if key == "nyang":
+        if gallery not in utils.getAllGalleries():
+            utils.createNewGallery(gallery)
+            return redirect(url_for("home"))
+    return "Error"
+
+@app.route("/archivegalleries/<key>/<year>")
+def archivegalleries(key,year):
+    if key == "nyang":
+        utils.makeGalleriesVisible(year)
+        return redirect(url_for("home"))
+    return "Error"
+
+@app.route("/unarchivegalleries/<key>/<year>")
+def unarchivegalleries(key,year):
+    if key == "nyang":
+        utils.makeGalleriesInvisible(year)
+        return redirect(url_for("home"))
+    return "Error"
 
 #@app.route("/getcode", methods=['POST'])
 #def getcode():

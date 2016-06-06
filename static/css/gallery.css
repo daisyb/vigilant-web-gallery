@@ -39,12 +39,13 @@ div.thumbnail {
     height: auto;
     margin: auto;
     display: block;
+    cursor: pointer;
 }
 
 .imgTitle {
     /* div position */
     position: absolute;
-    top: 50%;
+    top: 70%;
     bottom: 0;
     left: 0;
     right: 0;
@@ -55,21 +56,10 @@ div.thumbnail {
     align-items: center;
     justify-content: center;
     text-align: center;
-
-    /* visibility */
-    visibility: hidden;
-    opacity: 0;
     
-}
-
-
-div.thumbnail:hover .imgTitle {
     background: rgba(0, 0, 0, 0.3);
-    /* make title visible */
-    visibility: visible;
-    opacity: 1;
-
-    /* gradient background */
+    
+     /* gradient background */
     background: -moz-linear-gradient(rgba(0,0,0,0) 10%, rgba(0,0,0,1) 56%, rgba(0,0,0,1) 100%);
     background: -webkit-gradient(linear, color-stop(0%,rgba(0,0,0,0)), color-stop(56%,rgba(0,0,0,1)), color-stop(100%,rgba(0,0,0,1)));
     background: -webkit-linear-gradient( rgba(0,0,0,0) 10%,rgba(0,0,0,1) 56%,rgba(0,0,0,1) 100%);
@@ -77,9 +67,7 @@ div.thumbnail:hover .imgTitle {
     background: -ms-linear-gradient( rgba(0,0,0,0) 0%,rgba(0,0,0,1) 56%,rgba(0,0,0,1) 100%);
     background: linear-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,.8) 50%,rgba(0,0,0,1) 100%);
 
-    cursor: pointer;
 }
-
 
 
 /********** For slideshow view ************/
@@ -95,7 +83,6 @@ div.thumbnail:hover .imgTitle {
     
     
     visibility: hidden;
-    
 }
 
 #currentImg {

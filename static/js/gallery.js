@@ -26,7 +26,6 @@ function getThumbs() {
 			    editGradientContents(paths[i+1]['title'],
 						 paths[i+1]['imagepath'],
 						 paths[i+1]['codepath']);
-
 			});
 		    };
 		    
@@ -49,7 +48,7 @@ function getThumbs() {
 		console.log(i);
 		$(".main").append("<div class='thumbnail' id='d" + i.toString() + "'></div>'");
 		$("#d" + i.toString()).append("<img src='" + paths[i]['imagepath'] + "'>");
-		$("#d" + i.toString()).append("<div class='imgTitile'>" + paths[i]['title'] +
+		$("#d" + i.toString()).append("<div class='imgTitle'>" + paths[i]['title'] +
 					    "</div>");
 	    };
 	},
@@ -90,6 +89,6 @@ $(".gradientBox").click(function(e){
 var editGradientContents = function(imgName, imgPath, codePath){
     $("#name").text(imgName);
     $("#currentImg").attr("src",imgPath);
-    $("#codePath").attr("src",codePath);
+    $("#currentCode").attr("src",codePath);
 }
 

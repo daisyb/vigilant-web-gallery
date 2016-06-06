@@ -135,6 +135,28 @@ def deletegallery(key,gallery):
             return
     return "Error"
 
+@app.route("/creategallery/<key>/<gallery>")
+def creategallery(key,gallery):
+    if key == "nyang":
+        if gallery not in utils.getAllGalleries():
+            utils.createNewGallery(gallery)
+            return
+    return "Error"
+
+@app.route("/archivegalleries/<key>/<year>")
+def archivegalleries(key,year):
+    if key == "nyang":
+        utils.makeGalleriesVisible(year)
+        return
+    return "Error"
+
+@app.route("/unarchivegalleries/<key>/<year>")
+def unarchivegalleries(key,year):
+    if key == "nyang":
+        utils.makeGalleriesInvisible(year)
+        return
+    return "Error"
+
 #@app.route("/getcode", methods=['POST'])
 #def getcode():
 #    return json.dumps """stuff"""

@@ -48,15 +48,16 @@ def upload():
             print "is valid file"
             foldername = secure_filename(request.form['name'] ) #prevents security exploits
             #print os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename)
-            if not os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername)):
-                os.makedirs(os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername))
+            finalpath = os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername)
+            if not os.path.exists(finalpath):
+                os.makedirs(finalpath)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "image.png"))
             print "file saved"
             utils.storeNewImage(gallname,foldername)
             print "image stored"
             utils.limitSize(os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "image.png"))
             #utils.createThumbnail(os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename))
-            print "thumbnail created"
+            #print "thumbnail created"
             return redirect(url_for("gallery",g=gallname))
 
 

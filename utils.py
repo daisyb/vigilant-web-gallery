@@ -3,25 +3,41 @@ import json
 from datetime import date
 import PythonMagick
 
+def Crop(image, x1, y1, w, h):
+    img = PythonMagick.Image(image) # make a copy
+    rect = "%sx%s+%s+%s" % (w, h, x1, y1)
+    img.crop(rect)
+    return img
+
+def Resize(image, w, h):
+    img = PythonMagick.Image(image) # copy
+    s = "!%sx%s" % (w, h)
+    img.sample(s)
+    return img
+
 def createThumbnail(imagepath):   #just returns True for now. creates a thumbnail named "thumbnail.png"
     image = PythonMagick.Image(str(imagepath))
+    #image = image.write("thumbnail.png")
     geometry = image.size()
     w, h = geometry.width(), geometry.height()
     if (w > h):
         center = w/2
-        image.crop(int((center - h/2)),  #left
-                   0,               #top
-                   int((center + h/2)),  #right
-                   int(h))               #bottom
+        image = Crop(image, int(center - h/2), 0, h, h)
+        #image.crop(int((center - h/2)),  #left
+        #           0,               #top
+        #           int((center + h/2)),  #right
+        #           int(h))               #bottom
     else:
         center = h/2
-        image.crop(0,                            #left
-                   int((center - w/2)),               #top
-                   int(w),                            #right
-                   int((center + w/2)))               #bottomimage.crop()
+        image = Crop(image, 0, int(center - w/2), w, w)
+        #image.crop(0,                            #left
+        #           int((center - w/2)),               #top
+        #           int(w),                            #right
+        #           int((center + w/2)))               #bottomimage.crop()
 
     new_size = 175
-    image.resize("{}x{}".format(new_size, new_size))
+    image = Resize(image, new_size, new_size)
+    #image.resize("{}x{}".format(new_size, new_size))
     #image.resize(new_size, new_size)
     image.write("thumbnail.png")
     return True
@@ -34,7 +50,8 @@ def limitSize(imagepath):
 
     new_size = 1000
     if (w > new_size or h > new_size):
-        image.resize("{}x{}".format(new_size, new_size))
+        image = Resize(image, new_size, new_size)
+        #image.resize("{}x{}".format(new_size, new_size))
         #image.resize(new_size, new_size)
     
     image.write("image.png")

@@ -46,7 +46,8 @@ def upload():
         print gallname
         if file and allowed_file(file.filename): #is a valid file type
             print "is valid file"
-            filename = secure_filename(file.filename) #prevents security exploits
+            i = file.filename.rfind(".")
+            filename = secure_filename(request.form['name'] + file.filename[i:]) #prevents security exploits
             print filename
             print os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename))

@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = 'images'
+UPLOAD_FOLDER = 'static'
 ALLOWED_EXTENSIONS = set(['txt', 'png', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024 #max filesize limit of 10mb

@@ -2,7 +2,7 @@ import sqlite3
 import json
 from datetime import date
 import PythonMagick
-
+database = "/var/www/vigilantwebgallery/vigilantwebgallery/imagegallery.db"
 def createThumbnail(imagepath):   #just returns True for now. creates a thumbnail named "thumbnail.png"
     image = PythonMagick.Image(str(imagepath))
     geometry = image.size()
@@ -41,7 +41,7 @@ def limitSize(imagepath):
     return True
 
 def createNewGallery(galleryname):               #creates a table named galleryname
-    con = sqlite3.connect("imagegallery.db")
+    con = sqlite3.connect(database)
     
     cur = con.cursor()
     
@@ -54,7 +54,7 @@ def createNewGallery(galleryname):               #creates a table named galleryn
     con.close()
 
 def makeGalleriesVisible(year):
-    con = sqlite3.connect("imagegallery.db")
+    con = sqlite3.connect(database)
     
     cur = con.cursor()
     sql = "UPDATE allGalleries set visible = 1 where year = " + str(year)
@@ -63,7 +63,7 @@ def makeGalleriesVisible(year):
     con.close()
     
 def makeGalleriesInvisible(year):
-    con = sqlite3.connect("imagegallery.db")
+    con = sqlite3.connect(database)
     
     cur = con.cursor()
     sql = "UPDATE allGalleries set visible = 0 where year = " + str(year)
@@ -73,7 +73,7 @@ def makeGalleriesInvisible(year):
     
 
 def getGallery(galleryname):      #basically gets everything for you, as a list of dictionaries, containing title, imagepath, thumbnailpath, and githublink
-    con = sqlite3.connect("imagegallery.db")
+    con = sqlite3.connect(database)
     cur = con.cursor()
     gallery = []
     sql = "SELECT * FROM " + galleryname
@@ -97,7 +97,7 @@ def getAllGalleries():            #returns a list of the names of all the galler
     return glist
     
 def storeNewImage(galleryname, title):      #inserts the info into galleryname table
-    con = sqlite3.connect("imagegallery.db")
+    con = sqlite3.connect(database)
     cur=con.cursor()
     imagepath = galleryname + "/" + title + "/image.png"
     thumbnailpath = galleryname + "/" + title + "/thumbnail.png"
@@ -116,7 +116,7 @@ def storeNewImage(galleryname, title):      #inserts the info into galleryname t
         return False
 
 def getImagePaths(galleryname):
-    con = sqlite3.connect("imagegallery.db")
+    con = sqlite3.connect(database)
     cur = con.cursor()
     imagepaths = []
     sql = "SELECT imagepath FROM " + galleryname
@@ -126,7 +126,7 @@ def getImagePaths(galleryname):
     return imagepaths
 
 def getThumbnailPaths(galleryname):
-    con = sqlite3.connect("imagegallery.db")
+    con = sqlite3.connect(database)
     cur = con.cursor()
     thumbnailpaths = []
     sql = "SELECT thumbnailpath FROM " + galleryname
@@ -136,7 +136,7 @@ def getThumbnailPaths(galleryname):
     return thumbnailpaths
 
 def deleteImage(galleryname, title):
-    con = sqlite3.connect("imagegallery.db")
+    con = sqlite3.connect(database)
     cur = con.cursor()
     sql = "DELETE FROM " + galleryname + " WHERE title = " + title
     cur.execute(sql)
@@ -145,7 +145,7 @@ def deleteImage(galleryname, title):
     return True
 
 def deleteGallery(galleryname):
-    con = sqlite3.connect("imagegallery.db")
+    con = sqlite3.connect(database)
     cur = con.cursor()
     sql = "DROP TABLE " + galleryname
     
@@ -171,7 +171,7 @@ def printAllGalleries():
 def outputJSON():
     out = {}
     galleries = getAllGalleries()
-    con = sqlite3.connect("imagegallery.db")
+    con = sqlite3.connect(database)
     cur = con.cursor()
     for gallery in galleries:
         sql = "SELECT * FROM " + gallery[0]

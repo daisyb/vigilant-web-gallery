@@ -87,7 +87,7 @@ def getGallery(galleryname):      #basically gets everything for you, as a list 
     return gallery
 
 def getAllGalleries():            #returns a list of the names of all the galleries
-    con = sqlite3.connect("imagegallery.db")
+    con = sqlite3.connect(database)
     cur = con.cursor()
     glist = []
     #sql = "SELECT galleryname FROM allGalleries"

@@ -55,7 +55,7 @@ def upload():
             print "file saved"
             utils.storeNewImage(gallname,foldername)
             print "image stored"
-            utils.limitSize(os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "image.png"))
+            utils.limitSize(os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "image.png"),os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "thumbnail.png"))
             #utils.createThumbnail(os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename))
             #print "thumbnail created"
             return redirect(url_for("gallery",g=gallname))

@@ -42,7 +42,7 @@ def createThumbnail(imagepath):   #just returns True for now. creates a thumbnai
     image.write("thumbnail.png")
     return True
 
-def limitSize(imagepath):
+def limitSize(imagepath,folderpath):
     print imagepath 
     image = PythonMagick.Image(str(imagepath))
     geometry = image.size()
@@ -54,7 +54,7 @@ def limitSize(imagepath):
         #image.resize("{}x{}".format(new_size, new_size))
         #image.resize(new_size, new_size)
     
-    image.write("image.png")
+    image.write(str(folderpath))
     return True
 
 def createNewGallery(galleryname):               #creates a table named galleryname

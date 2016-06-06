@@ -28,7 +28,7 @@ def createThumbnail(imagepath):   #just returns True for now. creates a thumbnai
 
 def limitSize(imagepath):
     print imagepath 
-    image = PythonMagick.Image(imagepath)
+    image = PythonMagick.Image(str(imagepath))
     geometry = image.size()
     w, h = geometry.width(), geometry.height()
 

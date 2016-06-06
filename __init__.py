@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = 'galleries'
+UPLOAD_FOLDER = 'images'
 ALLOWED_EXTENSIONS = set(['txt', 'png', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -52,7 +52,6 @@ def upload():
             utils.limitSize(os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename))
             utils.createThumbnail(os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename))
             print "thumbnail created"
-            #return redirect(url_for('uploaded_file', filename=filename))
             return redirect(url_for("gallery",g=gallname))
 
 

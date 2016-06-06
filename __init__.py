@@ -11,6 +11,7 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'images'
 ALLOWED_EXTENSIONS = set(['txt', 'png', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024 #max filesize limit of 10mb
 
 @app.route("/")
 @app.route("/home")
@@ -35,9 +36,12 @@ def upload():
     if request.method == "GET":
         gn = utils.getAllGalleries()
         return render_template("upload.html", gallerynames=gn, galleries=gn)
-    else:
+    else: 
         print request.form
-        file = request.files['file'] 
+        #tmp = request.files['file']
+        #tmp = tmp.read()
+        #print len(tmp)
+        file = request.files['file']
         gallname = request.form['Gallery']
         print gallname
         if file and allowed_file(file.filename): #is a valid file type
@@ -50,7 +54,7 @@ def upload():
             utils.storeNewImage(gallname,filename)
             print "image stored"
             utils.limitSize(os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename))
-            utils.createThumbnail(os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename))
+            #utils.createThumbnail(os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename))
             print "thumbnail created"
             return redirect(url_for("gallery",g=gallname))
 

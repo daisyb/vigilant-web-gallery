@@ -9,16 +9,16 @@ def createThumbnail(imagepath):   #just returns True for now. creates a thumbnai
     w, h = geometry.width(), geometry.height()
     if (w > h):
         center = w/2
-        image.crop((center - h/2),  #left
+        image.crop(int((center - h/2)),  #left
                    0,               #top
-                   (center + h/2),  #right
-                   h)               #bottom
+                   int((center + h/2)),  #right
+                   int(h))               #bottom
     else:
         center = h/2
         image.crop(0,                            #left
-                   (center - w/2),               #top
-                   w,                            #right
-                   (center + w/2))               #bottomimage.crop()
+                   int((center - w/2)),               #top
+                   int(w),                            #right
+                   int((center + w/2)))               #bottomimage.crop()
 
     new_size = 175
     image.resize("{}x{}".format(new_size, new_size))

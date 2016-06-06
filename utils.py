@@ -119,7 +119,7 @@ def storeNewImage(galleryname, title):      #inserts the info into galleryname t
     imagepath = galleryname + "/" + title + "/image.png"
     thumbnailpath = galleryname + "/" + title + "/thumbnail.png"
     codepath = galleryname + "/" + title + "/code.txt"
-    sql = "INSERT INTO " + galleryname + "(title, imagepath, thumbnailpath, code) VALUES(\"%s\",\"%s\",\"%s\",\"%s\")" % (title, imagepath, thumbnailpath, codepath)
+    sql = "INSERT INTO " + galleryname + "(title, imagepath, thumbnailpath, codepath) VALUES(\"%s\",\"%s\",\"%s\",\"%s\")" % (title, imagepath, thumbnailpath, codepath)
     try:
         cur.execute(sql)
         con.commit()

@@ -104,7 +104,7 @@ def getgalleries(key):
     if key == "nyang":
         gn = utils.getAllGalleries()
         return json.dumps(gn)
-    return
+    return "Error"
 
 @app.route("/getimagename/<key>/<name>")
 def getimagename(key,name):
@@ -125,7 +125,7 @@ def deleteimage(key,gallery,name):
                 temp.append(i['title'])
             if name in temp:
                 utils.deleteImage(gallery,name)
-                return
+                return redirect(url_for("home"))
     return "Error"
 
 @app.route("/deletegallery/<key>/<gallery>")
@@ -133,7 +133,7 @@ def deletegallery(key,gallery):
     if key == "nyang":
         if gallery in utils.getAllGalleries():
             utils.deleteGallery(gallery)
-            return
+            return redirect(url_for("home"))
     return "Error"
 
 @app.route("/creategallery/<key>/<gallery>")
@@ -141,21 +141,21 @@ def creategallery(key,gallery):
     if key == "nyang":
         if gallery not in utils.getAllGalleries():
             utils.createNewGallery(gallery)
-            return
+            return redirect(url_for("home"))
     return "Error"
 
 @app.route("/archivegalleries/<key>/<year>")
 def archivegalleries(key,year):
     if key == "nyang":
         utils.makeGalleriesVisible(year)
-        return
+        return redirect(url_for("home"))
     return "Error"
 
 @app.route("/unarchivegalleries/<key>/<year>")
 def unarchivegalleries(key,year):
     if key == "nyang":
         utils.makeGalleriesInvisible(year)
-        return
+        return redirect(url_for("home"))
     return "Error"
 
 #@app.route("/getcode", methods=['POST'])

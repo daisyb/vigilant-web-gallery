@@ -46,15 +46,15 @@ def upload():
         print gallname
         if file and allowed_file(file.filename): #is a valid file type
             print "is valid file"
-            i = file.filename.rfind(".")
-            filename = secure_filename(request.form['name'] + file.filename[i:]) #prevents security exploits
-            print filename
-            print os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename))
+            foldername = secure_filename(request.form['name'] ) #prevents security exploits
+            #print os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename)
+            if not os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername)):
+                os.makedirs(os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername))
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "image.png"))
             print "file saved"
-            utils.storeNewImage(gallname,filename)
+            utils.storeNewImage(gallname,foldername)
             print "image stored"
-            utils.limitSize(os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename))
+            utils.limitSize(os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "image.png"))
             #utils.createThumbnail(os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename))
             print "thumbnail created"
             return redirect(url_for("gallery",g=gallname))
@@ -134,7 +134,6 @@ def deletegallery(key,gallery):
             utils.deleteGallery(gallery)
             return
     return "Error"
-
 
 #@app.route("/getcode", methods=['POST'])
 #def getcode():

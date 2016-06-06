@@ -88,7 +88,9 @@ def getthumbnails():
 
 @app.route("/getall", methods=['POST'])
 def getall():
-    gallery=request.form[0]
+    q=request.form
+    gallery=q['gallery']
+    print gallery
     t = gallery.split('/')
     i = len(t) - 1
     while i >= 0:

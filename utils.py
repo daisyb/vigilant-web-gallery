@@ -99,7 +99,7 @@ def getGallery(galleryname):      #basically gets everything for you, as a list 
                     "imagepath" : row[1],
                     "thumbnailpath" : row[2],
                     "codepath" : row[3]}
-        gallery.append(path)
+        gallery.append(tempdict)
     con.close()
     return gallery
 

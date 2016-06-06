@@ -38,16 +38,18 @@ function getThumbs() {
 			});
 		    };
 		    if(count == paths.length -1){
-			editGradientContents(paths[i-1]['title'],
-					     paths[i-1]['imagepath'],
-					     paths[i-1]['codepath']);
-		    }
+		    	$("#leftA").click(function(){
+			     editGradientContents(paths[i-1]['title'],
+						  paths[i-1]['imagepath'],
+						  paths[i-1]['codepath']);
+		    	});
+		    };	
 		};
 		
 		console.log(i);
-		$(".main").append("<div class='thumbnail' id='d" + i + "'></div>'");
-		$("#d" + i.toString()).append("<img src='" + paths[i]['imagepath'] + ">");
-		$("#d" + i.toString()).append("div class='imgTitile'>" + paths[i]['title'] +
+		$(".main").append("<div class='thumbnail' id='d" + i.toString() + "'></div>'");
+		$("#d" + i.toString()).append("<img src='" + paths[i]['imagepath'] + "'>");
+		$("#d" + i.toString()).append("<div class='imgTitile'>" + paths[i]['title'] +
 					    "</div>");
 	    };
 	},

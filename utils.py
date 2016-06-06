@@ -1,10 +1,10 @@
 import sqlite3
 import json
 from datetime import date
-#import PythonMagick
+import PythonMagick
 
 def createThumbnail(imagepath):   #just returns True for now. creates a thumbnail named "thumbnail.png"
-    image = PythonMagick.Image(imagepath)
+    image = PythonMagick.Image(str(imagepath))
     geometry = image.size()
     w, h = geometry.width(), geometry.height()
     if (w > h):
@@ -27,6 +27,7 @@ def createThumbnail(imagepath):   #just returns True for now. creates a thumbnai
     return True
 
 def limitSize(imagepath):
+    print imagepath 
     image = PythonMagick.Image(imagepath)
     geometry = image.size()
     w, h = geometry.width(), geometry.height()
@@ -106,8 +107,10 @@ def storeNewImage(galleryname, title):      #inserts the info into galleryname t
         cur.execute(sql)
         con.commit()
         con.close()
+        print "worked"
         return True
     except sqlite3.Error as e:
+        print "failed"
         print e
         con.close()
         return False

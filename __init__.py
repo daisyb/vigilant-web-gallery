@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = 'galleries/'
+UPLOAD_FOLDER = 'galleries'
 ALLOWED_EXTENSIONS = set(['txt', 'png', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -25,7 +25,7 @@ def gallery(g):
     elif g in utils.getAllGalleries():
         gn = utils.getAllGalleries()
         return render_template("gallery.html",cgallery=g,gallerynames=gn)
-    return redirect(url_for("home"))
+    return redirect(url_for("home")) 
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
@@ -34,23 +34,24 @@ def allowed_file(filename):
 def upload():
     if request.method == "GET":
         gn = utils.getAllGalleries()
-        print gn
-        galleries = ""
-        for i in gn:
-            print i
-            galleries += '<option value="%s">%s</option>' % (i, i)
-        print galleries
         return render_template("upload.html", gallerynames=gn, galleries=gn)
     else:
-	print request.form
-        file = request.files['file']
-        #gallname = request.form
+        print request.form
+        file = request.files['file'] 
+        gallname = request.form['Gallery']
+        print gallname
         if file and allowed_file(file.filename): #is a valid file type
+            print "is valid file"
             filename = secure_filename(file.filename) #prevents security exploits
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'] + gallname + "/", filename))
+            print filename
+            print os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename))
+            print "file saved"
             utils.storeNewImage(gallname,filename)
-            utils.limitSize(app.config['UPLOAD_FOLDER'] + gallname + "/", filename)
-            utils.createThumbnail(app.config['UPLOAD_FOLDER'] + gallname + "/", filename)
+            print "image stored"
+            utils.limitSize(os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename))
+            utils.createThumbnail(os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename))
+            print "thumbnail created"
             #return redirect(url_for('uploaded_file', filename=filename))
             return redirect(url_for("gallery",g=gallname))
 
@@ -138,6 +139,6 @@ def deletegallery(key,gallery):
 
 
 if __name__ == "__main__":
-#    app.debug = True
+    app.debug = True
 #    app.run('0.0.0.0',port=8001)
     app.run(host="0.0.0.0")

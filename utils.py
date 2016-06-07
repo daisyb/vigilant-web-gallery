@@ -43,7 +43,9 @@ def createThumbnail(imagepath):   #just returns True for now. creates a thumbnai
     image = Resize(image, new_size, new_size)
     #image.resize("{}x{}".format(new_size, new_size))
     #image.resize(new_size, new_size)
-    image.write("thumbnail.png")
+    newpath = str(imagepath)[:-9]
+    newpath += "thumbnail.png"
+    image.write(newpath)
     return True
 
 def limitSize(imagepath,folderpath):
@@ -58,7 +60,9 @@ def limitSize(imagepath,folderpath):
         #image.resize("{}x{}".format(new_size, new_size))
         #image.resize(new_size, new_size)
     
-    image.write(str(folderpath))
+    newpath = str(imagepath)[:-9]
+    newpath += "thumbnail.png"
+    image.write(newpath)
     return True
 
 def getSampleImages():  #gets one image from each gallery

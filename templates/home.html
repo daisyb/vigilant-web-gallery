@@ -5,34 +5,7 @@
 
 {% block contents %}
 
-<!-- I moved the gradient box stuff to base.html -->
-
-<!-- The script below is TEMPORARY. 
-     Delete it after proper 
-     functionality exits in gallery.js -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<script>
- //TEMPORARY
- //part of onclick function for slideshow view
- $(".gradientBox").click(function(e){
-     //this makes all the expanded image stuff disapear
-     $(this).css("visibility","hidden");
-     //to make it reapear
-     //visibility: visible;
-
-     //to change image $(#currentImg).attr("src","NEWIMAGE");
-     //to change image name, edit inner html of $(#name)
-     //to change where view code button leads, write click function for $(#code) 
- });
- 
-//makes sure click function doesn't apply to div children
- $(".gradientBox > .contents").click(function(e){
-     e.stopPropagation();
- });
-     
-</script>
-
- {% endblock %}
+{% endblock %}
 
 {% block scripts %}
 <script src="../static/js/gallery.js"></script>

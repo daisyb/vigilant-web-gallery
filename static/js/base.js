@@ -34,6 +34,12 @@ var toggleBar = function(bar){
 //decides which nav bars to show based on window size
 
 
+//if mobile
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    showBar(tNav);
+    hideBar(sNav);
+}
+
 if (document.documentElement.clientWidth > 1300){
     hideBar(tNav); //hides topbar
 } else {
@@ -44,7 +50,7 @@ if (document.documentElement.clientWidth > 1300){
 var windowResizeEvent = function(e){
     if(document.documentElement.clientWidth < 1300){
 	showBar(tNav); //shows topbar
-
+	hideBar(sNav);
     } else {
 	hideBar(tNav);
 	showBar(sNav);

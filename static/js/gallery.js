@@ -10,22 +10,22 @@ function getThumbs() {
 	    for(i in paths){
 		var img = new Image();
 		console.log(paths[i]['thumbnailpath']);
-		img.src = "../images" + paths[i]['thumbnailpath'];
+		img.src = "../static/" + paths[i]['thumbnailpath'];
 		img.alt = paths[i]['title'];
 		img.onclick=function(){
 		    $(".gradientBox").css("visibility","visible");
 		    editGradientContents(paths[i]['title'],
-					 "../images" + paths[i]['imagepath'],
+					 "../static/" + paths[i]['imagepath'],
 					 paths[i]['codepath']); 
 		    if(count > 0 && count < paths.length - 1){
 			$("#leftA").click(function(){
 			    editGradientContents(paths[i-1]['title'],
-						 "../images" + paths[i-1]['imagepath'],
+						 "../static/" + paths[i-1]['imagepath'],
 						 paths[i-1]['codepath']);
 			});
 			$("#rightA").click(function(){
 			    editGradientContents(paths[i+1]['title'],
-						 "../images" + paths[i+1]['imagepath'],
+						 "../static/" + paths[i+1]['imagepath'],
 						 paths[i+1]['codepath']);
 			});
 		    };
@@ -33,14 +33,14 @@ function getThumbs() {
 		    if(count == 0){
 			$("#rightA").click(function(){
 			    editGradientContents(paths[i+1]['title'],
-						 "../images" + paths[i+1]['imagepath'],
+						 "../static/" + paths[i+1]['imagepath'],
 						 paths[i+1]['codepath']);
 			});
 		    };
 		    if(count == paths.length -1){
 		    	$("#leftA").click(function(){
 			     editGradientContents(paths[i-1]['title'],
-						  "../images" + paths[i-1]['imagepath'],
+						  "../static/" + paths[i-1]['imagepath'],
 						  paths[i-1]['codepath']);
 		    	});
 		    };	
@@ -48,7 +48,7 @@ function getThumbs() {
 		
 		console.log(i);
 		console.log(img.src);
-		$(".main").append("<div class='thumbnail' id='d" + i.toString() + "'></div>'");
+		$(".main").append("<div class='thumbnail' id='d" + i.toString() + "'></div>");
 		document.getElementById("d"+i.toString()).appendChild(img);
 		$("#d" + i.toString()).append("<div class='imgTitle'>" + paths[i]['title'] +
 					    "</div>");

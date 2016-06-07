@@ -61,6 +61,19 @@ def limitSize(imagepath,folderpath):
     image.write(str(folderpath))
     return True
 
+def getSampleImages():  #gets one image from each gallery
+    sampledict = {}
+    glist = getAllGalleries()
+
+    con = sqlite3.connect(database)
+    cur = con.cursor()
+    for galleryname in glist:
+        sql = "SELECT thumbnailpath FROM "+ galleryname +" where ROWID = 1"
+        thumbnailpath = cur.execute(sql).fetchall()[0]
+        sampledict[galleryname] = thumbnailpath
+    return sampledict
+
+
 def createNewGallery(galleryname):               #creates a table named galleryname
     con = sqlite3.connect(database)
     

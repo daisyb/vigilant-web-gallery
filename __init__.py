@@ -43,6 +43,7 @@ def upload():
         #print len(tmp)
         file = request.files['file']
         gallname = request.form['Gallery']
+        code = request.form['code']
         print gallname
         if file and allowed_file(file.filename): #is a valid file type
             print "is valid file"
@@ -58,6 +59,9 @@ def upload():
             utils.limitSize(os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "image.png"),os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "thumbnail.png"))
             #utils.createThumbnail(os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename))
             #print "thumbnail created"
+            f = open(os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "code.txt"), 'w')
+            f.write(code)
+            f.close()
             return redirect(url_for("gallery",g=gallname))
 
 

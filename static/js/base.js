@@ -39,13 +39,13 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
     showBar(tNav);
     hideBar(sNav);
 }
-
+/*
 if (document.documentElement.clientWidth > 1300){
     hideBar(tNav); //hides topbar
 } else {
     //hideBar(sNav);
     showBar(tNav);
-}
+}*/
 
 var windowResizeEvent = function(e){
     if(document.documentElement.clientWidth < 1300){

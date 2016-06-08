@@ -70,8 +70,11 @@ def getSampleImages():  #gets one image from each gallery
     cur = con.cursor()
     for galleryname in glist:
         sql = "SELECT thumbnailpath FROM "+ galleryname +" where ROWID = 1"
-        thumbnailpath = cur.execute(sql).fetchall()[0]
+        thumbnailpath = cur.execute(sql).fetchall()[0]   #I may need another [0]
         sampledict[galleryname] = thumbnailpath
+    for galleryname in glist:
+        if (galleryname not in sampledict.keys()):
+            sampledict[galleryname] = "static\images\thluffy-big.png"
     return sampledict
 
 
@@ -110,8 +113,7 @@ def getVisibleGalleries():
     con = sqlite3.connect(database)
     cur = con.cursor()
     glist = []
-    #sql = "SELECT galleryname FROM allGalleries WHERE visible = 1"
-    sql = "SELECT name FROM sqlite_master WHERE type='table'"
+    sql = "SELECT year FROM allGalleries WHERE visible = 1"
     for table in cur.execute(sql).fetchall():
         glist.append(table[0])
     return glist
@@ -120,8 +122,7 @@ def getInvisibleGalleries():
     con = sqlite3.connect(database)
     cur = con.cursor()
     glist = []
-    #sql = "SELECT galleryname FROM allGalleries WHERE visible = 0"
-    sql = "SELECT name FROM sqlite_master WHERE type='table'"
+    sql = "SELECT year FROM allGalleries WHERE visible = 0"
     for table in cur.execute(sql).fetchall():
         glist.append(table[0])
     return glist

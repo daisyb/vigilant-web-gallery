@@ -152,13 +152,13 @@ def getAllGalleries():            #returns a list of the names of all the galler
         glist.append(table[0])
     return glist
     
-def storeNewImage(galleryname, title):      #inserts the info into galleryname table
+def storeNewImage(galleryname, foldername, uploadername):      #inserts the info into galleryname table
     con = sqlite3.connect(database)
     cur=con.cursor()
-    imagepath = "uploads" + "/" + galleryname + "/" + title + "/image.png"
-    thumbnailpath = "uploads" + "/" + galleryname + "/" + title + "/thumbnail.png"
-    codepath = "uploads" + "/" + galleryname + "/" + title + "/code.txt"
-    sql = "INSERT INTO " + galleryname + "(title, imagepath, thumbnailpath, codepath) VALUES(\"%s\",\"%s\",\"%s\",\"%s\")" % (title, imagepath, thumbnailpath, codepath)
+    imagepath = "uploads" + "/" + galleryname + "/" + foldername + "/image.png"
+    thumbnailpath = "uploads" + "/" + galleryname + "/" + foldername + "/thumbnail.png"
+    codepath = "uploads" + "/" + galleryname + "/" + foldername + "/code.txt"
+    sql = "INSERT INTO " + galleryname + "(title, imagepath, thumbnailpath, codepath) VALUES(\"%s\",\"%s\",\"%s\",\"%s\")" % (uploadername, imagepath, thumbnailpath, codepath)
     try:
         cur.execute(sql)
         con.commit()

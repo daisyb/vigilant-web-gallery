@@ -3,8 +3,7 @@ import json
 from datetime import date
 import PythonMagick
 
-#database = "/var/www/vigilantwebgallery/vigilantwebgallery/imagegallery.db"
-database = "imagegallery.db"
+database = os.path.dirname(__file__) + "/imagegallery.db"
 
 def Crop(image, x1, y1, w, h):
     img = PythonMagick.Image(image) # make a copy

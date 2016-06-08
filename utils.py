@@ -73,8 +73,11 @@ def getSampleImages():  #gets one image from each gallery
     cur = con.cursor()
     for galleryname in glist:
         sql = "SELECT thumbnailpath FROM "+ galleryname +" where ROWID = 1"
-        thumbnailpath = cur.execute(sql).fetchall()[0]
+        thumbnailpath = cur.execute(sql).fetchall()[0]   #I may need another [0]
         sampledict[galleryname] = thumbnailpath
+    for galleryname in glist:
+        if (galleryname not in sampledict.keys()):
+            sampledict[galleryname] = "static\images\thluffy-big.png"
     return sampledict
 
 

@@ -109,6 +109,26 @@ def makeGalleriesInvisible(year):
     con.commit()
     con.close()
     
+def getVisibleGalleries():
+    con = sqlite3.connect(database)
+    cur = con.cursor()
+    glist = []
+    #sql = "SELECT galleryname FROM allGalleries WHERE visible = 1"
+    sql = "SELECT name FROM sqlite_master WHERE type='table'"
+    for table in cur.execute(sql).fetchall():
+        glist.append(table[0])
+    return glist
+
+def getInvisibleGalleries():
+    con = sqlite3.connect(database)
+    cur = con.cursor()
+    glist = []
+    #sql = "SELECT galleryname FROM allGalleries WHERE visible = 0"
+    sql = "SELECT name FROM sqlite_master WHERE type='table'"
+    for table in cur.execute(sql).fetchall():
+        glist.append(table[0])
+    return glist
+
 
 def getGallery(galleryname):      #basically gets everything for you, as a list of dictionaries, containing title, imagepath, thumbnailpath, and githublink
     con = sqlite3.connect(database)

@@ -63,7 +63,7 @@ def limitSize(imagepath):
     return True
 
 def getSampleImages():  #gets one image from each gallery
-    sampledict = {}
+    sampledict = []
     glist = getAllGalleries()
 
     con = sqlite3.connect(database)
@@ -71,10 +71,10 @@ def getSampleImages():  #gets one image from each gallery
     for galleryname in glist:
         sql = "SELECT thumbnailpath FROM "+ galleryname +" where ROWID = 1"
         thumbnailpath = cur.execute(sql).fetchall()[0]   #I may need another [0]
-        sampledict[galleryname] = thumbnailpath
+        sampledict.append([galleryname,thumbnailpath])
     for galleryname in glist:
         if (galleryname not in sampledict.keys()):
-            sampledict[galleryname] = "static\images\thluffy-big.png"
+            sampledict.append([galleryname,"static/images/thluffy-big.png"])
     return sampledict
 
 

@@ -75,6 +75,11 @@ def upload():
             return redirect(url_for("gallery",g=gallname))
 
 
+@app.route("/getsamples")
+def getsamples():
+    d = utils.getSampleImages()
+    return json.dumps(d)
+
 
 @app.route("/getimages", methods=['POST'])
 def getimages():
@@ -172,6 +177,20 @@ def unarchivegalleries(key,year):
     if key == "nyang":
         utils.makeGalleriesInvisible(year)
         return "success"
+    return "Error"
+
+@app.route("/getInvisibleGalleries/<key>")
+def getInvisibleGalleries(key):
+    if key == "nyang":
+        gn = utils.getInvisibleGalleries()
+        return json.dumps(gn)
+    return "Error"
+
+@app.route("/getVisibleGalleries/<key>")
+def getVisibleGalleries(key):
+    if key == "nyang":
+        gn = utils.getVisibleGalleries()
+        return json.dumps(gn)
     return "Error"
 
 #@app.route("/getcode", methods=['POST'])

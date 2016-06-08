@@ -155,9 +155,9 @@ def getAllGalleries():            #returns a list of the names of all the galler
 def storeNewImage(galleryname, title):      #inserts the info into galleryname table
     con = sqlite3.connect(database)
     cur=con.cursor()
-    imagepath = galleryname + "/" + title + "/image.png"
-    thumbnailpath = galleryname + "/" + title + "/thumbnail.png"
-    codepath = galleryname + "/" + title + "/code.txt"
+    imagepath = "uploads" + "/" + galleryname + "/" + title + "/image.png"
+    thumbnailpath = "uploads" + "/" + galleryname + "/" + title + "/thumbnail.png"
+    codepath = "uploads" + "/" + galleryname + "/" + title + "/code.txt"
     sql = "INSERT INTO " + galleryname + "(title, imagepath, thumbnailpath, codepath) VALUES(\"%s\",\"%s\",\"%s\",\"%s\")" % (title, imagepath, thumbnailpath, codepath)
     try:
         cur.execute(sql)

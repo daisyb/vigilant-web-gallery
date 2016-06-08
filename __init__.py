@@ -64,7 +64,7 @@ def upload():
             imagepath = os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "image.png")
             os.rename(temppath, imagepath)
             print "file saved"
-            utils.storeNewImage(gallname,foldername)
+            utils.storeNewImage(gallname,request.form['name'])
             print "image stored"
             utils.limitSize(imagepath) #,os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "thumbnail.png"))
             utils.createThumbnail(imagepath)

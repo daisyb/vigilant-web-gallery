@@ -149,7 +149,8 @@ def getAllGalleries():            #returns a list of the names of all the galler
     #sql = "SELECT galleryname FROM allGalleries"
     sql = "SELECT name FROM sqlite_master WHERE type='table'"
     for table in cur.execute(sql).fetchall():
-        glist.append(table[0])
+        if table[0] != "allGalleries":
+            glist.append(table[0])
     return glist
     
 def storeNewImage(galleryname, foldername, uploadername):      #inserts the info into galleryname table

@@ -143,12 +143,13 @@ def storeNewImage(galleryname, title):      #inserts the info into galleryname t
     sql = "INSERT INTO " + galleryname + "(title, imagepath, thumbnailpath, codepath) VALUES(\"%s\",\"%s\",\"%s\",\"%s\")" % (title, imagepath, thumbnailpath, codepath)
     try:
         cur.execute(sql)
+        rowid = cursor.lastrowid
         con.commit()
         con.close()
-        print "worked"
-        return True
+        #print "worked"
+        return rowid
     except sqlite3.Error as e:
-        print "failed"
+        #print "failed"
         print e
         con.close()
         return False

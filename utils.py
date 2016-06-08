@@ -3,8 +3,7 @@ import json
 from datetime import date
 import PythonMagick
 
-database = "/var/www/vigilantwebgallery/vigilantwebgallery/imagegallery.db"
-#database = "imagegallery.db"
+database = os.path.dirname(__file__) + "/imagegallery.db"
 
 def Crop(image, x1, y1, w, h):
     img = PythonMagick.Image(image) # make a copy
@@ -43,10 +42,12 @@ def createThumbnail(imagepath):   #just returns True for now. creates a thumbnai
     image = Resize(image, new_size, new_size)
     #image.resize("{}x{}".format(new_size, new_size))
     #image.resize(new_size, new_size)
-    image.write("thumbnail.png")
+    newpath = str(imagepath)[:-9]
+    newpath += "thumbnail.png"
+    image.write(newpath)
     return True
 
-def limitSize(imagepath,folderpath):
+def limitSize(imagepath):
     print imagepath 
     image = PythonMagick.Image(str(imagepath))
     geometry = image.size()
@@ -57,20 +58,22 @@ def limitSize(imagepath,folderpath):
         image = Resize(image, new_size, new_size)
         #image.resize("{}x{}".format(new_size, new_size))
         #image.resize(new_size, new_size)
-    
-    image.write(str(folderpath))
+        image.write(str(imagepath))
     return True
 
 def getSampleImages():  #gets one image from each gallery
-    sampledict = {}
+    sampledict = []
     glist = getAllGalleries()
 
     con = sqlite3.connect(database)
     cur = con.cursor()
     for galleryname in glist:
         sql = "SELECT thumbnailpath FROM "+ galleryname +" where ROWID = 1"
-        thumbnailpath = cur.execute(sql).fetchall()[0]
-        sampledict[galleryname] = thumbnailpath
+        thumbnailpath = cur.execute(sql).fetchall()[0]   #I may need another [0]
+        sampledict.append([galleryname,thumbnailpath])
+    for galleryname in glist:
+        if (galleryname not in sampledict.keys()):
+            sampledict.append([galleryname,"static/images/thluffy-big.png"])
     return sampledict
 
 
@@ -105,6 +108,24 @@ def makeGalleriesInvisible(year):
     con.commit()
     con.close()
     
+def getVisibleGalleries():
+    con = sqlite3.connect(database)
+    cur = con.cursor()
+    glist = []
+    sql = "SELECT year FROM allGalleries WHERE visible = 1"
+    for table in cur.execute(sql).fetchall():
+        glist.append(table[0])
+    return glist
+
+def getInvisibleGalleries():
+    con = sqlite3.connect(database)
+    cur = con.cursor()
+    glist = []
+    sql = "SELECT year FROM allGalleries WHERE visible = 0"
+    for table in cur.execute(sql).fetchall():
+        glist.append(table[0])
+    return glist
+
 
 def getGallery(galleryname):      #basically gets everything for you, as a list of dictionaries, containing title, imagepath, thumbnailpath, and githublink
     con = sqlite3.connect(database)
@@ -127,24 +148,25 @@ def getAllGalleries():            #returns a list of the names of all the galler
     sql = "SELECT galleryname FROM allGalleries"
     #sql = "SELECT name FROM sqlite_master WHERE type='table'"
     for table in cur.execute(sql).fetchall():
-        glist.append(table[0])
+        if table[0] != "allGalleries":
+            glist.append(table[0])
     return glist
     
-def storeNewImage(galleryname, title):      #inserts the info into galleryname table
+def storeNewImage(galleryname, foldername, uploadername):      #inserts the info into galleryname table
     con = sqlite3.connect(database)
     cur=con.cursor()
-    imagepath = galleryname + "/" + title + "/image.png"
-    thumbnailpath = galleryname + "/" + title + "/thumbnail.png"
-    codepath = galleryname + "/" + title + "/code.txt"
-    sql = "INSERT INTO " + galleryname + "(title, imagepath, thumbnailpath, codepath) VALUES(\"%s\",\"%s\",\"%s\",\"%s\")" % (title, imagepath, thumbnailpath, codepath)
+    imagepath = "uploads" + "/" + galleryname + "/" + foldername + "/image.png"
+    thumbnailpath = "uploads" + "/" + galleryname + "/" + foldername + "/thumbnail.png"
+    codepath = "uploads" + "/" + galleryname + "/" + foldername + "/code.txt"
+    sql = "INSERT INTO " + galleryname + "(title, imagepath, thumbnailpath, codepath) VALUES(\"%s\",\"%s\",\"%s\",\"%s\")" % (uploadername, imagepath, thumbnailpath, codepath)
     try:
         cur.execute(sql)
         con.commit()
         con.close()
-        print "worked"
+        #print "worked"
         return True
     except sqlite3.Error as e:
-        print "failed"
+        #print "failed"
         print e
         con.close()
         return False

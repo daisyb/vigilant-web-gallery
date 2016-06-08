@@ -10,11 +10,16 @@
     <meta charset="UTF-8"/>
   </head>
   <body>
-    <div id="nav-top" class="hidden">
+    <div id="nav-top">
       <span id="threelines" onclick="toggleBar(sNav)">&#9776;</span>
       <span style="padding-left:45%"><a href="/home"><img src="../static/images/thluffy.png"></a></span>
     </div>
-    
+    <script>
+     if (document.documentElement.clientWidth > 1300){
+	 document.getElementById("nav-top").className = "hidden";
+     }
+    </script>
+
     <div id="nav-side">
       <a href="/home"><img src="../static/images/thluffy-big.png"/></a>
       <ul>
@@ -31,6 +36,7 @@
 	{% endfor %}
       </ul>
     </div>
+
     <script src="../static/js/base.js"></script>
     <div class="main">
       {% block contents %}

@@ -28,7 +28,7 @@ div.thumbnail {
     text-shadow: 1px 1px 1px #000000;
     font-family: "Trebuchet MS", Helvetica, sans-serif;
     text-align: center;
-
+    z-index: 10;
 }
 
 .thumbnail img {
@@ -67,6 +67,7 @@ div.thumbnail {
     background: -ms-linear-gradient( rgba(0,0,0,0) 0%,rgba(0,0,0,1) 56%,rgba(0,0,0,1) 100%);
     background: linear-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,.8) 50%,rgba(0,0,0,1) 100%);
 
+    z-index: 10;
 }
 
 
@@ -80,7 +81,7 @@ div.thumbnail {
     bottom: 0;
     left: 0;
     right: 0;
-    
+    z-index: 80;
     
     visibility: hidden;
 }
@@ -117,7 +118,7 @@ div.thumbnail {
     right: 0;	
     z-index: 100;
 
-    max-width:400px;
+    max-width:600px;
     width:70%;
     height: 70%;
     overflow:scroll;
@@ -207,9 +208,7 @@ be desirable for everything.Just a heads up.
 */
 
 #upload {
-    width: 80%;
-    height: 20%;
-    margin: auto;
+    margin: 30px 0px 30px 6%;
     border-left: thin solid #999;
 
     /*text*/
@@ -222,7 +221,7 @@ be desirable for everything.Just a heads up.
 
 fieldset {
     position: relative;
-    margin: 80px 0px 0px 50px;
+    margin: 0px 0px 0px 50px;
     border: none;
     
 }

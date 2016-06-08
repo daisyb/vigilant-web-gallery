@@ -1,0 +1,10 @@
+function getThumbs() {
+    console.log('getThumbs');
+    $.get('/getsamples', function(e) {
+	console.log('getsamples');
+	
+    });
+};
+
+
+window.onload = getThumbs();

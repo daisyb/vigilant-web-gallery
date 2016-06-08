@@ -1,3 +1,5 @@
+var globalPaths;
+var pathIndex;
 
 function getThumbs() {
     console.log('getThumbs');
@@ -7,52 +9,27 @@ function getThumbs() {
 	type: 'POST',
 	success: function(e) {
 	    var paths=JSON.parse(e);
+	    globalPaths = paths;
 	    for(i in paths){
 		var img = new Image();
 		console.log(paths[i]['thumbnailpath']);
 		img.src = "../static/" + paths[i]['thumbnailpath'];
 		img.alt = paths[i]['title'];
-		img.onclick=function(){
-		    $(".gradientBox").css("visibility","visible");
-		    editGradientContents(paths[i]['title'],
-					 paths[i]['imagepath'],
-					 paths[i]['codepath']); 
-		    if(count > 0 && count < paths.length - 1){
-			$("#leftA").click(function(){
-			    editGradientContents(paths[i-1]['title'],
-						 paths[i-1]['imagepath'],
-						 paths[i-1]['codepath']);
-			});
-			$("#rightA").click(function(){
-			    editGradientContents(paths[i+1]['title'],
-						 paths[i+1]['imagepath'],
-						 paths[i+1]['codepath']);
-			});
-		    };
-		    
-		    if(count == 0){
-			$("#rightA").click(function(){
-			    editGradientContents(paths[i+1]['title'],
-						 paths[i+1]['imagepath'],
-						 paths[i+1]['codepath']);
-			});
-		    };
-		    if(count == paths.length -1){
-		    	$("#leftA").click(function(){
-			     editGradientContents(paths[i-1]['title'],
-						  paths[i-1]['imagepath'],
-						  paths[i-1]['codepath']);
-		    	});
-		    };	
-		};
-		
-		console.log(i);
+		img.onclick = function(num){
+		    return function() {
+			num = parseInt(num);
+			$(".gradientBox").css("visibility","visible");
+			editGradientContents(paths[num]);
+			pathIndex = num;
+		    }
+		}(i)
 		console.log(img.src);
 		$(".main").append("<div class='thumbnail' id='d" + i.toString() + "'></div>");
 		document.getElementById("d"+i.toString()).appendChild(img);
 		$("#d" + i.toString()).append("<div class='imgTitle'>" + paths[i]['title'] +
-					    "</div>");
+					      "</div>");
 	    };
+	    jsIsDumb(paths);
 	},
 	error: function(error) {
 	    console.log(error);
@@ -87,10 +64,27 @@ $(".gradientBox").click(function(e){
      e.stopPropagation();
  });
 
+var editGradientContents = function(path){
+    imgPath = "../static/" + path['imagepath'] + "?" + new Date().getTime();
+    codePath = "../static/" + path['codepath'] + "?" + new Date().getTime();
+    imgName = path['title'];
 
-var editGradientContents = function(imgName, imgPath, codePath){
     $("#name").text(imgName);
-    $("#currentImg").attr("src", "../static/" + imgPath);
-    $("#currentCode").attr("src","../static/" + codePath);
+    $("#currentImg").attr("src",  imgPath);
+    $("#currentCode").attr("src", codePath);
 }
 
+$("#leftA").click(function(){
+    console.log("hello");
+    if (pathIndex != 0){
+	pathIndex -= 1;
+	editGradientContents(globalPaths[pathIndex]);
+    }
+});
+
+$("#rightA").click(function(){
+    if (pathIndex < globalPaths.length -1){
+	pathIndex += 1;
+	editGradientContents(globalPaths[pathIndex]);
+    };
+});

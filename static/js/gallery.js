@@ -15,17 +15,17 @@ function getThumbs() {
 		img.onclick=function(){
 		    $(".gradientBox").css("visibility","visible");
 		    editGradientContents(paths[i]['title'],
-					 "../static/" + paths[i]['imagepath'],
+					 paths[i]['imagepath'],
 					 paths[i]['codepath']); 
 		    if(count > 0 && count < paths.length - 1){
 			$("#leftA").click(function(){
 			    editGradientContents(paths[i-1]['title'],
-						 "../static/" + paths[i-1]['imagepath'],
+						 paths[i-1]['imagepath'],
 						 paths[i-1]['codepath']);
 			});
 			$("#rightA").click(function(){
 			    editGradientContents(paths[i+1]['title'],
-						 "../static/" + paths[i+1]['imagepath'],
+						 paths[i+1]['imagepath'],
 						 paths[i+1]['codepath']);
 			});
 		    };
@@ -33,14 +33,14 @@ function getThumbs() {
 		    if(count == 0){
 			$("#rightA").click(function(){
 			    editGradientContents(paths[i+1]['title'],
-						 "../static/" + paths[i+1]['imagepath'],
+						 paths[i+1]['imagepath'],
 						 paths[i+1]['codepath']);
 			});
 		    };
 		    if(count == paths.length -1){
 		    	$("#leftA").click(function(){
 			     editGradientContents(paths[i-1]['title'],
-						  "../static/" + paths[i-1]['imagepath'],
+						  paths[i-1]['imagepath'],
 						  paths[i-1]['codepath']);
 		    	});
 		    };	
@@ -90,7 +90,7 @@ $(".gradientBox").click(function(e){
 
 var editGradientContents = function(imgName, imgPath, codePath){
     $("#name").text(imgName);
-    $("#currentImg").attr("src",imgPath);
-    $("#currentCode").attr("src",codePath);
+    $("#currentImg").attr("src", "../static/" + imgPath);
+    $("#currentCode").attr("src","../static/" + codePath);
 }
 

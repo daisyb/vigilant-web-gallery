@@ -5,13 +5,15 @@ import os
 from flask import Flask, render_template, session, request, redirect, url_for
 from werkzeug.utils import secure_filename
 #from database import *
+import uuid
+import time
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = 'static'
+UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = set(['txt', 'png', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024 #max filesize limit of 10mb
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 #max filesize limit of 10mb
 
 @app.route("/")
 @app.route("/home")
@@ -37,28 +39,36 @@ def upload():
         gn = utils.getAllGalleries()
         return render_template("upload.html", gallerynames=gn, galleries=gn)
     else: 
-        print request.form
-        #tmp = request.files['file']
-        #tmp = tmp.read()
-        #print len(tmp)
+        #print request.form
         file = request.files['file']
         gallname = request.form['Gallery']
         code = request.form['code']
-        print gallname
+        #print gallname
         if file and allowed_file(file.filename): #is a valid file type
             print "is valid file"
-            foldername = secure_filename(request.form['name'] ) #prevents security exploits
+            tempname = str(uuid.uuid4())
+            temppath = os.path.join('temp',tempname)
+            file.save(temppath) #file is saved as temp
+            sizeoftemp = os.path.getsize(temppath)
+            if sizeoftemp > 10 * 1024 * 1024 and file.filename[-4:] == ".gif":
+                print "error" #error message .gif too large
+            elif sizeoftemp > 5 * 1024 * 1024 and file.filename[-4:] == ".png":
+                print "error" #error message .png too large
+            else:
+                print "file size is permissible."
+            foldername = secure_filename(request.form['name'] + "_" + str(int(time.time()))) #sets foldername to first_last_timestamp
             #print os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename)
             finalpath = os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername)
             if not os.path.exists(finalpath):
                 os.makedirs(finalpath)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "image.png"))
+            imagepath = os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "image.png")
+            os.rename(temppath, imagepath)
             print "file saved"
             utils.storeNewImage(gallname,foldername)
             print "image stored"
-            utils.limitSize(os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "image.png"),os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "thumbnail.png"))
-            #utils.createThumbnail(os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename))
-            #print "thumbnail created"
+            utils.limitSize(imagepath) #,os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "thumbnail.png"))
+            utils.createThumbnail(imagepath)
+            print "thumbnail created"
             f = open(os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "code.txt"), 'w')
             f.write(code)
             f.close()

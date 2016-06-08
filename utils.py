@@ -48,7 +48,7 @@ def createThumbnail(imagepath):   #just returns True for now. creates a thumbnai
     image.write(newpath)
     return True
 
-def limitSize(imagepath,folderpath):
+def limitSize(imagepath):
     print imagepath 
     image = PythonMagick.Image(str(imagepath))
     geometry = image.size()
@@ -59,10 +59,7 @@ def limitSize(imagepath,folderpath):
         image = Resize(image, new_size, new_size)
         #image.resize("{}x{}".format(new_size, new_size))
         #image.resize(new_size, new_size)
-    
-    newpath = str(imagepath)[:-9]
-    newpath += "thumbnail.png"
-    image.write(newpath)
+        image.write(imagepath)
     return True
 
 def getSampleImages():  #gets one image from each gallery
@@ -163,11 +160,10 @@ def storeNewImage(galleryname, title):      #inserts the info into galleryname t
     sql = "INSERT INTO " + galleryname + "(title, imagepath, thumbnailpath, codepath) VALUES(\"%s\",\"%s\",\"%s\",\"%s\")" % (title, imagepath, thumbnailpath, codepath)
     try:
         cur.execute(sql)
-        rowid = cursor.lastrowid
         con.commit()
         con.close()
         #print "worked"
-        return rowid
+        return True
     except sqlite3.Error as e:
         #print "failed"
         print e

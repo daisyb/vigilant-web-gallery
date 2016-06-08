@@ -59,7 +59,7 @@ def limitSize(imagepath):
         image = Resize(image, new_size, new_size)
         #image.resize("{}x{}".format(new_size, new_size))
         #image.resize(new_size, new_size)
-        image.write(imagepath)
+        image.write(str(imagepath))
     return True
 
 def getSampleImages():  #gets one image from each gallery

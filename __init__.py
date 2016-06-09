@@ -141,6 +141,7 @@ def getimagename(key,name):
 def deleteimage(key,gallery,name):
     if key == "nyang":
         if gallery in utils.getAllGalleries():
+            g = utils.getGallery(gallery)
             temp =[]
             for i in g:
                 temp.append(i['title'])

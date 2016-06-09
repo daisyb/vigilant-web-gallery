@@ -195,7 +195,7 @@ def getThumbnailPaths(galleryname):
 def deleteImage(galleryname, title):
     con = sqlite3.connect(database)
     cur = con.cursor()
-    sql = "DELETE FROM " + galleryname + " WHERE title = " + title
+    sql = "DELETE FROM " + galleryname + " WHERE title = '" + title + "'"
     cur.execute(sql)
     con.commit()
     con.close()
@@ -207,7 +207,7 @@ def deleteGallery(galleryname):
     sql = "DROP TABLE " + galleryname
     cur.execute(sql)
     
-    sql = "DELETE FROM allGalleries WHERE galleryname = " + galleryname
+    sql = "DELETE FROM allGalleries WHERE galleryname = '" + galleryname + "'"
     cur.execute(sql)
     con.commit()
     con.close()

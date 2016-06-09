@@ -29,7 +29,6 @@ function getThumbs() {
 		$("#d" + i.toString()).append("<div class='imgTitle'>" + paths[i]['title'] +
 					      "</div>");
 	    };
-	    jsIsDumb(paths);
 	},
 	error: function(error) {
 	    console.log(error);
@@ -78,13 +77,17 @@ $("#leftA").click(function(){
     console.log("hello");
     if (pathIndex != 0){
 	pathIndex -= 1;
-	editGradientContents(globalPaths[pathIndex]);
+    } else {
+	pathIndex = globalPaths.length -1;
     }
+    editGradientContents(globalPaths[pathIndex]);
 });
 
 $("#rightA").click(function(){
     if (pathIndex < globalPaths.length -1){
 	pathIndex += 1;
-	editGradientContents(globalPaths[pathIndex]);
-    };
+    } else {
+	pathIndex = 0;
+    }
+    editGradientContents(globalPaths[pathIndex]);
 });

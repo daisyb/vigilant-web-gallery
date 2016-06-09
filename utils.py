@@ -2,6 +2,7 @@ import sqlite3
 import json
 from datetime import date
 import PythonMagick
+import os
 
 database = os.path.dirname(__file__) + "/imagegallery.db"
 

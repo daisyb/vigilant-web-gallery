@@ -204,12 +204,10 @@ def deleteGallery(galleryname):
     con = sqlite3.connect(database)
     cur = con.cursor()
     sql = "DROP TABLE " + galleryname
-    
     cur.execute(sql)
 
-    sql = "DELETE FROM " + allGalleries + " WHERE galleryname = " + galleryname
+    sql = "DELETE FROM allGalleries WHERE galleryname = " + galleryname
     cur.execute(sql)
-    
     con.commit()
     con.close()
     return True

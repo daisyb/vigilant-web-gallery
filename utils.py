@@ -69,12 +69,12 @@ def getSampleImages():  #gets one image from each gallery
     con = sqlite3.connect(database)
     cur = con.cursor()
     for galleryname in glist:
-        sql = "SELECT thumbnailpath FROM "+ galleryname +" where ROWID = 1"
-        thumbnailpath = cur.execute(sql).fetchall()[0]   #I may need another [0]
-        sampledict.append([galleryname,thumbnailpath])
-    for galleryname in glist:
-        if (galleryname not in sampledict.keys()):
-            sampledict.append([galleryname,"static/images/thluffy-big.png"])
+        try:
+            sql = "SELECT thumbnailpath FROM "+ galleryname +" where ROWID = 1"
+            thumbnailpath = cur.execute(sql).fetchall()[0]   #I may need another [0]
+            sampledict.append([galleryname,thumbnailpath])
+        except IndexError:
+            sampledict.append([galleryname,"images/thluffy-big.png"])
     return sampledict
 
 

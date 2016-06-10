@@ -120,7 +120,7 @@ def createNewGallery(galleryname):
         cur.execute(sql)
         con.commit()
         con.close()
-        os.makedirs(image_path  + str(currentyear) + "/" + galleryname)
+       
         return True
     
 def makeGalleriesVisible(year):
@@ -186,17 +186,17 @@ def getAllGalleries():            #returns a list of the names of all the galler
     return glist
 
 
-def deleteGallery(galleryname):
+def deleteGallery(galleryname, year):
     if gallery_exists(galleryname):
         con = sqlite3.connect(database)
         cur = con.cursor()
         sql = "DROP TABLE " + galleryname
         cur.execute(sql)
-        sql = "DELETE FROM allGalleries WHERE galleryname = '" + galleryname + "'"
+        sql = "DELETE FROM allGalleries WHERE galleryname = '" + galleryname + "' AND year = '" + year + "' "
         cur.execute(sql)
         con.commit()
         con.close()
-        shutil.rmtree(flask_path + "/images")
+        shutil.rmtree(image_path + year + "/images")
         return True
     else:
         return False
@@ -251,6 +251,7 @@ def deleteImage(galleryname, title):
         cur.execute(sql)
         con.commit()
         con.close()
+        shutil.rmtree(image_path + year + "/" + galleryname + "/" + title)
         return True
     return False
 

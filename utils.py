@@ -1,12 +1,12 @@
 import sqlite3
 import json
 from datetime import date
-#import PythonMagick
+import PythonMagick
 import os, shutil
 
 flask_path = os.path.dirname(__file__) 
-database =flask_path + "imagegallery.db"
-image_path = flask_path + "static/uploads/"
+database =flask_path + "/imagegallery.db"
+image_path = flask_path + "/static/uploads/"
 
 '''
 allGalleries:
@@ -181,8 +181,7 @@ def getAllGalleries():            #returns a list of the names of all the galler
     sql = "SELECT galleryname FROM allGalleries"
     #sql = "SELECT name FROM sqlite_master WHERE type='table'"
     for table in cur.execute(sql).fetchall():
-        if table[0] != "allGalleries":
-            glist.append(table[0])
+        glist.append(table[0])
     return glist
 
 
@@ -204,10 +203,13 @@ def deleteGallery(galleryname, year):
 
 
 # <---------------------------------------- Images ---------------------------------------->
-def storeNewImage(galleryname, foldername, uploadername):      #inserts the info into galleryname table
+def storeNewImage(galleryname, foldername, uploadername, ispng):      #inserts the info into galleryname table
     con = sqlite3.connect(database)
     cur=con.cursor()
-    imagepath = "uploads" + "/" + galleryname + "/" + foldername + "/image.png"
+    if ispng:
+        imagepath = "uploads" + "/" + galleryname + "/" + foldername + "/image.png"
+    else:
+        imagepath = "uploads" + "/" + galleryname + "/" + foldername + "/image.gif"
     thumbnailpath = "uploads" + "/" + galleryname + "/" + foldername + "/thumbnail.png"
     codepath = "uploads" + "/" + galleryname + "/" + foldername + "/code.txt"
     sql = "INSERT INTO " + galleryname + "(title, imagepath, thumbnailpath, codepath) VALUES(\"%s\",\"%s\",\"%s\",\"%s\")" % (uploadername, imagepath, thumbnailpath, codepath)

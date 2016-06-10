@@ -126,25 +126,26 @@ def get_all_galleries():
     sql = "SELECT DISTINCT gallery, year FROM images"
     return screw_tuples(run_sql(sql).fetchall())
 
-def add_gallery(year, gallery, time, name):
+def add_gallery(year, gallery, name):
 
     if gallery_exists(year, gallery):
         return False
     else:
-        gallery_path =  upload_path +  "/" + str(year) +  "/" + time + name
+        gallery_path =  upload_path +  "/" + str(year) +  "/"  + name
         sql = "INSERT INTO images VALUES ('', '"+ gallery + "', " + str(year) + ", '"+ "', '.png', 0, 0)"
         insert(sql)
         os.makedirs(gallery_path)
 
 
-def add_image(year, gallery, name, filetype):
+def add_image(year, gallery, name, filetype, foldername, temppath):
     if image_exists(year, gallery, name):
         return False
-    image_path = upload_path  + str(year) + "/" + gallery + "/" + name
+    image_path = upload_path  + str(year) + "/" + gallery + "/" + foldername
     sql = "INSERT INTO images VALUES ('" + name + "', '" + gallery + "', " + str(year) + ", '" + image_path + "', '" + filetype + "', 1, 0)"
     print sql
     insert(sql)
     os.makedirs(image_path)
+    os.rename(temppath, image_path)
     return True
 
 
@@ -197,3 +198,9 @@ def get_archived_galleries():
 def get_unarchived_galleries():
     return get_galleries_by_archived(0)
         
+
+
+def get_image_paths(gallery):
+    path_query = "SELECT location FROM images WHERE gallery = '" + gallery + "' AND NOT name = '' "
+    return screw_tuples2(run_sql(path_query).fetchall())
+

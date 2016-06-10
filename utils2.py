@@ -1,13 +1,13 @@
 import sqlite3
 import json
 from datetime import date
-#import PythonMagick
+import PythonMagick
 import os, shutil
 
-flask_path = os.path.dirname(__file__) 
-database_path =flask_path + "imagegallery2.db"
+flask_path = os.path.dirname(__file__) + "/"
+database_path = flask_path + "imagegallery2.db"
 upload_path = flask_path + "static/uploads/"
-
+current_year = date.today().year
 '''
 Take 2
 
@@ -28,6 +28,8 @@ def screw_tuples2(shitty_tuple_list):
     return [i[0] for i in shitty_tuple_list]
 
 def run_sql(sql):
+    print "flask path:" + flask_path
+    print "database path:" + database_path
     con = sqlite3.connect(database_path)
     cur = con.cursor()
     return  cur.execute(sql)
@@ -40,9 +42,9 @@ def insert(sql):
     con.close()
 
 def setup_db():
-    setup_table = "CREATE TABLE IF NOT EXISTS images (name TEXT, gallery TEXT, year INTEGER, location TEXT, filetype TEXT, visible INTEGER, archived INTEGER)"
+    setup_table = "CREATE TABLE IF NOT EXISTS images (name TEXT, gallery TEXT, year INTEGER, location TEXT, filetype TEXT, visible INTEGER, archived INTEGER )"
     run_sql(setup_table)
-
+    os.makedirs(upload_path)
 def reload_db():
     run_sql("DROP TABLE images")
     shutil.rmtree(upload_path)
@@ -122,12 +124,15 @@ def get_images_in_gallery(year, gallery):
     sql = "SELECT name FROM images WHERE gallery = '" + gallery + "' AND year ='" + str(year) + "'"
     return run_sql(sql).fetchall()
 
+def get_current_galleries():
+    galleries_query = "SELECT gallery FROM images WHERE name = '' AND year = " + str(current_year)
+    return screw_tuples2(run_sql(galleries_query).fetchall())
+
 def get_all_galleries():
-    sql = "SELECT DISTINCT gallery, year FROM images"
-    return screw_tuples(run_sql(sql).fetchall())
+    galleries_query = "SELECT gallery, year FROM images WHERE name = ''"
+    return screw_tuples(run_sql(galleries_query).fetchall())
 
 def add_gallery(year, gallery):
-
     if gallery_exists(year, gallery):
         return False
     else:
@@ -137,21 +142,22 @@ def add_gallery(year, gallery):
         os.makedirs(gallery_path)
 
 
-def add_image(year, gallery, name, filetype, foldername, temppath):
+def add_image(year, gallery, name, filetype, image_path):
+    # Folder name is different from name cause it has timestamp added
     if image_exists(year, gallery, name):
         return False
-    image_path = upload_path  + str(year) + "/" + gallery + "/" + foldername
     sql = "INSERT INTO images VALUES ('" + name + "', '" + gallery + "', " + str(year) + ", '" + image_path + "', '" + filetype + "', 1, 0)"
     print sql
     insert(sql)
-    os.makedirs(image_path)
-    os.rename(temppath, image_path)
+    if filetype == ".png":
+        limit_size(image_path + "/image" + filetype)
+        create_thumbnail(image_path + "/image" + filetype)
     return True
 
 
 def get_sample_images():  #gets one image from each gallery
     current_year = date.today().year
-    galleries = get_all_galleries()
+    galleries = get_current_galleries()
     out = {}
     for gallery in galleries:
         sql = "SELECT location FROM images WHERE gallery = " + gallery + "AND year = " + str(current_year) +  " AND NOT name = '' ORDER BY RANDOM() LIMIT 1"
@@ -203,4 +209,8 @@ def get_unarchived_galleries():
 def get_image_paths(gallery):
     path_query = "SELECT location FROM images WHERE gallery = '" + gallery + "' AND NOT name = '' "
     return screw_tuples2(run_sql(path_query).fetchall())
+
+def get_images_in_gallery(year, gallery):
+    image_query = "SELECT name FROM images WHERE gallery = '" + gallery + "' "
+    return screw_tuples2(run_sql(image_query).fetchall())
 

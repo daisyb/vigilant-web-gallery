@@ -11,11 +11,11 @@ function getThumbs() {
 	    var paths=JSON.parse(e);
 	    globalPaths = paths;
 	    for(i in paths){
-		var img = new Image();
-		console.log(paths[i]['thumbnailpath']);
-		img.src = "../static/" + paths[i]['thumbnailpath'];
-		img.alt = paths[i]['title'];
-		img.onclick = function(num){
+		      var img = new Image();
+		      console.log(paths[i]);
+		      img.src =  paths[i] + "/thumbnail.png";
+		      img.alt = paths[i]['title'];
+		      img.onclick = function(num){
 		    return function() {
 			num = parseInt(num);
 			$(".gradientBox").css("visibility","visible");

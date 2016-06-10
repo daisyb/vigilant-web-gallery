@@ -1,7 +1,8 @@
 import urllib2,json
 import hashlib
-import utils
+import utils2
 import os
+from datetime import date
 from flask import Flask, render_template, session, request, redirect, url_for
 from werkzeug.utils import secure_filename
 #from database import *
@@ -15,19 +16,19 @@ ALLOWED_EXTENSIONS = set(['png', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 #max filesize limit of 10mb
 flask_path = os.path.dirname(__file__)
-
+upload_path = flask_path + "static/uploads/"
 @app.route("/")
 @app.route("/home")
 def home():
-    gn = utils.getAllGalleries()
+    gn = utils2.get_current_galleries()
     return render_template("home.html",gallerynames=gn)
 
 @app.route("/gallery/<g>")
 def gallery(g):
     if g == None:
         return redirect(url_for("home"))
-    elif g in utils.getAllGalleries():
-        gn = utils.getAllGalleries()
+    elif g in utils2.get_current_galleries():
+        gn = utils2.get_current_galleries()
         return render_template("gallery.html",cgallery=g,gallerynames=gn)
     return redirect(url_for("home")) 
 
@@ -37,15 +38,16 @@ def allowed_file(filename):
 @app.route("/upload",methods=["GET","POST"])
 def upload():
     if request.method == "GET":
-        gn = utils.getAllGalleries()
+        gn = utils2.get_current_galleries()
         return render_template("upload.html", gallerynames=gn, galleries=gn)
     else: 
         #print request.form
         file = request.files['file']
         gallname = request.form['Gallery']
+        image_name = request.form['name']
         code = request.form['code']
-        if request.form['name'] == " " or not request.form['name']:
-            return render_template("error.html", error="Your name cannot be a space.")
+        if image_name == " " or not image_name:
+            return render_template("error.html", error="Enter valid image name")
         #print gallname
         if file and allowed_file(file.filename): #is a valid file type
             print "is valid file"
@@ -58,23 +60,16 @@ def upload():
             elif sizeoftemp > 5 * 1024 * 1024 and file.filename[-4:] == ".png":
                 return render_template("error.html", error="Your file is too large. The maximum allowed file size for a .png is 5 megabytes.")
             else:
-                print "file size is permissible."
-            foldername = secure_filename(request.form['name'] + "_" + str(int(time.time()))) #sets foldername to first_last_timestamp
-            #print os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename)
-            finalpath = os.path.join(flask_path, app.config['UPLOAD_FOLDER'], gallname, foldername)
-            print finalpath
-            if not os.path.exists(finalpath):
-                os.makedirs(finalpath)
-            imagepath = os.path.join(flask_path,app.config['UPLOAD_FOLDER'], gallname, foldername, ("image" + file.filename[-4:]))
-            os.rename(temppath, imagepath)
-            print "file saved"
-            utils.storeNewImage(gallname, foldername, request.form['name'], file.filename[-4:] == ".png")
-            print "image stored"
-            if file.filename[-4:] == ".png":
-                utils.limitSize(imagepath) #,os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "thumbnail.png"))
-                utils.createThumbnail(imagepath)
-                print "thumbnail created"
-            f = open(os.path.join(flask_path, app.config['UPLOAD_FOLDER'], gallname, foldername, "code.txt"), 'w')
+                print "File size is acceptable."
+            foldername = secure_filename(image_name + "_" + str(int(time.time()))) #sets foldername to first_last_timestamp
+            current_year = date.today().year
+            image_path = upload_path  + str(current_year) + "/" + gallname + "/" + foldername
+            utils2.add_image(current_year, gallname, image_name, file.filename[-4:], image_path)
+            os.makedirs(image_path)
+            print "TEMP PATH: "+ temppath
+            print "IMAGE PATH: " + image_path
+            os.rename(temppath, image_path + "/image" + file.filename[-4:])
+            f = open(image_path + "/code.txt", 'w')
             f.write(code)
             f.close()
             return redirect(url_for("gallery",g=gallname))
@@ -83,7 +78,7 @@ def upload():
 
 @app.route("/getsamples")
 def getsamples():
-    d = utils.getSampleImages()
+    d = utils2.get_sample_images()
     return json.dumps(d)
 
 
@@ -96,7 +91,7 @@ def getimages():
         if t[i] != None:
             break
         i-=1
-    d = utils.getImagePaths(t[i])
+    d = utils2.get_image_paths(t[i])
     return json.dumps(d)
 
 @app.route("/getthumbnails", methods=['POST'])
@@ -108,95 +103,79 @@ def getthumbnails():
         if t[i] != None:
             break
         i-=1
-    d = utils.getThumbnailPaths(t[i])
+    d = utils2.get_image_paths(t[i])
     return json.dumps(d)
 
 @app.route("/getall", methods=['POST'])
 def getall():
     q=request.form
     gallery=q['gallery']
-    print gallery
     t = gallery.split('/')
     i = len(t) - 1
     while i >= 0:
         if t[i] != None:
             break
         i-=1
-    d = utils.getGallery(t[i])
+    d = utils2.get_image_paths(t[i])
+    print d
     return json.dumps(d)
 
 
 @app.route("/getgalleries/<key>")
 def getgalleries(key):
     if key == admin_key:
-        gn = utils.getAllGalleries()
+        gn = utils2.get_current_galleries()
         return json.dumps(gn)
     return "Error"
 
-@app.route("/getimagename/<key>/<name>")
-def getimagename(key,name):
+@app.route("/getimagename/<key>/<year>/<gallery>")
+def getimagename(key, year, gallery):
     if key == admin_key:
-        g = utils.getGallery(name)
-        temp = []
-        for i in g:
-            temp.append(i['title'])
-        return json.dumps(temp)
+        g = utils2.get_images_in_gallery(year, gallery)
+        return json.dumps(g)
     return "Error"
 
-@app.route("/deleteimage/<key>/<gallery>/<name>")
-def deleteimage(key,gallery,name):
+@app.route("/deleteimage/<key>/<year>/<gallery>/<name>")
+def deleteimage(key, year, gallery,name):
     if key == admin_key:
-        if gallery in utils.getAllGalleries():
-            g = utils.getGallery(gallery)
-            temp =[]
-            for i in g:
-                temp.append(i['title'])
-            if name in temp:
-                utils.deleteImage(gallery,name)
-                return "success"
+        return utils2.delete_image(year, gallery, name)
     return "Error"
 
-@app.route("/deletegallery/<key>/<gallery>")
-def deletegallery(key,gallery):
+@app.route("/deletegallery/<key>/<year>/<gallery>")
+def deletegallery(key, year, gallery):
     if key == admin_key:
-        if gallery in utils.getAllGalleries():
-            utils.deleteGallery(gallery)
-            return "success"
+        return utils2.delete_gallery(year, gallery)
     return "Error"
 
-@app.route("/creategallery/<key>/<gallery>")
-def creategallery(key,gallery):
+@app.route("/creategallery/<key>/<year>/<gallery>")
+def creategallery(key, year, gallery):
     if key == admin_key:
-        if gallery not in utils.getAllGalleries():
-            utils.createNewGallery(gallery)
-            return "success"
+        utils2.add_gallery(year, gallery)
     return "Error"
 
 @app.route("/archivegalleries/<key>/<year>")
 def archivegalleries(key,year):
     if key == admin_key:
-        utils.makeGalleriesVisible(year)
-        return "success"
+        return utils2.set_archive(year, 1)
     return "Error"
 
 @app.route("/unarchivegalleries/<key>/<year>")
 def unarchivegalleries(key,year):
     if key == admin_key:
-        utils.makeGalleriesInvisible(year)
-        return "success"
+        return utils2.set_archive(year, 0)
     return "Error"
 
 @app.route("/getInvisibleGalleries/<key>")
 def getInvisibleGalleries(key):
     if key == admin_key:
-        gn = utils.getInvisibleGalleries()
+        gn = utils2.get_invisible_galleries()
         return json.dumps(gn)
     return "Error"
 
 @app.route("/getVisibleGalleries/<key>")
 def getVisibleGalleries(key):
     if key == admin_key:
-        gn = utils.getVisibleGalleries()
+        gn = utils2.get_visible_galleries()
         return json.dumps(gn)
     return "Error"
 

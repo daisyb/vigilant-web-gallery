@@ -120,7 +120,7 @@ def createNewGallery(galleryname):
         cur.execute(sql)
         con.commit()
         con.close()
-        os.mkdir(image_path  + galleryname)
+        os.makedirs(image_path  + str(currentyear) + "/" + galleryname)
         return True
     
 def makeGalleriesVisible(year):

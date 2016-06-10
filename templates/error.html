@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block head %}
+<title>ERROR</title>
+{% endblock %}
+{% block contents %}
+
+
+<div id="error">
+      <br>
+	  <h1 class="title">ERROR</h1>
+      <center>
+      <img src="http://i.imgur.com/kgEq4f4.jpg" alt="Z surprised">
+	  <br><br>
+	  <h1> You did something wrong: <br><br>
+	  {{ error }}
+	  </h1>
+	  </center>
+</div>
+
+{% endblock %}

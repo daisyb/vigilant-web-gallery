@@ -44,6 +44,8 @@ def upload():
         file = request.files['file']
         gallname = request.form['Gallery']
         code = request.form['code']
+        if request.form['name'] == " " or not request.form['name']:
+            return render_template("error.html", error="Your name cannot be a space.")
         #print gallname
         if file and allowed_file(file.filename): #is a valid file type
             print "is valid file"
@@ -52,9 +54,9 @@ def upload():
             file.save(temppath) #file is saved as temp
             sizeoftemp = os.path.getsize(temppath)
             if sizeoftemp > 10 * 1024 * 1024 and file.filename[-4:] == ".gif":
-                return "error" #error message .gif too large
+                return render_template("error.html", error="Your file is too large. The maximum allowed file size for a .gif is 10 megabytes.")
             elif sizeoftemp > 5 * 1024 * 1024 and file.filename[-4:] == ".png":
-                return "error" #error message .png too large
+                return render_template("error.html", error="Your file is too large. The maximum allowed file size for a .png is 5 megabytes.")
             else:
                 print "file size is permissible."
             foldername = secure_filename(request.form['name'] + "_" + str(int(time.time()))) #sets foldername to first_last_timestamp
@@ -76,7 +78,8 @@ def upload():
             f.write(code)
             f.close()
             return redirect(url_for("gallery",g=gallname))
-
+        else:
+            return render_template("error.html", error="You did not upload a file or your file name is unacceptable.")
 
 @app.route("/getsamples")
 def getsamples():

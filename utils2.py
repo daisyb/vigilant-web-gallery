@@ -126,12 +126,12 @@ def get_all_galleries():
     sql = "SELECT DISTINCT gallery, year FROM images"
     return screw_tuples(run_sql(sql).fetchall())
 
-def add_gallery(year, gallery, name):
+def add_gallery(year, gallery):
 
     if gallery_exists(year, gallery):
         return False
     else:
-        gallery_path =  upload_path +  "/" + str(year) +  "/"  + name
+        gallery_path =  upload_path +  "/" + str(year) +  "/"  + gallery
         sql = "INSERT INTO images VALUES ('', '"+ gallery + "', " + str(year) + ", '"+ "', '.png', 0, 0)"
         insert(sql)
         os.makedirs(gallery_path)

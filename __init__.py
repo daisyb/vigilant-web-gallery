@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 #from database import *
 import uuid
 import time
-
+admin_key = "mrdwisawesome" # PLEASE CHANGE
 app = Flask(__name__)
 
 UPLOAD_FOLDER = 'static/uploads'
@@ -122,14 +122,14 @@ def getall():
 
 @app.route("/getgalleries/<key>")
 def getgalleries(key):
-    if key == "nyang":
+    if key == admin_key:
         gn = utils.getAllGalleries()
         return json.dumps(gn)
     return "Error"
 
 @app.route("/getimagename/<key>/<name>")
 def getimagename(key,name):
-    if key == "nyang":
+    if key == admin_key:
         g = utils.getGallery(name)
         temp = []
         for i in g:
@@ -139,7 +139,7 @@ def getimagename(key,name):
 
 @app.route("/deleteimage/<key>/<gallery>/<name>")
 def deleteimage(key,gallery,name):
-    if key == "nyang":
+    if key == admin_key:
         if gallery in utils.getAllGalleries():
             g = utils.getGallery(gallery)
             temp =[]
@@ -152,7 +152,7 @@ def deleteimage(key,gallery,name):
 
 @app.route("/deletegallery/<key>/<gallery>")
 def deletegallery(key,gallery):
-    if key == "nyang":
+    if key == admin_key:
         if gallery in utils.getAllGalleries():
             utils.deleteGallery(gallery)
             return "success"
@@ -160,7 +160,7 @@ def deletegallery(key,gallery):
 
 @app.route("/creategallery/<key>/<gallery>")
 def creategallery(key,gallery):
-    if key == "nyang":
+    if key == admin_key:
         if gallery not in utils.getAllGalleries():
             utils.createNewGallery(gallery)
             return "success"
@@ -168,28 +168,28 @@ def creategallery(key,gallery):
 
 @app.route("/archivegalleries/<key>/<year>")
 def archivegalleries(key,year):
-    if key == "nyang":
+    if key == admin_key:
         utils.makeGalleriesVisible(year)
         return "success"
     return "Error"
 
 @app.route("/unarchivegalleries/<key>/<year>")
 def unarchivegalleries(key,year):
-    if key == "nyang":
+    if key == admin_key:
         utils.makeGalleriesInvisible(year)
         return "success"
     return "Error"
 
 @app.route("/getInvisibleGalleries/<key>")
 def getInvisibleGalleries(key):
-    if key == "nyang":
+    if key == admin_key:
         gn = utils.getInvisibleGalleries()
         return json.dumps(gn)
     return "Error"
 
 @app.route("/getVisibleGalleries/<key>")
 def getVisibleGalleries(key):
-    if key == "nyang":
+    if key == admin_key:
         gn = utils.getVisibleGalleries()
         return json.dumps(gn)
     return "Error"

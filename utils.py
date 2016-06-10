@@ -1,11 +1,35 @@
 import sqlite3
 import json
 from datetime import date
-import PythonMagick
-import os
+#import PythonMagick
+import os, shutil
 
-database = os.path.dirname(__file__) + "/imagegallery.db"
+flask_path = os.path.dirname(__file__) 
+database =flask_path + "imagegallery.db"
+image_path = flask_path + "static/uploads/"
 
+'''
+allGalleries:
+
+|   year            | galleryname |   visible     |
+|-------------------|-------------|---------------|
+|  int (4 digit)    | string      |  int (0 or 1) |
+
+gallery:
+
+|  title  |  path  |
+|---------|--------|
+| string  | string |
+'''
+
+# <---------------------------------------- Helper Functions ---------------------------------------->
+def gallery_exists (galleryname):
+    con = sqlite3.connect(database)
+    cur = con.cursor()
+    check_existence = "SELECT CASE WHEN EXISTS ( SELECT * FROM allGalleries WHERE galleryname = '" + galleryname + "' ) THEN CAST(1 AS BIT) ELSE CAST (0 AS BIT) END;"
+    return cur.execute(check_existence).fetchall()[0][0]
+
+# <---------------------------------------- Image Manipulation  ---------------------------------------->
 def Crop(image, x1, y1, w, h):
     img = PythonMagick.Image(image) # make a copy
     rect = "%sx%s+%s+%s" % (w, h, x1, y1)
@@ -77,25 +101,33 @@ def getSampleImages():  #gets one image from each gallery
             sampledict.append([galleryname,"images/thluffy-big.png"])
     return sampledict
 
+# <----------------------------------------  Galleries  ---------------------------------------->
 
-def createNewGallery(galleryname):               #creates a table named galleryname
+def createNewGallery(galleryname):
+    '''
+    Doing this in a little bit different way. Basically gonna check if gallery exists
+    '''
     con = sqlite3.connect(database)
-    
     cur = con.cursor()
-    
-    sql = "CREATE TABLE IF NOT EXISTS "+ galleryname +"(title TEXT, imagepath TEXT, thumbnailpath TEXT, codepath TEXT)"
-    cur.execute(sql)
-    currentyear = date.today().year
-    sql = "INSERT INTO allGalleries(year, galleryname, visible) VALUES(\"%s\",\"%s\",\"%s\")" % (currentyear, galleryname, 1)
-    cur.execute(sql)
-    con.commit()
-    con.close()
 
+    if gallery_exists(galleryname):
+        return False
+    else:
+        sql = "CREATE TABLE IF NOT EXISTS "+ galleryname +"(title TEXT, imagepath TEXT, thumbnailpath TEXT, codepath TEXT)"
+        cur.execute(sql)
+        currentyear = date.today().year
+        sql = "INSERT INTO allGalleries(year, galleryname, visible) VALUES(\"%s\",\"%s\",\"%s\")" % (currentyear, galleryname, 1)
+        cur.execute(sql)
+        con.commit()
+        con.close()
+        os.mkdir(image_path  + galleryname)
+        return True
+    
 def makeGalleriesVisible(year):
     con = sqlite3.connect(database)
     
     cur = con.cursor()
-    sql = "UPDATE allGalleries set visible = 1 where year = " + str(year)
+    sql = "UPDATE allGalleries set visible = 1 WHERE year = " + str(year)
     cur.execute(sql)
     con.commit()
     con.close()
@@ -104,7 +136,7 @@ def makeGalleriesInvisible(year):
     con = sqlite3.connect(database)
     
     cur = con.cursor()
-    sql = "UPDATE allGalleries set visible = 0 where year = " + str(year)
+    sql = "UPDATE allGalleries set visible = 0 WHERE year = " + str(year)
     cur.execute(sql)
     con.commit()
     con.close()
@@ -152,7 +184,26 @@ def getAllGalleries():            #returns a list of the names of all the galler
         if table[0] != "allGalleries":
             glist.append(table[0])
     return glist
-    
+
+
+def deleteGallery(galleryname):
+    if gallery_exists(galleryname):
+        con = sqlite3.connect(database)
+        cur = con.cursor()
+        sql = "DROP TABLE " + galleryname
+        cur.execute(sql)
+        sql = "DELETE FROM allGalleries WHERE galleryname = '" + galleryname + "'"
+        cur.execute(sql)
+        con.commit()
+        con.close()
+        shutil.rmtree(flask_path + "/images")
+        return True
+    else:
+        return False
+
+
+
+# <---------------------------------------- Images ---------------------------------------->
 def storeNewImage(galleryname, foldername, uploadername):      #inserts the info into galleryname table
     con = sqlite3.connect(database)
     cur=con.cursor()
@@ -193,30 +244,19 @@ def getThumbnailPaths(galleryname):
     return thumbnailpaths
 
 def deleteImage(galleryname, title):
-    con = sqlite3.connect(database)
-    cur = con.cursor()
-    sql = "DELETE FROM " + galleryname + " WHERE title = '" + title + "'"
-    cur.execute(sql)
-    con.commit()
-    con.close()
-    return True
-
-def deleteGallery(galleryname):
-    con = sqlite3.connect(database)
-    cur = con.cursor()
-    sql = "DROP TABLE " + galleryname
-    cur.execute(sql)
-    
-    sql = "DELETE FROM allGalleries WHERE galleryname = '" + galleryname + "'"
-    cur.execute(sql)
-    con.commit()
-    con.close()
-    return True
+    if gallery_exists(galleryname):
+        con = sqlite3.connect(database)
+        cur = con.cursor()
+        sql = "DELETE FROM " + galleryname + " WHERE title = '" + title + "'"
+        cur.execute(sql)
+        con.commit()
+        con.close()
+        return True
+    return False
 
 
 
 
-# Just a test function for bash script
 def printGalleries(galleryfunct):
 	galleries = galleryfunct()
 	out = ""

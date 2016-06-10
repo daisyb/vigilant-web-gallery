@@ -14,6 +14,7 @@ UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = set(['txt', 'png', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 #max filesize limit of 10mb
+flask_path = os.path.dirname(__file__)
 
 @app.route("/")
 @app.route("/home")
@@ -47,7 +48,7 @@ def upload():
         if file and allowed_file(file.filename): #is a valid file type
             print "is valid file"
             tempname = str(uuid.uuid4())
-            temppath = os.path.join('temp',tempname)
+            temppath = os.path.join(flask_path, 'temp', tempname)
             file.save(temppath) #file is saved as temp
             sizeoftemp = os.path.getsize(temppath)
             if sizeoftemp > 10 * 1024 * 1024 and file.filename[-4:] == ".gif":
@@ -58,10 +59,11 @@ def upload():
                 print "file size is permissible."
             foldername = secure_filename(request.form['name'] + "_" + str(int(time.time()))) #sets foldername to first_last_timestamp
             #print os.path.join(app.config['UPLOAD_FOLDER'], gallname, filename)
-            finalpath = os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername)
+            finalpath = os.path.join(flask_path, app.config['UPLOAD_FOLDER'], gallname, foldername)
+            print finalpath
             if not os.path.exists(finalpath):
                 os.makedirs(finalpath)
-            imagepath = os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "image.png")
+            imagepath = os.path.join(flask_path,app.config['UPLOAD_FOLDER'], gallname, foldername, "image.png")
             os.rename(temppath, imagepath)
             print "file saved"
             utils.storeNewImage(gallname, foldername, request.form['name'])
@@ -69,7 +71,7 @@ def upload():
             utils.limitSize(imagepath) #,os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "thumbnail.png"))
             utils.createThumbnail(imagepath)
             print "thumbnail created"
-            f = open(os.path.join(app.config['UPLOAD_FOLDER'], gallname, foldername, "code.txt"), 'w')
+            f = open(os.path.join(flask_path, app.config['UPLOAD_FOLDER'], gallname, foldername, "code.txt"), 'w')
             f.write(code)
             f.close()
             return redirect(url_for("gallery",g=gallname))

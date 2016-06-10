@@ -203,10 +203,13 @@ def deleteGallery(galleryname):
 
 
 # <---------------------------------------- Images ---------------------------------------->
-def storeNewImage(galleryname, foldername, uploadername):      #inserts the info into galleryname table
+def storeNewImage(galleryname, foldername, uploadername, ispng):      #inserts the info into galleryname table
     con = sqlite3.connect(database)
     cur=con.cursor()
-    imagepath = "uploads" + "/" + galleryname + "/" + foldername + "/image.png"
+    if ispng:
+        imagepath = "uploads" + "/" + galleryname + "/" + foldername + "/image.png"
+    else:
+        imagepath = "uploads" + "/" + galleryname + "/" + foldername + "/image.gif"
     thumbnailpath = "uploads" + "/" + galleryname + "/" + foldername + "/thumbnail.png"
     codepath = "uploads" + "/" + galleryname + "/" + foldername + "/code.txt"
     sql = "INSERT INTO " + galleryname + "(title, imagepath, thumbnailpath, codepath) VALUES(\"%s\",\"%s\",\"%s\",\"%s\")" % (uploadername, imagepath, thumbnailpath, codepath)

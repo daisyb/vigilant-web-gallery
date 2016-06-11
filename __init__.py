@@ -63,16 +63,22 @@ def upload():
                 print "File size is acceptable."
             foldername = secure_filename(image_name + "_" + str(int(time.time()))) #sets foldername to first_last_timestamp
             current_year = date.today().year
-            image_path = upload_path  + str(current_year) + "/" + gallname + "/" + foldername
-            utils2.add_image(current_year, gallname, image_name, file.filename[-4:], image_path)
-            os.makedirs(image_path)
-            print "TEMP PATH: "+ temppath
-            print "IMAGE PATH: " + image_path
-            os.rename(temppath, image_path + "/image" + file.filename[-4:])
-            f = open(image_path + "/code.txt", 'w')
-            f.write(code)
-            f.close()
-            return redirect(url_for("gallery",g=gallname))
+            image_dir = upload_path  + str(current_year) + "/" + gallname + "/" + foldername
+            print "TEMP FILE PATH: "+ temppath
+            print "IMAGE DIRECTORY: " + image_dir
+            if utils2.add_image(current_year, gallname, image_name, file.filename[-4:], image_dir):
+                os.makedirs(image_dir)
+                image_file_path = image_dir + "/image" + file.filename[-4:]
+                os.rename(temppath, image_file_path)
+                if file.filename[-4:] == ".png":
+                    utils2.limit_size(image_file_path)
+                    utils2.create_thumbnail(image_file_path)
+                f = open(image_dir + "/code.txt", 'w')
+                f.write(code)
+                f.close()
+                return redirect(url_for("gallery",g=gallname))
+            else:
+                return render_template("error.html", error="Failed to write entry to database. An image with the same name likely already exists in that gallery.")
         else:
             return render_template("error.html", error="You did not upload a file or your file name is unacceptable.")
 

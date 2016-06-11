@@ -84,21 +84,21 @@ def create_thumbnail(imagepath):   #just returns True for now. creates a thumbna
     w, h = geometry.width(), geometry.height()
     if (w > h):
         center = w/2
-        image = Crop(image, int(center - h/2), 0, h, h)
+        image = crop(image, int(center - h/2), 0, h, h)
         #image.crop(int((center - h/2)),  #left
         #           0,               #top
         #           int((center + h/2)),  #right
         #           int(h))               #bottom
     else:
         center = h/2
-        image = Crop(image, 0, int(center - w/2), w, w)
+        image = crop(image, 0, int(center - w/2), w, w)
         #image.crop(0,                            #left
         #           int((center - w/2)),               #top
         #           int(w),                            #right
         #           int((center + w/2)))               #bottomimage.crop()
 
     new_size = 175
-    image = Resize(image, new_size, new_size)
+    image = resize(image, new_size, new_size)
     #image.resize("{}x{}".format(new_size, new_size))
     #image.resize(new_size, new_size)
     newpath = str(imagepath)[:-9]
@@ -114,7 +114,7 @@ def limit_size(imagepath):
 
     new_size = 1000
     if (w > new_size or h > new_size):
-        image = Resize(image, new_size, new_size)
+        image = resize(image, new_size, new_size)
         #image.resize("{}x{}".format(new_size, new_size))
         #image.resize(new_size, new_size)
         image.write(str(imagepath))
@@ -149,9 +149,6 @@ def add_image(year, gallery, name, filetype, image_path):
     sql = "INSERT INTO images VALUES ('" + name + "', '" + gallery + "', " + str(year) + ", '" + image_path + "', '" + filetype + "', 1, 0)"
     print sql
     insert(sql)
-    if filetype == ".png":
-        limit_size(image_path + "/image" + filetype)
-        create_thumbnail(image_path + "/image" + filetype)
     return True
 
 

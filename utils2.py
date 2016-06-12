@@ -180,7 +180,7 @@ def get_sample_images():  #gets one image from each gallery
         try:
             dict["path"] = sql_out[0][0]
         except IndexError:
-            dict["path"] = os.path.join( os.path.dirname(__file__), "images")
+            dict["path"] = "static/images"
         out.append(dict)
     return out
     

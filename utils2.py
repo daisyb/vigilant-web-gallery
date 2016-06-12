@@ -204,13 +204,14 @@ def get_unarchived_galleries():
 
 
 def get_image_paths(gallery):
-    path_query = "SELECT name, location FROM images WHERE gallery = '" + gallery + "' AND NOT name = '' "
+    path_query = "SELECT name, location, filetype FROM images WHERE gallery = '" + gallery + "' AND NOT name = '' "
     sql_out = run_sql(path_query).fetchall()
     out = []
     for i in sql_out:
         dict = {}
         dict['name'] = i[0]
         dict['title'] = i[1]
+        dict['filetype'] = i[2]
         out.append(dict)
     return out
     

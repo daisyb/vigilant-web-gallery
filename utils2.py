@@ -28,16 +28,16 @@ def screw_tuples2(shitty_tuple_list):
     return [i[0] for i in shitty_tuple_list]
 
 def run_sql(sql):
-    print "flask path:" + flask_path
-    print "database path:" + database_path
-    file = open(database_path, 'r')
-    print file
-    file.close()
+
+
+
     con = sqlite3.connect(database_path)
     cur = con.cursor()
     return  cur.execute(sql)
 
 def insert(sql):
+    print "database path:" + database_path
+        print "flask path:" + flask_path
     con = sqlite3.connect(database_path)
     cur = con.cursor()
     cur.execute(sql)

@@ -185,6 +185,13 @@ def getVisibleGalleries(key):
         return json.dumps(gn)
     return "Error"
 
+@app.route("/getYears/<key>")
+def getYears(key):
+    if key == admin_key:
+        gn = utils2.get_years()
+        return json.dumps(gn)
+    return "Error"
+
 #@app.route("/getcode", methods=['POST'])
 #def getcode():
 #    return json.dumps """stuff"""

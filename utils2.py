@@ -47,9 +47,11 @@ def setup_db():
     os.makedirs(upload_path)
 
 def reload_db():
-    run_sql("DROP TABLE images")
+    run_sql("DROP TABLE IF EXISTS images")
     shutil.rmtree(upload_path)
     setup_db()
+
+
 
 
 def gallery_exists (year, gallery):

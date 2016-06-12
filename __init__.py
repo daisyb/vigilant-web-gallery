@@ -72,7 +72,7 @@ def upload():
                 os.rename(temppath, image_file_path)
                 if file.filename[-4:] == ".png":
                     utils2.limit_size(image_file_path)
-                    utils2.create_thumbnail(image_file_path)
+                utils2.create_thumbnail(image_file_path)
                 f = open(image_dir + "/code.txt", 'w')
                 f.write(code)
                 f.close()

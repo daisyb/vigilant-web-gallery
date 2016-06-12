@@ -1,14 +1,14 @@
 import sqlite3
 import json
 from datetime import date
-#import PythonMagick
+import PythonMagick
 import os, shutil
 
 flask_path = os.path.dirname(__file__) 
 database_path = os.path.join(flask_path, "imagegallery2.db")
 upload_path = os.path.join(flask_path, "/static/uploads/")
 current_year = date.today().year
-os.fchown("imagegallery2.db", 777, "www-data")
+shutil.chown("imagegallery2.db", group=777, group="www-data")
 '''
 Take 2
 

@@ -8,7 +8,7 @@ flask_path = os.path.dirname(__file__)
 database_path = os.path.join(flask_path, "imagegallery2.db")
 upload_path = os.path.join(flask_path, "/static/uploads/")
 current_year = date.today().year
-shutil.chown("imagegallery2.db", group=777, group="www-data")
+
 '''
 Take 2
 
@@ -54,7 +54,10 @@ def setup_db():
 
 def reload_db():
     run_sql("DROP TABLE IF EXISTS images")
-    shutil.rmtree(upload_path)
+    try:
+        shutil.rmtree(upload_path)
+    except OSError:
+        
     setup_db()
 
 

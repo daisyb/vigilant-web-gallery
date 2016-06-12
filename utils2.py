@@ -33,6 +33,7 @@ def run_sql(sql):
 
     con = sqlite3.connect(database_path)
     cur = con.cursor()
+    con.close()
     return  cur.execute(sql)
 
 def insert(sql):
@@ -131,7 +132,7 @@ def get_images_in_gallery(year, gallery):
     return run_sql(sql).fetchall()
 
 def get_current_galleries():
-    galleries_query = "SELECT gallery FROM images WHERE name = '' AND year = " + str(current_year)
+    galleries_query = "SELECT gallery FROM images WHERE name = '' AND archived = 0 AND year = " + str(current_year)
     return screw_tuples2(run_sql(galleries_query).fetchall())
 
 def get_all_galleries():

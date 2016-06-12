@@ -122,7 +122,7 @@ def getall():
         if t[i] != None:
             break
         i-=1
-    d = utils2.get_image_paths(t[i])
+    d = utils2.get_images(t[i])
     print d
     return json.dumps(d)
 

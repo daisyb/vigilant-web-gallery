@@ -155,13 +155,16 @@ def add_image(year, gallery, name, filetype, image_path):
 def get_sample_images():  #gets one image from each gallery
     current_year = date.today().year
     galleries = get_current_galleries()
-    out = {}
+    out = []
     for gallery in galleries:
         sql = "SELECT location FROM images WHERE gallery = " + gallery + "AND year = " + str(current_year) +  " AND NOT name = '' ORDER BY RANDOM() LIMIT 1"
+        dict = {}
+        dict["gallery"] = gallery
         if run_sql(sql) == None:
-            out[gallery] = "images/thluffy-big.png"
+            dict["path"] = "images/thluffy-big.png"
         else:
-            out[gallery] = run_sql(sql) + "image.png"
+            dict["path"] = run_sql(sql) + "image.png"
+        out.append(dict)
     return out
     
 def set_visible(year, visible):
@@ -213,7 +216,7 @@ def get_images(gallery):
         dict['path'] = i[1]
         dict['filetype'] = i[2]
         out.append(dict)
-    print out
+    return  out
     
 
 def get_images_in_gallery(year, gallery):

@@ -211,7 +211,7 @@ def set_archive(year, archive):
 
 def get_galleries_by_archived(archived):
     sql = "SELECT gallery, year FROM images WHERE archived = " + archived
-    return screw_tuples(run_sql(sql)
+    return screw_tuples(run_sql(sql))
 
 def get_archived_galleries():
     return get_galleries_by_archived(1)

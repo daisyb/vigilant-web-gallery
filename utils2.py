@@ -34,7 +34,7 @@ def run_sql(sql):
     con = sqlite3.connect(database_path)
     cur = con.cursor()
     out = cur.execute(sql)
-    con.close()
+    con.close().fetchall()
     return out
 
 def insert(sql):
@@ -61,15 +61,15 @@ def reload_db():
 
 def gallery_exists (year, gallery):
     check_existence = "SELECT CASE WHEN EXISTS ( SELECT * FROM images WHERE gallery = '" + gallery + "' AND year = "+ str(year) + " ) THEN CAST(1 AS BIT) ELSE CAST (0 AS BIT) END;"
-    return run_sql(check_existence).fetchall()[0][0]
+    return run_sql(check_existence)[0][0]
 
 def image_exists (year, gallery, name):
     check_existence = "SELECT CASE WHEN EXISTS ( SELECT * FROM images WHERE gallery = '" + gallery + "' AND year = "+ str(year) + " AND name = '" + name + "' ) THEN CAST(1 AS BIT) ELSE CAST (0 AS BIT) END;"
-    return run_sql(check_existence).fetchall()[0][0]
+    return run_sql(check_existence)[0][0]
 
 
 def show_table():
-    print run_sql("SELECT * FROM images").fetchall()
+    print run_sql("SELECT * FROM images")
 
 
 def crop(image, x1, y1, w, h):
@@ -130,19 +130,19 @@ def limit_size(imagepath):
 
 def get_images_in_gallery(year, gallery):
     sql = "SELECT name FROM images WHERE gallery = '" + gallery + "' AND year ='" + str(year) + "'"
-    return run_sql(sql).fetchall()
+    return run_sql(sql)
 
 def get_current_galleries():
     galleries_query = "SELECT gallery FROM images WHERE name = '' AND archived = 0 AND year = " + str(current_year)
-    return screw_tuples2(run_sql(galleries_query).fetchall())
+    return screw_tuples2(run_sql(galleries_query))
 
 def get_all_galleries():
     galleries_query = "SELECT gallery, year FROM images WHERE name = ''"
-    return screw_tuples(run_sql(galleries_query).fetchall())
+    return screw_tuples(run_sql(galleries_query))
 
 def get_galleries_in_year(year):
     galleries_query = "SELECT gallery FROM images WHERE year = " + str(year) + " AND name = ''"
-    return screw_tuples2(run_sql(galleries_query).fetchall())
+    return screw_tuples2(run_sql(galleries_query))
 
 
 def add_gallery(year, gallery):
@@ -173,7 +173,7 @@ def get_sample_images():  #gets one image from each gallery
         sql = "SELECT location FROM images WHERE gallery = '" + gallery + "' AND year = " + str(current_year) +  " AND NOT name = '' ORDER BY RANDOM() LIMIT 1"
         dict = {}
         dict["gallery"] = gallery
-        sql_out = run_sql(sql).fetchall()
+        sql_out = run_sql(sql)
         print sql_out
         try:
             dict["path"] = sql_out[0][0]
@@ -188,16 +188,16 @@ def set_visible(year, visible):
 
 def get_visible_galleries():
     sql = "SELECT gallery, year FROM images WHERE visible = 1"
-    return screw_tuples(run_sql(sql).fetchall())
+    return screw_tuples(run_sql(sql))
 
 def get_invisible_galleries():
     sql = "SELECT gallery, year FROM images WHERE visible = 0"
-    return screw_tuples(run_sql(sql).fetchall())
+    return screw_tuples(run_sql(sql))
 
 def delete_image(year, gallery, name):
     if image_exists(year, gallery, name):
         location_query = "SELECT location FROM images WHERE name = '" + name + "' AND gallery = '" + gallery + "' AND year = " + str(year)
-        location = run_sql(location_query).fetchall()[0][0]
+        location = run_sql(location_query)[0][0]
         print location
         delete_query= "DELETE FROM images WHERE name = '" + name + "' AND gallery = '" + gallery + "' AND year = " + str(year)
         run_sql(delete_query)
@@ -211,7 +211,7 @@ def set_archive(year, archive):
 
 def get_galleries_by_archived(archived):
     sql = "SELECT gallery, year FROM images WHERE archived = " + archived
-    return screw_tuples(run_sql(sql).fetchall())
+    return screw_tuples(run_sql(sql)
 
 def get_archived_galleries():
     return get_galleries_by_archived(1)
@@ -223,7 +223,7 @@ def get_unarchived_galleries():
 
 def get_images(gallery):
     path_query = "SELECT name, location, filetype FROM images WHERE gallery = '" + gallery + "' AND NOT name = '' "
-    sql_out = run_sql(path_query).fetchall()
+    sql_out = run_sql(path_query)
     out = []
     for i in sql_out:
         dict = {}
@@ -236,8 +236,8 @@ def get_images(gallery):
 
 def get_images_in_gallery(year, gallery):
     image_query = "SELECT name FROM images WHERE gallery = '" + gallery + "' "
-    return screw_tuples2(run_sql(image_query).fetchall())
+    return screw_tuples2(run_sql(image_query))
 
 def get_years():
     years_query = "SELECT year FROM images WHERE name = '' "
-    return screw_tuples2(run_sql(years_query).fetchall())
+    return screw_tuples2(run_sql(years_query))

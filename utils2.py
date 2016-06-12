@@ -228,3 +228,6 @@ def get_images_in_gallery(year, gallery):
     image_query = "SELECT name FROM images WHERE gallery = '" + gallery + "' "
     return screw_tuples2(run_sql(image_query).fetchall())
 
+def get_years():
+    years_query = "SELECT year FROM images WHERE name = '' "
+    return screw_tuples2(run_sql(years_query).fetchall())

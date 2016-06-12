@@ -55,9 +55,9 @@ def upload():
             temppath = os.path.join(flask_path, 'temp', tempname)
             file.save(temppath) #file is saved as temp
             sizeoftemp = os.path.getsize(temppath)
-            if sizeoftemp > 10 * 1024 * 1024 and file.filename[-4:] == ".gif":
+            if sizeoftemp > 10 * 1024 * 1024 and file.filename[-4:].lower() == ".gif":
                 return render_template("error.html", error="Your file is too large. The maximum allowed file size for a .gif is 10 megabytes.")
-            elif sizeoftemp > 5 * 1024 * 1024 and file.filename[-4:] == ".png":
+            elif sizeoftemp > 5 * 1024 * 1024 and file.filename[-4:].lower() == ".png":
                 return render_template("error.html", error="Your file is too large. The maximum allowed file size for a .png is 5 megabytes.")
             else:
                 print "File size is acceptable."
@@ -66,13 +66,13 @@ def upload():
             image_dir = upload_path  + str(current_year) + "/" + gallname + "/" + foldername
             print "TEMP FILE PATH: "+ temppath
             print "IMAGE DIRECTORY: " + image_dir
-            if utils2.add_image(current_year, gallname, image_name, file.filename[-4:], image_dir):
+            if utils2.add_image(current_year, gallname, image_name, file.filename[-4:].lower(), image_dir):
                 os.makedirs(image_dir)
-                image_file_path = image_dir + "/image" + file.filename[-4:]
+                image_file_path = image_dir + "/image" + file.filename[-4:].lower()
                 os.rename(temppath, image_file_path)
                 if file.filename[-4:] == ".png":
                     utils2.limit_size(image_file_path)
-                    utils2.create_thumbnail(image_file_path)
+                utils2.create_thumbnail(image_file_path)
                 f = open(image_dir + "/code.txt", 'w')
                 f.write(code)
                 f.close()

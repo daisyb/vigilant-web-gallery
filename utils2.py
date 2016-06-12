@@ -33,7 +33,6 @@ def run_sql(sql):
 
     con = sqlite3.connect(database_path)
     cur = con.cursor()
-    con.close()
     return  cur.execute(sql)
 
 def insert(sql):

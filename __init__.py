@@ -192,6 +192,14 @@ def getYears(key):
         return json.dumps(gn)
     return "Error"
 
+@app.route("getGalleriesInYear/<key>/<year>")
+def getGalleriesInYear(key,year):
+    if key == admin_key:
+        gn = utils2.get_galleries_in_year(year)
+        return json.dumps(gn)
+    return "Error"
+
+
 #@app.route("/getcode", methods=['POST'])
 #def getcode():
 #    return json.dumps """stuff"""

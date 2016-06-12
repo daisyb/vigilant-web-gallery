@@ -57,7 +57,7 @@ def reload_db():
     try:
         shutil.rmtree(upload_path)
     except OSError:
-        
+        print "path doesn't exist"
     setup_db()
 
 

@@ -2,3 +2,4 @@
 *.ppm
 *.pyc
 images/
+static/uploads

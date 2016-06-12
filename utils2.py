@@ -33,7 +33,9 @@ def run_sql(sql):
 
     con = sqlite3.connect(database_path)
     cur = con.cursor()
-    return  cur.execute(sql)
+    out = cur.execute(sql)
+    con.close()
+    return out
 
 def insert(sql):
     print "database path:" + database_path

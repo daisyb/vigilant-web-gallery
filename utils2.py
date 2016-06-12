@@ -1,12 +1,12 @@
 import sqlite3
 import json
 from datetime import date
-import PythonMagick
+#import PythonMagick
 import os, shutil
 
-flask_path = os.path.dirname(__file__) + "/"
-database_path = flask_path + "imagegallery2.db"
-upload_path = flask_path + "static/uploads/"
+flask_path = os.path.dirname(__file__) 
+database_path = os.path.join(flask_path, "imagegallery2.db")
+upload_path = os.path.join(flask_path, "static/uploads/")
 current_year = date.today().year
 '''
 Take 2

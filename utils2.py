@@ -37,7 +37,7 @@ def run_sql(sql):
 
 def insert(sql):
     print "database path:" + database_path
-        print "flask path:" + flask_path
+    print "flask path:" + flask_path
     con = sqlite3.connect(database_path)
     cur = con.cursor()
     cur.execute(sql)

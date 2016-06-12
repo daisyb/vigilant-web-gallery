@@ -30,6 +30,9 @@ def screw_tuples2(shitty_tuple_list):
 def run_sql(sql):
     print "flask path:" + flask_path
     print "database path:" + database_path
+    file = open(database_path, 'r')
+    print file
+    file.close()
     con = sqlite3.connect(database_path)
     cur = con.cursor()
     return  cur.execute(sql)
@@ -40,7 +43,7 @@ def insert(sql):
     cur.execute(sql)
     con.commit()
     con.close()
-
+    
 def setup_db():
     setup_table = "CREATE TABLE IF NOT EXISTS images (name TEXT, gallery TEXT, year INTEGER, location TEXT, filetype TEXT, visible INTEGER, archived INTEGER )"
     run_sql(setup_table)

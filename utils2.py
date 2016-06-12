@@ -163,7 +163,7 @@ def get_sample_images():  #gets one image from each gallery
         if run_sql(sql) == None:
             dict["path"] = "images/thluffy-big.png"
         else:
-            dict["path"] = run_sql(sql) + "image.png"
+            dict["path"] = os.path.join(run_sql(sql), "image.png")
         out.append(dict)
     return out
     

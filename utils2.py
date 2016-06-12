@@ -157,7 +157,7 @@ def get_sample_images():  #gets one image from each gallery
     galleries = get_current_galleries()
     out = []
     for gallery in galleries:
-        sql = "SELECT location FROM images WHERE gallery = " + gallery + "AND year = " + str(current_year) +  " AND NOT name = '' ORDER BY RANDOM() LIMIT 1"
+        sql = "SELECT location FROM images WHERE gallery = '" + gallery + "' AND year = " + str(current_year) +  " AND NOT name = '' ORDER BY RANDOM() LIMIT 1"
         dict = {}
         dict["gallery"] = gallery
         sql_out = run_sql(sql).fetchall()

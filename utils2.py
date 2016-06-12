@@ -252,5 +252,5 @@ def get_images_in_gallery(year, gallery):
     return screw_tuples2(run_sql(image_query))
 
 def get_years():
-    years_query = "SELECT year FROM images WHERE name = '' "
+    years_query = "SELECT DISTINCT year FROM images WHERE name = '' "
     return screw_tuples2(run_sql(years_query))

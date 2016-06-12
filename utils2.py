@@ -6,7 +6,7 @@ import os, shutil
 
 flask_path = os.path.dirname(__file__) 
 database_path = os.path.join(flask_path, "imagegallery2.db")
-upload_path = os.path.join(flask_path, "static/uploads/")
+upload_path = os.path.join(flask_path, "/static/uploads/")
 current_year = date.today().year
 '''
 Take 2

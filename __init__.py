@@ -16,7 +16,7 @@ ALLOWED_EXTENSIONS = set(['png', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 #max filesize limit of 10mb
 flask_path = os.path.dirname(__file__)
-upload_path = flask_path + "static/uploads/"
+upload_path = flask_path + UPLOAD_FOLDER
 @app.route("/")
 @app.route("/home")
 def home():

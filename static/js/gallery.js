@@ -15,7 +15,7 @@ function getThumbs() {
 	    for(i in paths){
 		var img = new Image();
 		console.log(paths[i]);
-		img.src = "../" + paths[i]['path'] + "/thumbnail.png";
+		img.src = paths[i]['path'] + "/thumbnail.png";
 		img.alt = paths[i]['title'];
 		img.onclick = function(num){
 		    //onlick edit gradient/box and make visible
@@ -77,8 +77,8 @@ $(".gradientBox > .contents").click(function(e){
 //takes variable path which is the dictionary with paths for specific image
 //if i = image index, path = paths[i]
 var editGradientContents = function(path){
-    imgPath = "../" + path['path'] + "/image" + path['filetype'] + "?" + new Date().getTime();
-    codePath = "../" + path['path'] + "/code.txt" + "?" + new Date().getTime();
+    imgPath = path['path'] + "/image" + path['filetype'] + "?" + new Date().getTime();
+    codePath = path['path'] + "/code.txt" + "?" + new Date().getTime();
     imgName = path['title'];
 
     $("#name").text(imgName);

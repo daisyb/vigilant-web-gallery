@@ -204,8 +204,16 @@ def get_unarchived_galleries():
 
 
 def get_image_paths(gallery):
-    path_query = "SELECT location FROM images WHERE gallery = '" + gallery + "' AND NOT name = '' "
-    return screw_tuples2(run_sql(path_query).fetchall())
+    path_query = "SELECT name, location FROM images WHERE gallery = '" + gallery + "' AND NOT name = '' "
+    sql_out = run_sql(path_query).fetchall()
+    out = []
+    for i in sql_out:
+        dict = {}
+        dict['name'] = i[0]
+        dict['title'] = i[1]
+        out.append(dict)
+    return out
+    
 
 def get_images_in_gallery(year, gallery):
     image_query = "SELECT name FROM images WHERE gallery = '" + gallery + "' "

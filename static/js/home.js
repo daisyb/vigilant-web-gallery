@@ -17,13 +17,14 @@ function getThumbs() {
 		while(count < temp.length - 2){
 		    path += temp[count];
 		};
-		path += "/gallery/" + paths[i][0];
+		path += "/gallery/" + paths[i]['gallery'];
 		window.location.replace(path);
 	    };
 	    console.log(img.src);
+	    console.log(paths[i]['gallery']);
 	    $(".main").append("<div class='thumbnail' id='d" + i.toString() + "'></div>");
 	    document.getElementById("d"+i.toString()).appendChild(img);
-	    $("#d" + i.toString()).append("<div class='imgTitle'>" + paths[i][0] +
+	    $("#d" + i.toString()).append("<div class='imgTitle'>" + paths[i]['gallery'] +
 					  "</div>");
 	})(i);
     });

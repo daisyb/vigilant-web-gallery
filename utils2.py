@@ -166,7 +166,7 @@ def get_sample_images():  #gets one image from each gallery
         sql_out = run_sql(sql).fetchall()
         print sql_out
         try:
-            dict["path"] = os.path.join(sql_out[0][0], "image.png")
+            dict["path"] = sql_out[0][0]
         except IndexError:
             dict["path"] = os.path.join( os.path.dirname(__file__), "images/thluffy-big.png")
         out.append(dict)

@@ -1,7 +1,7 @@
 import sqlite3
 import json
 from datetime import date
-import PythonMagick
+#import PythonMagick
 import os, shutil
 
 flask_path = os.path.dirname(__file__) 
@@ -45,6 +45,7 @@ def setup_db():
     setup_table = "CREATE TABLE IF NOT EXISTS images (name TEXT, gallery TEXT, year INTEGER, location TEXT, filetype TEXT, visible INTEGER, archived INTEGER )"
     run_sql(setup_table)
     os.makedirs(upload_path)
+
 def reload_db():
     run_sql("DROP TABLE images")
     shutil.rmtree(upload_path)
@@ -161,10 +162,11 @@ def get_sample_images():  #gets one image from each gallery
         dict = {}
         dict["gallery"] = gallery
         sql_out = run_sql(sql).fetchall()
-        if sql_out[0] == None:
-            dict["path"] = "images/thluffy-big.png"
-        else:
-            dict["path"] = os.path.join(sql_out[0], "image.png")
+        print sql_out
+        try:
+            dict["path"] = os.path.join(sql_out[0][0], "image.png")
+        except IndexError:
+            dict["path"] = os.path.join( os.path.dirname(__file__), "images/thluffy-big.png")
         out.append(dict)
     return out
     

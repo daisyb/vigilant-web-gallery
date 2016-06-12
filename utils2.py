@@ -153,6 +153,7 @@ def add_gallery(year, gallery):
         sql = "INSERT INTO images VALUES ('', '"+ gallery + "', " + str(year) + ", '"+ "', '.png', 0, 0)"
         insert(sql)
         os.makedirs(gallery_path)
+        return True
 
 
 def add_image(year, gallery, name, filetype, image_path):

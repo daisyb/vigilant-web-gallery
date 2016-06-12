@@ -6,8 +6,8 @@ function getThumbs() {
 	var i = 0;
 	for(i in paths)(function(i){
 	    var img = new Image();
-	    img.src = "../static/" + paths[i][1];
-	    console.log(paths[i][0]);
+	    img.src = "../" + paths[i]['path'] + "/thumbnail.png";
+	    console.log(paths[i]['gallery']);
 	    console.log("Gallery ^");
 	    img.alt = paths[i][0];
 	    img.onclick = function(){

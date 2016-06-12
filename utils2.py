@@ -1,7 +1,7 @@
 import sqlite3
 import json
 from datetime import date
-#import PythonMagick
+import PythonMagick
 import os, shutil
 
 flask_path = os.path.dirname(__file__) 
@@ -160,10 +160,11 @@ def get_sample_images():  #gets one image from each gallery
         sql = "SELECT location FROM images WHERE gallery = " + gallery + "AND year = " + str(current_year) +  " AND NOT name = '' ORDER BY RANDOM() LIMIT 1"
         dict = {}
         dict["gallery"] = gallery
-        if run_sql(sql) == None:
+        sql_out = run_sql(sql).fetchall()
+        if sql_out[0] == None:
             dict["path"] = "images/thluffy-big.png"
         else:
-            dict["path"] = os.path.join(run_sql(sql), "image.png")
+            dict["path"] = os.path.join(sql_out[0], "image.png")
         out.append(dict)
     return out
     

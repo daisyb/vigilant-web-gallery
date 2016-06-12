@@ -135,6 +135,11 @@ def get_all_galleries():
     galleries_query = "SELECT gallery, year FROM images WHERE name = ''"
     return screw_tuples(run_sql(galleries_query).fetchall())
 
+def get_galleries_in_year(year):
+    galleries_query = "SELECT gallery FROM images WHERE year = " + str(year) + " AND name = ''"
+    return screw_tuples2(run_sql(galleries_query).fetchall())
+
+
 def add_gallery(year, gallery):
     if gallery_exists(year, gallery):
         return False

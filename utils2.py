@@ -205,6 +205,14 @@ def delete_image(year, gallery, name):
         return True
     return False
 
+def delete_gallery(year, gallery):
+    if gallery_exists(year, gallery):
+        delete = "DELETE FROM image WHERE gallery = '" + gallery + "' AND year = " + year
+        run_sql(delete)
+        shutil.rmtree(os.path.join(upload_path, year, gallery))
+        return True
+    return False
+
 def set_archive(year, archive):
     sql = "UPDATE image SET archive = " + str(archive) + "WHERE year = " + year
     insert(sql)

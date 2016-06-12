@@ -126,44 +126,52 @@ def getall():
     print d
     return json.dumps(d)
 
+#API CALLS
 
 @app.route("/getgalleries/<key>")
 def getgalleries(key):
     if key == admin_key:
         gn = utils2.get_current_galleries()
         return json.dumps(gn)
-    return "Error"
+    return "Error, invalid key"
 
 @app.route("/getimagename/<key>/<year>/<gallery>")
 def getimagename(key, year, gallery):
     if key == admin_key:
         g = utils2.get_images_in_gallery(year, gallery)
         return json.dumps(g)
-    return "Error"
+    return "Error, invalid key"
 
 @app.route("/deleteimage/<key>/<year>/<gallery>/<name>")
 def deleteimage(key, year, gallery,name):
     if key == admin_key:
-        return utils2.delete_image(year, gallery, name)
-    return "Error"
+        if utils2.delete_image(year, gallery, name):
+            return "success"
+        else:
+            return "Error, image does not exist"
+    return "Error, invalid key"
 
 @app.route("/deletegallery/<key>/<year>/<gallery>")
 def deletegallery(key, year, gallery):
     if key == admin_key:
-        return utils2.delete_gallery(year, gallery)
-    return "Error"
+        if utils2.delete_gallery(year, gallery):
+            return "success"
+        return "Error, gallery does not exist"
+    return "Error, invalid key"
 
 @app.route("/creategallery/<key>/<year>/<gallery>")
 def creategallery(key, year, gallery):
     if key == admin_key:
-        utils2.add_gallery(year, gallery)
-    return "Error"
+        if utils2.add_gallery(year, gallery):
+            return "success"
+        return "Error, " + gallery + "  already exists"
+    return "Error, invalid key"
 
 @app.route("/archivegalleries/<key>/<year>")
 def archivegalleries(key,year):
     if key == admin_key:
         return utils2.set_archive(year, 1)
-    return "Error"
+    return "Error, invalid key"
 
 @app.route("/unarchivegalleries/<key>/<year>")
 def unarchivegalleries(key,year):
@@ -190,14 +198,14 @@ def getYears(key):
     if key == admin_key:
         gn = utils2.get_years()
         return json.dumps(gn)
-    return "Error"
+    return "Error, invalid key"
 
 @app.route("/getGalleriesInYear/<key>/<year>")
 def getGalleriesInYear(key,year):
     if key == admin_key:
         gn = utils2.get_galleries_in_year(year)
         return json.dumps(gn)
-    return "Error"
+    return "Error, invalid key"
 
 
 #@app.route("/getcode", methods=['POST'])

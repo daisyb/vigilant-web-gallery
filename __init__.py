@@ -63,13 +63,14 @@ def upload():
                 print "File size is acceptable."
             foldername = secure_filename(image_name + "_" + str(int(time.time()))) #sets foldername to first_last_timestamp
             current_year = date.today().year
-            image_dir = os.path.join(UPLOAD_FOLDER, str(current_year),  gallname, foldername)
+            relative_image_dir = os.path.join(UPLOAD_FOLDER, str(current_year),  gallname, foldername)
 
             print "TEMP FILE PATH: "+ temppath
-            print "IMAGE DIRECTORY: " + image_dir
+            print "IMAGE DIRECTORY: " + relative_image_dir
             if utils2.add_image(current_year, gallname, image_name,
-                                file.filename[-4:].lower(), "../" + image_dir):
-                os.makedirs(os.path.join(flask_path, image_dir))
+                                file.filename[-4:].lower(), "../" + relative_image_dir):
+                image_dir = os.path.join(flask_path, relative_image_dir)
+                os.makedirs(image_dir)
                 image_file_path = image_dir + "/image" + file.filename[-4:].lower()
                 os.rename(temppath, image_file_path)
                 if file.filename[-4:] == ".png":

@@ -1,5 +1,6 @@
 import utils2
-utils2.reload_db()
+utils2.run_sql("DROP TABLE IF EXISTS images")
+utils2.setup_db()
 utils2.add_gallery(2016, "line")
 utils2.add_gallery(2016, "final")
 utils2.add_gallery(2015, "polygon")

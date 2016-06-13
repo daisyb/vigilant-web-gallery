@@ -54,10 +54,6 @@ def setup_db():
 
 def reload_db():
     run_sql("DROP TABLE IF EXISTS images")
-    try:
-        shutil.rmtree(upload_path)
-    except OSError:
-        print "path doesn't exist"
     setup_db()
 
 

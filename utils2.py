@@ -129,7 +129,7 @@ def limit_size(imagepath):
     return True
 
 def get_images_in_gallery(year, gallery):
-    sql = "SELECT name FROM images WHERE gallery = '" + gallery + "' AND year ='" + str(year) + "'"
+    sql = "SELECT name FROM images WHERE gallery = '" + gallery + "' AND year =" + str(year) + " AND NOT name = ''"
     return run_sql(sql)
 
 def get_current_galleries():

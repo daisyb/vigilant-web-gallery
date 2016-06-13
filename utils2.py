@@ -235,13 +235,13 @@ def get_unarchived_galleries():
 
 
 def get_images(gallery):
-    path_query = "SELECT name, location, filetype FROM images WHERE gallery = '" + gallery + "' AND NOT name = '' "
+    path_query = "SELECT name, year, filetype FROM images WHERE gallery = '" + gallery + "' AND NOT name = '' "
     sql_out = run_sql(path_query)
     out = []
     for i in sql_out:
         dict = {}
         dict['title'] = i[0]
-        dict['path'] = i[1]
+        dict['path'] = os.path.join("/static", i[1], gallery)
         dict['filetype'] = i[2]
         out.append(dict)
     return  out

@@ -3,3 +3,4 @@
 *.pyc
 images/
 static/uploads
+*.db

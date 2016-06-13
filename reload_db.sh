@@ -1,5 +1,6 @@
-cd /var/www/vigilantwebgallery/vigilantwebgallery
-rm -rf /static/uploads
+cd /var/www/vigilantwebgallery/vigilantwebgallery/static
+rm -rf uploads
+cd ..
 python setupDB.py
 cd ..
 chown -R www-data:www-data vigilantwebgallery

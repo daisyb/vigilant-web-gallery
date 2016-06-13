@@ -11,7 +11,7 @@ import time
 admin_key = "mrdwisawesome" # PLEASE CHANGE
 app = Flask(__name__)
 
-UPLOAD_FOLDER = 'static/uploads'
+UPLOAD_FOLDER = '/static/uploads'
 ALLOWED_EXTENSIONS = set(['png', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 #max filesize limit of 10mb
@@ -64,11 +64,12 @@ def upload():
             foldername = secure_filename(image_name + "_" + str(int(time.time()))) #sets foldername to first_last_timestamp
             current_year = date.today().year
             image_dir = os.path.join(UPLOAD_FOLDER, str(current_year),  gallname, foldername)
+
             print "TEMP FILE PATH: "+ temppath
             print "IMAGE DIRECTORY: " + image_dir
             if utils2.add_image(current_year, gallname, image_name,
                                 file.filename[-4:].lower(), "../" + image_dir):
-                os.makedirs(image_dir)
+                os.makedirs(os.path.join(flask_path, image_dir))
                 image_file_path = image_dir + "/image" + file.filename[-4:].lower()
                 os.rename(temppath, image_file_path)
                 if file.filename[-4:] == ".png":

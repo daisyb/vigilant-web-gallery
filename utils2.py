@@ -161,7 +161,6 @@ def add_image(year, gallery, name, filetype, image_path):
     if image_exists(year, gallery, name):
         return False
     sql = "INSERT INTO images VALUES ('" + name + "', '" + gallery + "', " + str(year) + ", '" + image_path + "', '" + filetype + "', 1, 0)"
-    print sql
     insert(sql)
     return True
 

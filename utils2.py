@@ -1,7 +1,7 @@
 import sqlite3
 import json
 from datetime import date
-#import PythonMagick
+import PythonMagick
 import os, shutil
 
 flask_path = os.path.dirname(__file__) 
@@ -50,8 +50,10 @@ def insert(sql):
 def setup_db():
     setup_table = "CREATE TABLE IF NOT EXISTS images (name TEXT, gallery TEXT, year INTEGER, location TEXT, filetype TEXT, visible INTEGER, archived INTEGER )"
     run_sql(setup_table)
+    if os.path.exists(upload_path):
+        shutil.rmtree(upload_path)
     os.makedirs(upload_path)
-
+    
 def reload_db():
     run_sql("DROP TABLE IF EXISTS images")
     setup_db()
@@ -150,7 +152,7 @@ def add_gallery(year, gallery):
         return False
     else:
         gallery_path = os.path.join(upload_path, str(year), gallery)
-        sql = "INSERT INTO images VALUES ('', '"+ gallery + "', " + str(year) + ", '"+ "', '.png', 0, 0)"
+        sql = "INSERT INTO images VALUES ('', '"+ gallery + "', " + str(year) + ", '"+ "', '.png', 1, 0)"
         insert(sql)
         os.makedirs(gallery_path)
         return True
@@ -198,12 +200,12 @@ def delete_image(year, gallery, name):
     if image_exists(year, gallery, name):
         location_query = "SELECT location FROM images WHERE name = '" + name + "' AND gallery = '" + gallery + "' AND year = " + str(year)
         location = run_sql(location_query)[0][0]
-        print location
+        print location[3:]
         delete_query= "DELETE FROM images WHERE year = " + str(year) + " AND gallery = '" + gallery + "' AND name = '" + name + "'"
         print delete_query
         insert(delete_query)
         try:
-            shutil.rmtree(location)
+            shutil.rmtree(location[3:]) #need to get rid of "../"
         except OSError:
             print "Deleting image with no path"
         return True
@@ -211,7 +213,7 @@ def delete_image(year, gallery, name):
 
 def delete_gallery(year, gallery):
     if gallery_exists(year, gallery):
-        delete = "DELETE FROM image WHERE gallery = '" + gallery + "' AND year = " + year
+        delete = "DELETE FROM images WHERE gallery = '" + gallery + "' AND year = " + year
         insert(delete)
         shutil.rmtree(os.path.join(upload_path, year, gallery))
         return True
@@ -255,7 +257,7 @@ def get_images(gallery):
     
 
 def get_images_in_gallery(year, gallery):
-    image_query = "SELECT name FROM images WHERE gallery = '" + gallery + "' "
+    image_query = "SELECT name FROM images WHERE gallery = '" + gallery + "' AND NOT name = ''"
     return screw_tuples2(run_sql(image_query))
 
 def get_years():

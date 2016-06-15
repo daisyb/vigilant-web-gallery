@@ -73,6 +73,7 @@ def image_exists (year, gallery, name):
 def show_table():
     print run_sql("SELECT * FROM images")
 
+# <---------------------- Image Tools ---------------------->
 
 def crop(image, x1, y1, w, h):
     img = PythonMagick.Image(image) # make a copy
@@ -130,9 +131,66 @@ def limit_size(imagepath):
         image.write(str(imagepath))
     return True
 
+# <---------------------- Images  ---------------------->
+
 def get_images_in_gallery(year, gallery):
-    sql = "SELECT name FROM images WHERE gallery = '" + gallery + "' AND year =" + str(year) + " AND NOT name = ''"
-    return run_sql(sql)
+    sql = "SELECT name, location, filetype FROM images WHERE gallery = '" + gallery + "' AND year =" + str(year) + " AND NOT name = ''"
+    sql_out = run_sql(sql)
+    out = []
+    for i in sql_out:
+        dict = {}
+        dict['title'] = i[0]
+        dict['path'] = i[1]
+        dict['filetype'] = i[2]
+        out.append(dict)
+    return out
+
+
+def get_images(gallery):
+    return get_images_in_gallery(current_year, gallery)
+
+def add_image(year, gallery, name, filetype, image_path):
+    # Folder name is different from name cause it has timestamp added
+    if image_exists(year, gallery, name):
+        return False
+    sql = "INSERT INTO images VALUES ('" + name + "', '" + gallery + "', " + str(year) + ", '" + image_path + "', '" + filetype + "', 1, 0)"
+    insert(sql)
+    return True
+
+def get_sample_images():  #gets one image from each gallery
+    current_year = date.today().year
+    galleries = get_current_galleries()
+    out = []
+    for gallery in galleries:
+        sql = "SELECT location FROM images WHERE gallery = '" + gallery + "' AND year = " + str(current_year) +  " AND NOT name = '' ORDER BY RANDOM() LIMIT 1"
+        dict = {}
+        dict["gallery"] = gallery
+        sql_out = run_sql(sql)
+        print sql_out
+        try:
+            dict["path"] = sql_out[0][0]
+        except IndexError:
+            dict["path"] = "static/images"
+        out.append(dict)
+    return out
+
+def delete_image(year, gallery, name):
+    if image_exists(year, gallery, name):
+        location_query = "SELECT location FROM images WHERE name = '" + name + "' AND gallery = '" + gallery + "' AND year = " + str(year)
+        location = run_sql(location_query)[0][0]
+        print location[3:]
+        delete_query= "DELETE FROM images WHERE year = " + str(year) + " AND gallery = '" + gallery + "' AND name = '" + name + "'"
+        print delete_query
+        insert(delete_query)
+        try:
+            shutil.rmtree(location[3:]) #need to get rid of "../"
+        except OSError:
+            print "Deleting image with no path"
+        return True
+    return False
+
+
+# <---------------------- Galleries  ---------------------->
 
 def get_current_galleries():
     galleries_query = "SELECT gallery FROM images WHERE name = '' AND archived = 0 AND visible = 1 AND year = " + str(current_year)
@@ -158,32 +216,9 @@ def add_gallery(year, gallery):
         return True
 
 
-def add_image(year, gallery, name, filetype, image_path):
-    # Folder name is different from name cause it has timestamp added
-    if image_exists(year, gallery, name):
-        return False
-    sql = "INSERT INTO images VALUES ('" + name + "', '" + gallery + "', " + str(year) + ", '" + image_path + "', '" + filetype + "', 1, 0)"
-    insert(sql)
-    return True
 
 
-def get_sample_images():  #gets one image from each gallery
-    current_year = date.today().year
-    galleries = get_current_galleries()
-    out = []
-    for gallery in galleries:
-        sql = "SELECT location FROM images WHERE gallery = '" + gallery + "' AND year = " + str(current_year) +  " AND NOT name = '' ORDER BY RANDOM() LIMIT 1"
-        dict = {}
-        dict["gallery"] = gallery
-        sql_out = run_sql(sql)
-        print sql_out
-        try:
-            dict["path"] = sql_out[0][0]
-        except IndexError:
-            dict["path"] = "static/images"
-        out.append(dict)
-    return out
-    
+
 def set_visible_by_year(year, visible):
     sql = "UPDATE images SET visible = " + visible + "WHERE year = " + year 
     insert(sql)
@@ -196,20 +231,6 @@ def get_invisible_by_year(year):
     visible_query = "SELECT gallery FROM images WHERE year = " + year " AND visible = 0"
     return screw_tuples2(run_sql(visible_query))
 
-def delete_image(year, gallery, name):
-    if image_exists(year, gallery, name):
-        location_query = "SELECT location FROM images WHERE name = '" + name + "' AND gallery = '" + gallery + "' AND year = " + str(year)
-        location = run_sql(location_query)[0][0]
-        print location[3:]
-        delete_query= "DELETE FROM images WHERE year = " + str(year) + " AND gallery = '" + gallery + "' AND name = '" + name + "'"
-        print delete_query
-        insert(delete_query)
-        try:
-            shutil.rmtree(location[3:]) #need to get rid of "../"
-        except OSError:
-            print "Deleting image with no path"
-        return True
-    return False
 
 def delete_gallery(year, gallery):
     if gallery_exists(year, gallery):
@@ -242,23 +263,6 @@ def get_unarchived_galleries():
     return get_galleries_by_archived(0)
         
 
-
-def get_images(gallery):
-    path_query = "SELECT name, location, filetype FROM images WHERE gallery = '" + gallery + "' AND NOT name = '' "
-    sql_out = run_sql(path_query)
-    out = []
-    for i in sql_out:
-        dict = {}
-        dict['title'] = i[0]
-        dict['path'] = i[1]
-        dict['filetype'] = i[2]
-        out.append(dict)
-    return  out
-    
-
-def get_images_in_gallery(year, gallery):
-    image_query = "SELECT name FROM images WHERE gallery = '" + gallery + "' AND NOT name = ''"
-    return screw_tuples2(run_sql(image_query))
 
 def get_years():
     years_query = "SELECT DISTINCT year FROM images WHERE name = '' "

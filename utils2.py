@@ -1,7 +1,7 @@
 import sqlite3
 import json
 from datetime import date
-import PythonMagick
+#import PythonMagick
 import os, shutil
 
 flask_path = os.path.dirname(__file__) 
@@ -133,7 +133,7 @@ def get_images_in_gallery(year, gallery):
     return run_sql(sql)
 
 def get_current_galleries():
-    galleries_query = "SELECT gallery FROM images WHERE name = '' AND archived = 0 AND year = " + str(current_year)
+    galleries_query = "SELECT gallery FROM images WHERE name = '' AND archived = 0 AND visible = 1 AND year = " + str(current_year)
     return screw_tuples2(run_sql(galleries_query))
 
 def get_all_galleries():
@@ -182,8 +182,8 @@ def get_sample_images():  #gets one image from each gallery
         out.append(dict)
     return out
     
-def set_visible(year, visible):
-    sql = "UPDATE images SET visible = " + visible + "WHERE year = " + year
+def set_visible(year, gallery, visible):
+    sql = "UPDATE images SET visible = " + visible + "WHERE gallery = '" + gallery +  "' AND year = " + year
     insert(sql)
 
 def get_visible_galleries():
@@ -199,16 +199,20 @@ def delete_image(year, gallery, name):
         location_query = "SELECT location FROM images WHERE name = '" + name + "' AND gallery = '" + gallery + "' AND year = " + str(year)
         location = run_sql(location_query)[0][0]
         print location
-        delete_query= "DELETE FROM images WHERE name = '" + name + "' AND gallery = '" + gallery + "' AND year = " + str(year)
-        run_sql(delete_query)
-        shutil.rmtree(location)
+        delete_query= "DELETE FROM images WHERE year = " + str(year) + " AND gallery = '" + gallery + "' AND name = '" + name + "'"
+        print delete_query
+        insert(delete_query)
+        try:
+            shutil.rmtree(location)
+        except OSError:
+            print "Deleting image with no path"
         return True
     return False
 
 def delete_gallery(year, gallery):
     if gallery_exists(year, gallery):
         delete = "DELETE FROM image WHERE gallery = '" + gallery + "' AND year = " + year
-        run_sql(delete)
+        insert(delete)
         shutil.rmtree(os.path.join(upload_path, year, gallery))
         return True
     return False
@@ -218,8 +222,16 @@ def set_archive(year, archive):
     insert(sql)
 
 def get_galleries_by_archived(archived):
-    sql = "SELECT gallery, year FROM images WHERE archived = " + archived
-    return screw_tuples(run_sql(sql))
+    sql = "SELECT DISTINCT gallery, year FROM images WHERE archived = " + archived
+    sql_out = run_sql(sql)
+    out = []
+    for gallery in sql_out:
+        dict = {}
+        dict['gallery'] = gallery[0]
+        dict['year'] = gallery[1]
+        out.append(dict)
+    return out
+
 
 def get_archived_galleries():
     return get_galleries_by_archived(1)

@@ -88,24 +88,38 @@ var editGradientContents = function(path){
 
 //click event for left arrow on slideshow
 //loads .gradientBox of image to the left
-$("#leftA").click(function(){
-    console.log("hello");
+var leftAEvent = function(){   
+
     if (pathIndex != 0){
 	pathIndex -= 1;
     } else {
 	pathIndex = globalPaths.length -1;
     }
     editGradientContents(globalPaths[pathIndex]);
-});
-
+};
 
 //click event for right arrow on slideshow
 //loads .gradientBox of image to the right
-$("#rightA").click(function(){
+var rightAEvent= function(){
     if (pathIndex < globalPaths.length -1){
 	pathIndex += 1;
     } else {
 	pathIndex = 0;
     }
     editGradientContents(globalPaths[pathIndex]);
+};
+
+//Binds left and right arrow buttons
+$("#leftA").click(leftAEvent);
+$("#rightA").click(rightAEvent);
+
+//Binds left and right arrow keys on keyboard
+$(document).keydown(function(e){
+    if (e.keyCode == 37) { //left key
+	leftAEvent();
+    } else if (e.keyCode = 39) { //right key
+	rightAEvent();
+    }
+
+    return false;
 });

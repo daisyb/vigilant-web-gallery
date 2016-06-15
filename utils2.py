@@ -182,17 +182,17 @@ def get_sample_images():  #gets one image from each gallery
         out.append(dict)
     return out
     
-def set_visible(year, gallery, visible):
-    sql = "UPDATE images SET visible = " + visible + "WHERE gallery = '" + gallery +  "' AND year = " + year
+def set_visible_by_year(year, visible):
+    sql = "UPDATE images SET visible = " + visible + "WHERE year = " + year 
     insert(sql)
 
-def get_visible_galleries():
-    sql = "SELECT gallery, year FROM images WHERE visible = 1"
-    return screw_tuples(run_sql(sql))
+def get_visible_by_year(year):
+    visible_query = "SELECT gallery FROM images WHERE year = " + year " AND visible = 1"
+    return screw_tuples2(run_sql(visible_query))
 
-def get_invisible_galleries():
-    sql = "SELECT gallery, year FROM images WHERE visible = 0"
-    return screw_tuples(run_sql(sql))
+def get_invisible_by_year(year):
+    visible_query = "SELECT gallery FROM images WHERE year = " + year " AND visible = 0"
+    return screw_tuples2(run_sql(visible_query))
 
 def delete_image(year, gallery, name):
     if image_exists(year, gallery, name):
@@ -261,3 +261,6 @@ def get_images_in_gallery(year, gallery):
 def get_years():
     years_query = "SELECT DISTINCT year FROM images WHERE name = '' "
     return screw_tuples2(run_sql(years_query))
+
+def get_previous_years():
+    return get_years().remove(current_year)

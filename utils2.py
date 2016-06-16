@@ -224,11 +224,11 @@ def set_visible_by_year(year, visible):
     insert(sql)
 
 def get_visible_by_year(year):
-    visible_query = "SELECT gallery FROM images WHERE year = " + year " AND visible = 1"
+    visible_query = "SELECT gallery FROM images WHERE year = " + year +" AND visible = 1"
     return screw_tuples2(run_sql(visible_query))
 
 def get_invisible_by_year(year):
-    visible_query = "SELECT gallery FROM images WHERE year = " + year " AND visible = 0"
+    visible_query = "SELECT gallery FROM images WHERE year = " + year + " AND visible = 0"
     return screw_tuples2(run_sql(visible_query))
 
 

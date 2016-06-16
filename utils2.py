@@ -125,6 +125,8 @@ def limit_size(imagepath):
 
     new_size = 1000
     if (w > new_size or h > new_size):
+        print h/w
+        print w/h
         if (w > h):
             image = resize(image, 1000, int(1000 * (h/w)))
         else:

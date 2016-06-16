@@ -292,3 +292,17 @@ select, option {
     text-align: center;
 }
 
+/**************** old galleries ******************/
+
+#yearList {
+
+    margin: 30px 0px 30px 6%;
+    list-style-type: none;
+
+}
+
+#yearList  li {
+    padding: 10px;
+    font-size: 1.3em;
+    margin-left:6%;
+}

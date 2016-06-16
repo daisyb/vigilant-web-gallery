@@ -1,14 +1,12 @@
 var globalPaths;
 var pathIndex;
 
-var gallery;
+var gallery = $(".title").text(); //gallery name
 var uri = '/getall';
 var loc = window.location.pathname.split("/");
-if (loc.length < 4){
-    gallery = loc[2];
-} else {
-    gallery = loc[3];
-    uri = uri + loc[1];
+if (loc[1] != 'gallery'){
+    year = loc[1]; 
+    uri = uri + "/" + year;
 }
 
 console.log(loc);

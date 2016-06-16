@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block head %}
+<title>Old Galleries</title>
+{% endblock %}
+
+{% block contents %}
+<h1 class="title">Previous Years</h1>
+
+<ul id = "yearList">
+  {% for year in years %}
+  <li><a href ="/{{ year }}">{{ year }}</a></li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}

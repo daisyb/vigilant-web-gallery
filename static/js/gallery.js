@@ -1,11 +1,26 @@
 var globalPaths;
 var pathIndex;
 
+var gallery;
+var uri = '/getall';
+var loc = window.location.pathname.split("/");
+if (loc.length < 4){
+    gallery = loc[2];
+} else {
+    gallery = loc[3];
+    uri = uri + loc[1];
+}
+
+console.log(loc);
+console.log(uri);
+console.log(gallery);
+
+
 function getThumbs() {
     console.log('getThumbs');
     $.ajax({
-	url: '/getall',
-	data: {'gallery':window.location.pathname},
+	url: uri,
+	data: {'gallery': gallery},
 	type: 'POST',
 	success: function(e) {
 	    //gets list of dictionaries with paths, titles, and filetypes for each image

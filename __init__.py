@@ -17,6 +17,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 #max filesize limit of 10mb
 flask_path = os.path.dirname(__file__)
 upload_path = flask_path + UPLOAD_FOLDER
+
 @app.route("/")
 @app.route("/home")
 def home():
@@ -24,12 +25,22 @@ def home():
     return render_template("home.html",gallerynames=gn)
 
 @app.route("/gallery/<g>")
-def gallery(g):
-    if g == None:
-        return redirect(url_for("home"))
-    elif g in utils2.get_current_galleries():
+@app.route("/<year>/<g>")
+@app.route("/<year>")
+def gallery(g = None, year = None):
+    if year == None:
         gn = utils2.get_current_galleries()
-        return render_template("gallery.html",cgallery=g,gallerynames=gn)
+        if g in gn:
+            return render_template("gallery.html",cgallery=g,gallerynames=gn)
+    else:
+        yrs = utils2.get_previous_years()
+        yrs = [ format(x,'') for x in yrs ]
+        if year not in yrs:
+            return redirect(url_for("home"))
+        gn = utils2.get_visible_by_year(year)
+        if g == None:
+            g = gn[0]
+        return render_template("gallery.html",cgallery=g,gallerynames=gn, yr = year)
     return redirect(url_for("home")) 
 
 def allowed_file(filename):
@@ -85,47 +96,26 @@ def upload():
         else:
             return render_template("error.html", error="You did not upload a file or your file name is unacceptable.")
 
+@app.route("/oldgalleries")
+def oldgalleries():
+    gn = utils2.get_current_galleries()
+    y = utils2.get_previous_years()
+    return render_template("old.html", gallerynames = gn, years = y)
+        
 @app.route("/getsamples")
 def getsamples():
     d = utils2.get_sample_images()
     return json.dumps(d)
 
 
-@app.route("/getimages", methods=['POST'])
-def getimages():
-    gallery=request.form[0]
-    t = gallery.split('/')
-    i = len(t) - 1
-    while i >= 0:
-        if t[i] != None:
-            break
-        i-=1
-    d = utils2.get_image_paths(t[i])
-    return json.dumps(d)
-
-@app.route("/getthumbnails", methods=['POST'])
-def getthumbnails():
-    gallery=request.form[0]
-    t = gallery.split('/')
-    i = len(t) - 1
-    while i >= 0:
-        if t[i] != None:
-            break
-        i-=1
-    d = utils2.get_image_paths(t[i])
-    return json.dumps(d)
-
 @app.route("/getall", methods=['POST'])
-def getall():
-    q=request.form
-    gallery=q['gallery']
-    t = gallery.split('/')
-    i = len(t) - 1
-    while i >= 0:
-        if t[i] != None:
-            break
-        i-=1
-    d = utils2.get_images(t[i])
+@app.route("/getall/<year>", methods =['POST'])
+def getall(year = None):
+    gallery = request.form['gallery']
+    if year == None:
+        d = utils2.get_images_in_gallery(date.today().year, gallery) #this year
+    else:
+        d = utils2.get_images_in_gallery(year, gallery)
     print d
     return json.dumps(d)
 

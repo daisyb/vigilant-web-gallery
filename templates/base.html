@@ -12,28 +12,60 @@
   <body>
     <div id="nav-top">
       <span id="threelines" onclick="toggleBar(sNav)">&#9776;</span>
+      {% if yr is defined %}
+      {{ yr }}
+      {% endif %}
       <span style="padding-left:45%"><a href="/home"><img src="../static/images/thluffy.png"></a></span>
     </div>
     <script>
      if (document.documentElement.clientWidth > 1300){
 	 document.getElementById("nav-top").className = "hidden";
+     };
+     {% if yr is defined %}
+     var n = {{ yr }};
+     n = parseInt(n) - 2000;
+     var r,g,b;
+     r = g = b = 0;
+     if (n%2 == 0){
+	 r = 255;
      }
+     if (n%3 == 0){
+	 g = 255;
+     }
+     if (n%7 == 0){
+	 b = 255;
+     }
+     var rgb = "rgb(" + r + "," + g + "," + b + ")";
+     console.log(rgb);
+     document.getElementById('nav-top').style.backgroundColor = rgb;
+     {% endif %}
     </script>
 
     <div id="nav-side">
       <a href="/home"><img src="../static/images/thumbnail.png"/></a>
       <ul>
+	{% if yr is not defined %}
 	<span class="ul-title">MENU</span><br>
 	&nbsp;
 	<li id="/home"><a href ="/home" >Home</a></li>
 	<li id="/upload"><a href ="/upload">Upload</a></li>
+	<li id="/oldgalleries"><a href ="/oldgalleries">Old Galleries</a></li>
+	{% else %}
+	<li id="/oldgalleries"><a href ="/oldgalleries" >Go Back</a></li>
+	{% endif %}
+	
       </ul>
       <ul>
 	<span class="ul-title">GALLERIES</span><br>
 	&nbsp;
 	{% for page in gallerynames %}
+	{% if yr is not defined %}
 	<li id="/gallery/{{page}}"><a href ="/gallery/{{ page }}">{{ page }}</a></li>
+	{% else %}
+	<li id="/{{ yr }}/{{page}}"><a href ="/{{ yr }}/{{ page }}">{{ page }}</a></li>
+	{% endif %}
 	{% endfor %}
+
       </ul>
     </div>
 

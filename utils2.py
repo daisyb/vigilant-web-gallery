@@ -125,7 +125,11 @@ def limit_size(imagepath):
 
     new_size = 1000
     if (w > new_size or h > new_size):
-        image = resize(image, new_size, new_size)
+        if (w > h):
+            image = resize(image, 1000, int(1000 * (h/w)))
+        else:
+            image = resize(image, int(1000 * (w/h)), 1000)
+        #image = resize(image, new_size, new_size)
         #image.resize("{}x{}".format(new_size, new_size))
         #image.resize(new_size, new_size)
         image.write(str(imagepath))

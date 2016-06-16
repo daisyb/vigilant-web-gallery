@@ -5,7 +5,7 @@ import os
 from datetime import date
 from flask import Flask, render_template, session, request, redirect, url_for
 from werkzeug.utils import secure_filename
-#from database import *
+
 import uuid
 import time
 admin_key = "mrdwisawesome" # PLEASE CHANGE

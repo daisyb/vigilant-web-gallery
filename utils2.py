@@ -47,7 +47,7 @@ def insert(sql):
     con.commit()
     con.close()
     
-bdef setup_db():
+def setup_db():
     setup_table = "CREATE TABLE IF NOT EXISTS images (name TEXT, gallery TEXT, year INTEGER, location TEXT, filetype TEXT, visible INTEGER, archived INTEGER )"
     run_sql(setup_table)
     if os.path.exists(upload_path):

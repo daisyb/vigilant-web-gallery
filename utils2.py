@@ -47,7 +47,7 @@ def insert(sql):
     con.commit()
     con.close()
     
-def setup_db():
+bdef setup_db():
     setup_table = "CREATE TABLE IF NOT EXISTS images (name TEXT, gallery TEXT, year INTEGER, location TEXT, filetype TEXT, visible INTEGER, archived INTEGER )"
     run_sql(setup_table)
     if os.path.exists(upload_path):
@@ -273,4 +273,8 @@ def get_previous_years():
 
 def get_invisible_years():
     years_query = "SELECT DISTINCT year FROM images WHERE visible = 0"
+    return screw_tuples2(run_sql(years_query))
+
+def get_visible_year():
+    years_query = "SELECT DISTINCT year FROM images WHERE visible = 1"
     return screw_tuples2(run_sql(years_query))

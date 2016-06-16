@@ -7,7 +7,7 @@ import os, shutil
 flask_path = os.path.dirname(__file__) 
 database_path = os.path.join(flask_path, "imagegallery2.db")
 upload_path = os.path.join(flask_path, "static/uploads")
-current_year = date.today().year
+
 
 '''
 Take 2
@@ -29,7 +29,7 @@ def screw_tuples2(shitty_tuple_list):
     return [i[0] for i in shitty_tuple_list]
 
 def run_sql(sql):
-
+  
 
 
     con = sqlite3.connect(database_path)
@@ -125,7 +125,11 @@ def limit_size(imagepath):
 
     new_size = 1000
     if (w > new_size or h > new_size):
-        image = resize(image, new_size, new_size)
+        if (w > h):
+            image = resize(image, 1000, int(1000 * (h/w)))
+        else:
+            image = resize(image, int(1000 * (w/h)), 1000)
+        #image = resize(image, new_size, new_size)
         #image.resize("{}x{}".format(new_size, new_size))
         #image.resize(new_size, new_size)
         image.write(str(imagepath))
@@ -147,7 +151,7 @@ def get_images_in_gallery(year, gallery):
 
 
 def get_images(gallery):
-    return get_images_in_gallery(current_year, gallery)
+    return get_images_in_gallery(date.today().year, gallery)
 
 def add_image(year, gallery, name, filetype, image_path):
     # Folder name is different from name cause it has timestamp added
@@ -158,11 +162,11 @@ def add_image(year, gallery, name, filetype, image_path):
     return True
 
 def get_sample_images():  #gets one image from each gallery
-    current_year = date.today().year
+   
     galleries = get_current_galleries()
     out = []
     for gallery in galleries:
-        sql = "SELECT location FROM images WHERE gallery = '" + gallery + "' AND year = " + str(current_year) +  " AND NOT name = '' ORDER BY RANDOM() LIMIT 1"
+        sql = "SELECT location FROM images WHERE gallery = '" + gallery + "' AND year = " + str(date.today().year) +  " AND NOT name = '' ORDER BY RANDOM() LIMIT 1"
         dict = {}
         dict["gallery"] = gallery
         sql_out = run_sql(sql)
@@ -193,7 +197,7 @@ def delete_image(year, gallery, name):
 # <---------------------- Galleries  ---------------------->
 
 def get_current_galleries():
-    galleries_query = "SELECT gallery FROM images WHERE name = '' AND archived = 0 AND visible = 1 AND year = " + str(current_year)
+    galleries_query = "SELECT gallery FROM images WHERE name = '' AND archived = 0 AND visible = 1 AND year = " + str(date.today().year)
     return screw_tuples2(run_sql(galleries_query))
 
 def get_all_galleries():
@@ -231,6 +235,10 @@ def get_visible_by_year(year):
 
 def get_invisible_by_year(year):
     visible_query = "SELECT gallery FROM images WHERE year = " + str(year) + " AND visible = 0"
+    return screw_tuples2(run_sql(visible_query))
+
+def get_invisible_by_year(year):
+    visible_query = "SELECT gallery FROM images WHERE year = " + year + " AND visible = 0"
     return screw_tuples2(run_sql(visible_query))
 
 
@@ -272,5 +280,13 @@ def get_years():
 
 def get_previous_years():
     years = get_years()
-    years.remove(current_year)
+    years.remove(date.today().year)
     return years
+
+def get_invisible_years():
+    years_query = "SELECT DISTINCT year FROM images WHERE visible = 0"
+    return screw_tuples2(run_sql(years_query))
+
+def get_visible_years():
+    years_query = "SELECT DISTINCT year FROM images WHERE visible = 1"
+    return screw_tuples2(run_sql(years_query))

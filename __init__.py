@@ -7,6 +7,7 @@ import time
 from datetime import date
 from flask import Flask, render_template, session, request, redirect, url_for
 from werkzeug.utils import secure_filename
+
 admin_key = "mrdwisawesome" # PLEASE CHANGE
 app = Flask(__name__)
 
@@ -56,7 +57,9 @@ def upload():
         #print request.form
         file = request.files['file']
         gallname = request.form['Gallery']
-        image_name = secure_filename(request.form['name'])
+        if galleryname not in gn:
+            return render_template("error.html", error="Stop trying to be clever.")
+        image_name = " ".join(secure_filename(request.form['name']).split("_"))
         code = request.form['code']
         if image_name == " " or not image_name:
             return render_template("error.html", error="Enter valid image name")
@@ -100,7 +103,7 @@ def upload():
 @app.route("/oldgalleries")
 def oldgalleries():
     gn = utils2.get_current_galleries()
-    y = utils2.get_previous_years()
+    y = utils2.get_visible_years()
     return render_template("old.html", gallerynames = gn, years = y)
         
 @app.route("/getsamples")
@@ -161,18 +164,20 @@ def creategallery(key, year, gallery):
         return "Error, " + gallery + "  already exists"
     return "Error, invalid key"
 
-@app.route("/archivegalleries/<key>/<year>")
-def archivegalleries(key,year):
+@app.route("/getVisibleYears/<key>")
+def getVisibleYears(key):
     if key == admin_key:
-        return utils2.set_archive(year, 1)
+        gn = utils2.get_visible_years()
+        return json.dumps(gn)
     return "Error, invalid key"
 
-@app.route("/unarchivegalleries/<key>/<year>")
-def unarchivegalleries(key,year):
+@app.route("/getInvisibleYears/<key>")
+def getInvisibleYears(key):
     if key == admin_key:
-        return utils2.set_archive(year, 0)
-    return "Error"
-
+        gn =  utils2.get_invisible_years()
+        return json.dumps(gn)
+    return "Error, invalid key"
+        
 @app.route("/getInvisibleGalleries/<key>/")
 @app.route("/getInvisibleGalleries/<key>/<year>")
 def getInvisibleGalleries(key, year = None):
@@ -208,7 +213,7 @@ def setVisibility(key, visibility, gallery, year = None):
     return "Error, invalid key"
 
 @app.route("/setVisibilityByYear/<key>/<visibility>")
-@app.route("/setVisibility/<key>/<visibility>/<year>")
+@app.route("/setVisibilityByYear/<key>/<visibility>/<year>")
 def setVisibilityByYear(key, visibility, year = None):
     if key == admin_key:
         if year == None:

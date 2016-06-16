@@ -1,3 +1,5 @@
+# DEPRECATED, NOT USED
+
 import sqlite3
 import json
 from datetime import date
@@ -271,6 +273,8 @@ def printGalleries(galleryfunct):
 
 def printAllGalleries():
 	printGalleries(getAllGalleries)
+
+
 
 def outputJSON():
     out = {}

@@ -121,7 +121,7 @@ def limit_size(imagepath):
     print imagepath 
     image = PythonMagick.Image(str(imagepath))
     geometry = image.size()
-    w, h = geometry.width(), geometry.height()
+    w, h = float(geometry.width()), float(geometry.height())
 
     new_size = 1000
     if (w > new_size or h > new_size):

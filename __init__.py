@@ -44,7 +44,7 @@ def upload():
         #print request.form
         file = request.files['file']
         gallname = request.form['Gallery']
-        if galleryname not in gn:
+        if gallname not in gn:
             return render_template("error.html", error="Stop trying to be clever.")
         image_name = " ".join(secure_filename(request.form['name']).split("_"))
         code = request.form['code']

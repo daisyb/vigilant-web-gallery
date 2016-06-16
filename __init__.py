@@ -2,12 +2,11 @@ import urllib2,json
 import hashlib
 import utils2
 import os
+import uuid
+import time
 from datetime import date
 from flask import Flask, render_template, session, request, redirect, url_for
 from werkzeug.utils import secure_filename
-#from database import *
-import uuid
-import time
 admin_key = "mrdwisawesome" # PLEASE CHANGE
 app = Flask(__name__)
 
@@ -38,6 +37,8 @@ def gallery(g = None, year = None):
         if year not in yrs:
             return redirect(url_for("home"))
         gn = utils2.get_visible_by_year(year)
+        if len(gn) == 0:
+            return redirect(url_for("home"))
         if g == None:
             g = gn[0]
         return render_template("gallery.html",cgallery=g,gallerynames=gn, yr = year)
@@ -181,7 +182,7 @@ def getInvisibleGalleries(key, year = None):
         else:
             gn = utils2.get_invisible_by_year(year)
         return json.dumps(gn)
-    return "Error"
+    return "Error, invalid key"
 
 @app.route("/getVisibleGalleries/<key>/")
 @app.route("/getVisibleGalleries/<key>/<year>")
@@ -192,27 +193,31 @@ def getVisibleGalleries(key, year = None):
         else:
             gn = utils2.get_visible_by_year(year)
         return json.dumps(gn)
-    return "Error"
+    return "Error, invalid key"
 
 @app.route("/setVisibility/<key>/<visibility>/<gallery>")
 @app.route("/setVisibility/<key>/<visibility>/<gallery>/<year>")
 def setVisibility(key, visibility, gallery, year = None):
     if key == admin_key:
         if year == None:
-            return utils2.set_visible(date.today().year,gallery,visibility)
+            utils2.set_visible(date.today().year,gallery,visibility)
+            return "success"
         else:
-            return utils2.set_visible(year,gallery,visibility)
-    return "Error"
+            utils2.set_visible(year,gallery,visibility)
+            return "success"
+    return "Error, invalid key"
 
 @app.route("/setVisibilityByYear/<key>/<visibility>")
 @app.route("/setVisibility/<key>/<visibility>/<year>")
 def setVisibilityByYear(key, visibility, year = None):
     if key == admin_key:
         if year == None:
-            return utils2.set_visible_by_year(date.today().year,visibility)
+            utils2.set_visible_by_year(date.today().year,visibility)
+            return "success"
         else:
-            return utils2.set_visible_by_year(year,visibility)
-    return "Error"
+            utils2.set_visible_by_year(year,visibility)
+            return "success"
+    return "Error, invalid key"
 
 @app.route("/getYears/<key>")
 def getYears(key):

@@ -1,7 +1,7 @@
 import sqlite3
 import json
 from datetime import date
-import PythonMagick
+#import PythonMagick
 import os, shutil
 
 flask_path = os.path.dirname(__file__) 

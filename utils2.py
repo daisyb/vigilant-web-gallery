@@ -134,7 +134,7 @@ def limit_size(imagepath):
 # <---------------------- Images  ---------------------->
 
 def get_images_in_gallery(year, gallery):
-    sql = "SELECT name, location, filetype FROM images WHERE gallery = '" + gallery + "' AND year =" + str(year) + " AND NOT name = ''"
+    sql = "SELECT name, location, filetype FROM images WHERE gallery = '" + gallery + "' AND year =" + str(year) + " AND NOT name = '' AND visible = 1"
     sql_out = run_sql(sql)
     out = []
     for i in sql_out:
@@ -216,19 +216,21 @@ def add_gallery(year, gallery):
         return True
 
 
-
+def set_visible(year, gallery, visible):
+     sql = "UPDATE images SET visible = " + str(visible) + " WHERE gallery = '" + gallery +  "' AND year = " + str(year)
+     insert(sql)
 
 
 def set_visible_by_year(year, visible):
-    sql = "UPDATE images SET visible = " + visible + "WHERE year = " + year 
+    sql = "UPDATE images SET visible = " + str(visible) + " WHERE year = " + str(year) 
     insert(sql)
 
 def get_visible_by_year(year):
-    visible_query = "SELECT gallery FROM images WHERE year = " + year + " AND visible = 1"
+    visible_query = "SELECT gallery FROM images WHERE year = " + str(year) + " AND visible = 1"
     return screw_tuples2(run_sql(visible_query))
 
 def get_invisible_by_year(year):
-    visible_query = "SELECT gallery FROM images WHERE year = " + year + " AND visible = 0"
+    visible_query = "SELECT gallery FROM images WHERE year = " + str(year) + " AND visible = 0"
     return screw_tuples2(run_sql(visible_query))
 
 

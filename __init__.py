@@ -172,18 +172,46 @@ def unarchivegalleries(key,year):
         return utils2.set_archive(year, 0)
     return "Error"
 
-@app.route("/getInvisibleGalleries/<key>")
-def getInvisibleGalleries(key):
+@app.route("/getInvisibleGalleries/<key>/")
+@app.route("/getInvisibleGalleries/<key>/<year>")
+def getInvisibleGalleries(key, year = None):
     if key == admin_key:
-        gn = utils2.get_invisible_galleries()
+        if year == None:
+            gn = utils2.get_invisible_by_year(date.today().year)
+        else:
+            gn = utils2.get_invisible_by_year(year)
         return json.dumps(gn)
     return "Error"
 
-@app.route("/getVisibleGalleries/<key>")
-def getVisibleGalleries(key):
+@app.route("/getVisibleGalleries/<key>/")
+@app.route("/getVisibleGalleries/<key>/<year>")
+def getVisibleGalleries(key, year = None):
     if key == admin_key:
-        gn = utils2.get_visible_galleries()
+        if year == None:
+            gn = utils2.get_visible_by_year(date.today().year)
+        else:
+            gn = utils2.get_visible_by_year(year)
         return json.dumps(gn)
+    return "Error"
+
+@app.route("/setVisibility/<key>/<visibility>/<gallery>")
+@app.route("/setVisibility/<key>/<visibility>/<gallery>/<year>")
+def setVisibility(key, visibility, gallery, year = None):
+    if key == admin_key:
+        if year == None:
+            return utils2.set_visible(date.today().year,gallery,visibility)
+        else:
+            return utils2.set_visible(year,gallery,visibility)
+    return "Error"
+
+@app.route("/setVisibilityByYear/<key>/<visibility>")
+@app.route("/setVisibility/<key>/<visibility>/<year>")
+def setVisibilityByYear(key, visibility, year = None):
+    if key == admin_key:
+        if year == None:
+            return utils2.set_visible_by_year(date.today().year,visibility)
+        else:
+            return utils2.set_visible_by_year(year,visibility)
     return "Error"
 
 @app.route("/getYears/<key>")

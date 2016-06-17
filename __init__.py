@@ -49,10 +49,19 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route("/upload",methods=["GET","POST"])
-def upload():
-    gn = utils2.get_current_galleries()
+@app.route("/upload/<year>",methods=["GET","POST"]) #TEMPORARY
+def upload(year = None):
+    if year != None: #TEMPORARY
+        gn = utils2.get_visible_by_year(year) #TEMPORARY
+    else: #TEMPORARY
+        print "GAHHH"
+        gn = utils2.get_current_galleries() 
     if request.method == "GET":
-        return render_template("upload.html", gallerynames=gn, galleries=gn)
+        print year
+        if year != None: #TEMPORARY
+            gn = utils2.get_visible_by_year(year) #TEMPORARY
+            return render_template("upload.html", gallerynames=gn, galleries=gn, yr = year) #TEMPORARY
+        return render_template("upload.html", gallerynames=gn, galleries=gn)                    
     else: 
         #print request.form
         file = request.files['file']
@@ -80,6 +89,8 @@ def upload():
                 print "File size is acceptable."
             foldername = secure_filename(image_name + "_" + str(int(time.time()))) #sets foldername to first_last_timestamp
             current_year = date.today().year
+            if year != None: #TEMPORARY
+                current_year = year #TEMPORARY
             relative_image_dir = os.path.join(UPLOAD_FOLDER, str(current_year),  gallname, foldername)
 
             print "TEMP FILE PATH: "+ temppath
@@ -96,7 +107,10 @@ def upload():
                 f = open(image_dir + "/code.txt", 'w')
                 f.write(code)
                 f.close()
-                return redirect(url_for("gallery",g=gallname))
+                if year != None: #TEMPORARY
+                    return redirect(url_for("gallery", year = year, g=gallname)) #TEMPORARY
+                else:  #TEMPORARY          
+                    return redirect(url_for("gallery", g=gallname))
             else:
                 return render_template("error.html", error="Failed to write entry to database. An image with the same name likely already exists in that gallery.", gallerynames=gn)
         else:

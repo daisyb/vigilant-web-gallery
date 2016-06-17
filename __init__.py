@@ -140,7 +140,10 @@ def getgalleries(key):
 def getimagename(key, year, gallery):
     if key == admin_key:
         g = utils2.get_images_in_gallery(year, gallery)
-        return json.dumps(g)
+        imgnames = []
+        for image in g:
+            imgnames.append(image['title'])
+        return json.dumps(imgnames)
     return "Error, invalid key"
 
 @app.route("/deleteimage/<key>/<year>/<gallery>/<name>")

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block head %}
-{% if yr is none %}
+{% if yr is not defined %}
 <title>{{ cgallery }}</title>
 {% else %}
 <title>{{ cgallery }} - {{ yr }}</title>

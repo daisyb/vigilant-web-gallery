@@ -62,7 +62,7 @@ def upload():
         image_name = " ".join(secure_filename(request.form['name']).split("_"))
         if len(image_name) > 100:
             return render_template("error.html", error="Names longer than 100 characters will not display properly. Please shorten it.", gallerynames=gn)
-        code = request.form['code']
+        code = request.form['code'].encode('ascii', 'ignore')
         if image_name == " " or not image_name:
             return render_template("error.html", error="Enter valid image name", gallerynames=gn)
         #print gallname

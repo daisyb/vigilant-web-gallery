@@ -29,12 +29,16 @@ def screw_tuples2(shitty_tuple_list):
     return [i[0] for i in shitty_tuple_list]
 
 def run_sql(sql):
-  
-
-
     con = sqlite3.connect(database_path)
     cur = con.cursor()
     out = cur.execute(sql).fetchall()
+    con.close()
+    return out
+
+def run_sql_params(sql, *args):
+    con = sqlite3.connect(database_path)
+    cur = con.cursor()
+    out = cur.execute(sql, args).fetchall()
     con.close()
     return out
 
@@ -44,6 +48,15 @@ def insert(sql):
     con = sqlite3.connect(database_path)
     cur = con.cursor()
     cur.execute(sql)
+    con.commit()
+    con.close()
+
+def insert_params(sql, *args):
+    print "database path:" + database_path
+    print "flask path:" + flask_path
+    con = sqlite3.connect(database_path)
+    cur = con.cursor()
+    cur.execute(sql, args)
     con.commit()
     con.close()
     
@@ -59,15 +72,18 @@ def reload_db():
     setup_db()
 
 
-
-
 def gallery_exists (year, gallery):
-    check_existence = "SELECT CASE WHEN EXISTS ( SELECT * FROM images WHERE gallery = '" + gallery + "' AND year = "+ str(year) + " ) THEN CAST(1 AS BIT) ELSE CAST (0 AS BIT) END;"
-    return run_sql(check_existence)[0][0]
+    #check_existence = "SELECT CASE WHEN EXISTS ( SELECT * FROM images WHERE gallery = '" + gallery + "' AND year = "+ str(year) + " ) THEN CAST(1 AS BIT) ELSE CAST (0 AS BIT) END;"
+    #return run_sql(check_existence)[0][0]
+    check_existence = "SELECT CASE WHEN EXISTS ( SELECT * FROM images WHERE gallery = ? AND year = ? ) THEN CAST(1 AS BIT) ELSE CAST (0 AS BIT) END;"
+    return run_sql_params(check_existence, gallery, str(year))[0][0]
 
 def image_exists (year, gallery, name):
-    check_existence = "SELECT CASE WHEN EXISTS ( SELECT * FROM images WHERE gallery = '" + gallery + "' AND year = "+ str(year) + " AND name = '" + name + "' ) THEN CAST(1 AS BIT) ELSE CAST (0 AS BIT) END;"
-    return run_sql(check_existence)[0][0]
+    #check_existence = "SELECT CASE WHEN EXISTS ( SELECT * FROM images WHERE gallery = '" + gallery + "' AND year = "+ str(year) + " AND name = '" + name + "' ) THEN CAST(1 AS BIT) ELSE CAST (0 AS BIT) END;"
+    #return run_sql(check_existence)[0][0]
+    check_existence = "SELECT CASE WHEN EXISTS ( SELECT * FROM images WHERE gallery = ? AND year = ? AND name = ? ) THEN CAST(1 AS BIT) ELSE CAST (0 AS BIT) END;"
+    return run_sql_params(check_existence, gallery, str(year), name)[0][0]
+    
 
 
 def show_table():
@@ -88,30 +104,20 @@ def resize(image, w, h):
     return img
 
 
-def create_thumbnail(imagepath):   #just returns True for now. creates a thumbnail named "thumbnail.png"
+def create_thumbnail(imagepath):   #creates a thumbnail named "thumbnail.png"
     image = PythonMagick.Image(str(imagepath))
-    #image = image.write("thumbnail.png")
     geometry = image.size()
     w, h = geometry.width(), geometry.height()
     if (w > h):
         center = w/2
         image = crop(image, int(center - h/2), 0, h, h)
-        #image.crop(int((center - h/2)),  #left
-        #           0,               #top
-        #           int((center + h/2)),  #right
-        #           int(h))               #bottom
     else:
         center = h/2
         image = crop(image, 0, int(center - w/2), w, w)
-        #image.crop(0,                            #left
-        #           int((center - w/2)),               #top
-        #           int(w),                            #right
-        #           int((center + w/2)))               #bottomimage.crop()
 
     new_size = 175
     image = resize(image, new_size, new_size)
-    #image.resize("{}x{}".format(new_size, new_size))
-    #image.resize(new_size, new_size)
+
     newpath = str(imagepath)[:-9]
     newpath += "thumbnail.png"
     image.write(newpath)
@@ -129,17 +135,16 @@ def limit_size(imagepath):
             image = resize(image, 1000, int(1000 * (h/w)))
         else:
             image = resize(image, int(1000 * (w/h)), 1000)
-        #image = resize(image, new_size, new_size)
-        #image.resize("{}x{}".format(new_size, new_size))
-        #image.resize(new_size, new_size)
         image.write(str(imagepath))
     return True
 
 # <---------------------- Images  ---------------------->
 
 def get_images_in_gallery(year, gallery):
-    sql = "SELECT name, location, filetype FROM images WHERE gallery = '" + gallery + "' AND year =" + str(year) + " AND NOT name = '' AND visible = 1"
-    sql_out = run_sql(sql)
+    #sql = "SELECT name, location, filetype FROM images WHERE gallery = '" + gallery + "' AND year =" + str(year) + " AND NOT name = '' AND visible = 1"
+    #sql_out = run_sql(sql)
+    sql = "SELECT name, location, filetype FROM images WHERE gallery = ? AND year = ? AND NOT name = '' AND visible = 1"
+    sql_out = run_sql_params(sql, gallery, str(year))
     out = []
     for i in sql_out:
         dict = {}
@@ -157,8 +162,11 @@ def add_image(year, gallery, name, filetype, image_path):
     # Folder name is different from name cause it has timestamp added
     if image_exists(year, gallery, name):
         return False
-    sql = "INSERT INTO images VALUES ('" + name + "', '" + gallery + "', " + str(year) + ", '" + image_path + "', '" + filetype + "', 1, 0)"
-    insert(sql)
+    #sql = "INSERT INTO images VALUES ('" + name + "', '" + gallery + "', " + str(year) + ", '" + image_path + "', '" + filetype + "', 1, 0)"
+    #insert(sql)
+
+    sql = "INSERT INTO images VALUES (?, ?, ?, ?, ?, 1, 0)"
+    insert_params(sql, name, gallery, str(year), image_path, filetype)
     return True
 
 def get_sample_images():  #gets one image from each gallery
@@ -166,10 +174,12 @@ def get_sample_images():  #gets one image from each gallery
     galleries = get_current_galleries()
     out = []
     for gallery in galleries:
-        sql = "SELECT location FROM images WHERE gallery = '" + gallery + "' AND year = " + str(date.today().year) +  " AND NOT name = '' ORDER BY RANDOM() LIMIT 1"
+        #sql = "SELECT location FROM images WHERE gallery = '" + gallery + "' AND year = " + str(date.today().year) +  " AND NOT name = '' ORDER BY RANDOM() LIMIT 1"
+        sql = "SELECT location FROM images WHERE gallery = ? AND year = " + str(date.today().year) +  " AND NOT name = '' ORDER BY RANDOM() LIMIT 1"
         dict = {}
         dict["gallery"] = gallery
-        sql_out = run_sql(sql)
+        #sql_out = run_sql(sql)
+        sql_out = run_sql_params(sql, gallery)
         print sql_out
         try:
             dict["path"] = sql_out[0][0]
@@ -180,12 +190,17 @@ def get_sample_images():  #gets one image from each gallery
 
 def delete_image(year, gallery, name):
     if image_exists(year, gallery, name):
-        location_query = "SELECT location FROM images WHERE name = '" + name + "' AND gallery = '" + gallery + "' AND year = " + str(year)
-        location = run_sql(location_query)[0][0]
+        #location_query = "SELECT location FROM images WHERE name = '" + name + "' AND gallery = '" + gallery + "' AND year = " + str(year)
+        #location = run_sql(location_query)[0][0]
+        location_query = "SELECT location FROM images WHERE name = ? AND gallery = ? AND year = ?"
+        location = run_sql_params(location_query, name, gallery, str(year))[0][0]
         print location[3:]
-        delete_query= "DELETE FROM images WHERE year = " + str(year) + " AND gallery = '" + gallery + "' AND name = '" + name + "'"
+        
+        #delete_query= "DELETE FROM images WHERE year = " + str(year) + " AND gallery = '" + gallery + "' AND name = '" + name + "'"
+        delete_query= "DELETE FROM images WHERE year = ? AND gallery = ? AND name = ?"
         print delete_query
-        insert(delete_query)
+        #insert(delete_query)
+        insert_params(delete_query, str(year), gallery, name)
         try:
             shutil.rmtree(location[3:]) #need to get rid of "../"
         except OSError:

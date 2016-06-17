@@ -287,7 +287,10 @@ def get_unarchived_galleries():
 
 def get_years():
     years_query = "SELECT DISTINCT year FROM images WHERE name = '' "
-    return screw_tuples2(run_sql(years_query))
+    years =  screw_tuples2(run_sql(years_query))
+    years.sort(reverse = True)
+    return years
+
 
 def get_previous_years():
     years = get_years()
@@ -296,8 +299,12 @@ def get_previous_years():
 
 def get_invisible_years():
     years_query = "SELECT DISTINCT year FROM images WHERE visible = 0"
-    return screw_tuples2(run_sql(years_query))
+    years = screw_tuples2(run_sql(years_query))
+    years.sort(reverse = True)
+    return years
 
 def get_visible_years():
     years_query = "SELECT DISTINCT year FROM images WHERE visible = 1"
-    return screw_tuples2(run_sql(years_query))
+    years =  screw_tuples2(run_sql(years_query))
+    years.sort(reverse = True)
+    return years

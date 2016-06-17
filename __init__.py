@@ -50,20 +50,19 @@ def allowed_file(filename):
 
 @app.route("/upload",methods=["GET","POST"])
 def upload():
+    gn = utils2.get_current_galleries()
     if request.method == "GET":
-        gn = utils2.get_current_galleries()
         return render_template("upload.html", gallerynames=gn, galleries=gn)
     else: 
         #print request.form
         file = request.files['file']
         gallname = request.form['Gallery']
-        gn = utils2.get_current_galleries()
         if gallname not in gn:
-            return render_template("error.html", error="Stop trying to be clever.")
+            return render_template("error.html", error="Stop trying to be clever.", gallerynames=gn)
         image_name = " ".join(secure_filename(request.form['name']).split("_"))
         code = request.form['code']
         if image_name == " " or not image_name:
-            return render_template("error.html", error="Enter valid image name")
+            return render_template("error.html", error="Enter valid image name", gallerynames=gn)
         #print gallname
         if file and allowed_file(file.filename): #is a valid file type
             print "is valid file"
@@ -72,9 +71,9 @@ def upload():
             file.save(temppath) #file is saved as temp
             sizeoftemp = os.path.getsize(temppath)
             if sizeoftemp > 10 * 1024 * 1024 and file.filename[-4:].lower() == ".gif":
-                return render_template("error.html", error="Your file is too large. The maximum allowed file size for a .gif is 10 megabytes.")
+                return render_template("error.html", error="Your file is too large. The maximum allowed file size for a .gif is 10 megabytes.", gallerynames=gn)
             elif sizeoftemp > 5 * 1024 * 1024 and file.filename[-4:].lower() == ".png":
-                return render_template("error.html", error="Your file is too large. The maximum allowed file size for a .png is 5 megabytes.")
+                return render_template("error.html", error="Your file is too large. The maximum allowed file size for a .png is 5 megabytes.",gallerynames=gn)
             else:
                 print "File size is acceptable."
             foldername = secure_filename(image_name + "_" + str(int(time.time()))) #sets foldername to first_last_timestamp
@@ -97,9 +96,11 @@ def upload():
                 f.close()
                 return redirect(url_for("gallery",g=gallname))
             else:
-                return render_template("error.html", error="Failed to write entry to database. An image with the same name likely already exists in that gallery.")
+                return render_template("error.html", error="Failed to write entry to database. An image with the same name likely already exists in that gallery.", gallerynames=gn)
         else:
-            return render_template("error.html", error="You did not upload a file or your file name is unacceptable.")
+            return render_template("error.html", error="You did not upload a file or your file name is unacceptable.", gallerynames = gn)
+
+
 
 @app.route("/oldgalleries")
 def oldgalleries():

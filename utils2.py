@@ -227,7 +227,8 @@ def add_gallery(year, gallery):
         gallery_path = os.path.join(upload_path, str(year), gallery)
         sql = "INSERT INTO images VALUES ('', '"+ gallery + "', " + str(year) + ", '"+ "', '.png', 1, 0)"
         insert(sql)
-        os.makedirs(gallery_path)
+        if not os.path.exists(gallery_path):
+            os.makedirs(gallery_path)
         return True
 
 

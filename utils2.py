@@ -73,10 +73,8 @@ def reload_db():
 
 
 def gallery_exists (year, gallery):
-    #check_existence = "SELECT CASE WHEN EXISTS ( SELECT * FROM images WHERE gallery = '" + gallery + "' AND year = "+ str(year) + " ) THEN CAST(1 AS BIT) ELSE CAST (0 AS BIT) END;"
-    #return run_sql(check_existence)[0][0]
-    check_existence = "SELECT CASE WHEN EXISTS ( SELECT * FROM images WHERE gallery = ? AND year = ? ) THEN CAST(1 AS BIT) ELSE CAST (0 AS BIT) END;"
-    return run_sql_params(check_existence, gallery, str(year))[0][0]
+    check_existence = "SELECT CASE WHEN EXISTS ( SELECT * FROM images WHERE gallery = '" + gallery + "' AND year = "+ str(year) + " ) THEN CAST(1 AS BIT) ELSE CAST (0 AS BIT) END;"
+    return run_sql(check_existence)[0][0]
 
 def image_exists (year, gallery, name):
     #check_existence = "SELECT CASE WHEN EXISTS ( SELECT * FROM images WHERE gallery = '" + gallery + "' AND year = "+ str(year) + " AND name = '" + name + "' ) THEN CAST(1 AS BIT) ELSE CAST (0 AS BIT) END;"
@@ -174,12 +172,10 @@ def get_sample_images():  #gets one image from each gallery
     galleries = get_current_galleries()
     out = []
     for gallery in galleries:
-        #sql = "SELECT location FROM images WHERE gallery = '" + gallery + "' AND year = " + str(date.today().year) +  " AND NOT name = '' ORDER BY RANDOM() LIMIT 1"
-        sql = "SELECT location FROM images WHERE gallery = ? AND year = " + str(date.today().year) +  " AND NOT name = '' ORDER BY RANDOM() LIMIT 1"
+        sql = "SELECT location FROM images WHERE gallery = '" + gallery + "' AND year = " + str(date.today().year) +  " AND NOT name = '' ORDER BY RANDOM() LIMIT 1"
         dict = {}
         dict["gallery"] = gallery
-        #sql_out = run_sql(sql)
-        sql_out = run_sql_params(sql, gallery)
+        sql_out = run_sql(sql)
         print sql_out
         try:
             dict["path"] = sql_out[0][0]

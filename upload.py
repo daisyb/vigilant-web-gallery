@@ -55,4 +55,3 @@ for img in dir_contents:
             f = open(image_dir + "/code.txt", 'w')
             #f.write(code)
             f.close()
-Status API Training Shop Blog About

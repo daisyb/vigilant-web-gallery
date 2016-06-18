@@ -132,9 +132,7 @@ $("#rightA").click(rightAEvent);
 $(document).keydown(function(e){
     if (e.keyCode == 37) { //left key
 	leftAEvent();
-    } else if (e.keyCode = 39) { //right key
+    } else if (e.keyCode == 39) { //right key
 	rightAEvent();
-    }
-
-    return false;
+    }   
 });

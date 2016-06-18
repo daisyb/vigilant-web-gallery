@@ -76,7 +76,9 @@ $("#code").click(codeBttnEvent);
 
 //this makes all the expanded image stuff disapear
 $(".gradientBox").click(function(e){
-    $(this).css("visibility","hidden");
+    $(this).css("visibility","hidden"); //changes visibility
+    $("#currentImg").attr("src",""); //clears .gradientBox srcs
+    $("#currentCode").attr("src","");
 });
 
 //makes sure the above doesn't apply to div children

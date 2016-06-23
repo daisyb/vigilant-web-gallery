@@ -227,7 +227,8 @@ def add_gallery(year, gallery):
         gallery_path = os.path.join(upload_path, str(year), gallery)
         sql = "INSERT INTO images VALUES ('', '"+ gallery + "', " + str(year) + ", '"+ "', '.png', 1, 0)"
         insert(sql)
-        os.makedirs(gallery_path)
+        if not os.path.exists(gallery_path):
+            os.makedirs(gallery_path)
         return True
 
 
@@ -247,11 +248,6 @@ def get_visible_by_year(year):
 def get_invisible_by_year(year):
     visible_query = "SELECT gallery FROM images WHERE year = " + str(year) + " AND visible = 0 AND name = ''"
     return screw_tuples2(run_sql(visible_query))
-
-def get_invisible_by_year(year):
-    visible_query = "SELECT gallery FROM images WHERE year = " + year + " AND visible = 0"
-    return screw_tuples2(run_sql(visible_query))
-
 
 def delete_gallery(year, gallery):
     if gallery_exists(year, gallery):

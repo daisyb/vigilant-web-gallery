@@ -76,7 +76,9 @@ $("#code").click(codeBttnEvent);
 
 //this makes all the expanded image stuff disapear
 $(".gradientBox").click(function(e){
-    $(this).css("visibility","hidden");
+    $(this).css("visibility","hidden"); //changes visibility
+    $("#currentImg").attr("src",""); //clears .gradientBox srcs
+    $("#currentCode").attr("src","");
 });
 
 //makes sure the above doesn't apply to div children
@@ -130,9 +132,7 @@ $("#rightA").click(rightAEvent);
 $(document).keydown(function(e){
     if (e.keyCode == 37) { //left key
 	leftAEvent();
-    } else if (e.keyCode = 39) { //right key
+    } else if (e.keyCode == 39) { //right key
 	rightAEvent();
-    }
-
-    return false;
+    }   
 });

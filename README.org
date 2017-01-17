@@ -3,13 +3,13 @@ Welcome to the vigilant web gallery.
 All the wonderfulness of Mr. DW's web gallery plus more vigilance!
 
 ## The vigilant team:
-| Member               | Github                           | Role                                     |
-|----------------------+----------------------------------+------------------------------------------|
-| Daisy Barbanel       | https://github.com/daisyb        | Front end                                |
-| Krzysztof Hochlewicz | https://github.com/khoch         | Uploading/Security                       |
-| Michael Rivera       | https://github.com/mgriv         | Middleware                               |
-| David Song           | https://github.com/songdavid98   | Backend                                  |
-| Nicholas Yang        | https://github.com/NicholasLYang | Documentation, Deployment, Testing (DDT) |
+|                                | Member               | Github                           | Role                                     |   |   |   |   |
+|--------------------------------+----------------------+----------------------------------+------------------------------------------+---+---+---+---|
+| [[file:static/images/thluffy.png]] | Daisy Barbanel       | https://github.com/daisyb        | Front end                                |   |   |   |   |
+| file:[[static/images/thluffy.png]] | Krzysztof Hochlewicz | https://github.com/khoch         | Uploading/Security                       |   |   |   |   |
+|                                | Michael Rivera       | https://github.com/mgriv         | Middleware                               |   |   |   |   |
+|                                | David Song           | https://github.com/songdavid98   | Backend                                  |   |   |   |   |
+|                                | Nicholas Yang        | https://github.com/NicholasLYang | Documentation, Deployment, Testing (DDT) |   |   |   |   |
 
 
 [Check out our wiki](https://github.com/daisyb/vigilant-web-gallery/wiki)

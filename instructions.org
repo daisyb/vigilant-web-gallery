@@ -1,0 +1,8 @@
+- In local repo:
+  - git rm imagegallery2.db
+  - nano .gitignore  -> add *.db
+  - git pull
+  - git push vigilant-live master
+- ssh into hermes
+  - check permissions, make sure www-data is owner of imagegallery2.db
+  - change keys

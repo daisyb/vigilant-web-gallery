@@ -1,0 +1,115 @@
+[Thu Jan 19 01:11:20.034019 2017] [mpm_event:notice] [pid 14359:tid 140202095773568] AH00489: Apache/2.4.18 (Ubuntu) configured -- resuming normal operations
+[Thu Jan 19 01:11:20.034224 2017] [core:notice] [pid 14359:tid 140202095773568] AH00094: Command line: '/usr/sbin/apache2'
+[Thu Jan 19 01:11:21.940592 2017] [mpm_event:notice] [pid 14359:tid 140202095773568] AH00491: caught SIGTERM, shutting down
+[Thu Jan 19 01:11:23.085330 2017] [wsgi:warn] [pid 14542:tid 140383944394624] mod_wsgi: Compiled for Python/2.7.11.
+[Thu Jan 19 01:11:23.085427 2017] [wsgi:warn] [pid 14542:tid 140383944394624] mod_wsgi: Runtime using Python/2.7.12.
+[Thu Jan 19 01:11:23.086312 2017] [mpm_event:notice] [pid 14542:tid 140383944394624] AH00489: Apache/2.4.18 (Ubuntu) mod_wsgi/4.3.0 Python/2.7.12 configured -- resuming normal operations
+[Thu Jan 19 01:11:23.086345 2017] [core:notice] [pid 14542:tid 140383944394624] AH00094: Command line: '/usr/sbin/apache2'
+[Thu Jan 19 01:17:02.309802 2017] [mpm_event:notice] [pid 14542:tid 140383944394624] AH00493: SIGUSR1 received.  Doing graceful restart
+[Thu Jan 19 01:17:02.324011 2017] [wsgi:warn] [pid 14542:tid 140383944394624] mod_wsgi: Compiled for Python/2.7.11.
+[Thu Jan 19 01:17:02.324027 2017] [wsgi:warn] [pid 14542:tid 140383944394624] mod_wsgi: Runtime using Python/2.7.12.
+[Thu Jan 19 01:17:02.324069 2017] [mpm_event:notice] [pid 14542:tid 140383944394624] AH00489: Apache/2.4.18 (Ubuntu) mod_wsgi/4.3.0 Python/2.7.12 configured -- resuming normal operations
+[Thu Jan 19 01:17:02.324074 2017] [core:notice] [pid 14542:tid 140383944394624] AH00094: Command line: '/usr/sbin/apache2'
+[Thu Jan 19 01:18:13.603223 2017] [mpm_event:notice] [pid 14542:tid 140383944394624] AH00491: caught SIGTERM, shutting down
+[Thu Jan 19 01:18:13.730934 2017] [wsgi:warn] [pid 14903:tid 139796074350464] mod_wsgi: Compiled for Python/2.7.11.
+[Thu Jan 19 01:18:13.731040 2017] [wsgi:warn] [pid 14903:tid 139796074350464] mod_wsgi: Runtime using Python/2.7.12.
+[Thu Jan 19 01:18:13.731881 2017] [mpm_event:notice] [pid 14903:tid 139796074350464] AH00489: Apache/2.4.18 (Ubuntu) mod_wsgi/4.3.0 Python/2.7.12 configured -- resuming normal operations
+[Thu Jan 19 01:18:13.731930 2017] [core:notice] [pid 14903:tid 139796074350464] AH00094: Command line: '/usr/sbin/apache2'
+[Thu Jan 19 01:18:18.040958 2017] [mpm_event:notice] [pid 14903:tid 139796074350464] AH00493: SIGUSR1 received.  Doing graceful restart
+[Thu Jan 19 01:18:18.059576 2017] [wsgi:warn] [pid 14903:tid 139796074350464] mod_wsgi: Compiled for Python/2.7.11.
+[Thu Jan 19 01:18:18.059609 2017] [wsgi:warn] [pid 14903:tid 139796074350464] mod_wsgi: Runtime using Python/2.7.12.
+[Thu Jan 19 01:18:18.059656 2017] [mpm_event:notice] [pid 14903:tid 139796074350464] AH00489: Apache/2.4.18 (Ubuntu) mod_wsgi/4.3.0 Python/2.7.12 configured -- resuming normal operations
+[Thu Jan 19 01:18:18.059663 2017] [core:notice] [pid 14903:tid 139796074350464] AH00094: Command line: '/usr/sbin/apache2'
+[Thu Jan 19 01:22:27.154677 2017] [wsgi:error] [pid 15017:tid 139795961906944] [client 67.243.133.73:50208] [2017-01-19 01:22:27,153] ERROR in app: Exception on / [GET]
+[Thu Jan 19 01:22:27.154756 2017] [wsgi:error] [pid 15017:tid 139795961906944] [client 67.243.133.73:50208] Traceback (most recent call last):
+[Thu Jan 19 01:22:27.154762 2017] [wsgi:error] [pid 15017:tid 139795961906944] [client 67.243.133.73:50208]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1982, in wsgi_app
+[Thu Jan 19 01:22:27.154766 2017] [wsgi:error] [pid 15017:tid 139795961906944] [client 67.243.133.73:50208]     response = self.full_dispatch_request()
+[Thu Jan 19 01:22:27.154770 2017] [wsgi:error] [pid 15017:tid 139795961906944] [client 67.243.133.73:50208]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1614, in full_dispatch_request
+[Thu Jan 19 01:22:27.154774 2017] [wsgi:error] [pid 15017:tid 139795961906944] [client 67.243.133.73:50208]     rv = self.handle_user_exception(e)
+[Thu Jan 19 01:22:27.154778 2017] [wsgi:error] [pid 15017:tid 139795961906944] [client 67.243.133.73:50208]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1517, in handle_user_exception
+[Thu Jan 19 01:22:27.154796 2017] [wsgi:error] [pid 15017:tid 139795961906944] [client 67.243.133.73:50208]     reraise(exc_type, exc_value, tb)
+[Thu Jan 19 01:22:27.154800 2017] [wsgi:error] [pid 15017:tid 139795961906944] [client 67.243.133.73:50208]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1612, in full_dispatch_request
+[Thu Jan 19 01:22:27.154803 2017] [wsgi:error] [pid 15017:tid 139795961906944] [client 67.243.133.73:50208]     rv = self.dispatch_request()
+[Thu Jan 19 01:22:27.154806 2017] [wsgi:error] [pid 15017:tid 139795961906944] [client 67.243.133.73:50208]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1598, in dispatch_request
+[Thu Jan 19 01:22:27.154810 2017] [wsgi:error] [pid 15017:tid 139795961906944] [client 67.243.133.73:50208]     return self.view_functions[rule.endpoint](**req.view_args)
+[Thu Jan 19 01:22:27.154813 2017] [wsgi:error] [pid 15017:tid 139795961906944] [client 67.243.133.73:50208]   File "/var/www/vigilantwebgallery/vigilantwebgallery/__init__.py", line 24, in home
+[Thu Jan 19 01:22:27.154816 2017] [wsgi:error] [pid 15017:tid 139795961906944] [client 67.243.133.73:50208]     gn = utils2.get_current_galleries()
+[Thu Jan 19 01:22:27.154819 2017] [wsgi:error] [pid 15017:tid 139795961906944] [client 67.243.133.73:50208]   File "/var/www/vigilantwebgallery/vigilantwebgallery/utils2.py", line 212, in get_current_galleries
+[Thu Jan 19 01:22:27.154822 2017] [wsgi:error] [pid 15017:tid 139795961906944] [client 67.243.133.73:50208]     return screw_tuples2(run_sql(galleries_query))
+[Thu Jan 19 01:22:27.154824 2017] [wsgi:error] [pid 15017:tid 139795961906944] [client 67.243.133.73:50208]   File "/var/www/vigilantwebgallery/vigilantwebgallery/utils2.py", line 32, in run_sql
+[Thu Jan 19 01:22:27.154827 2017] [wsgi:error] [pid 15017:tid 139795961906944] [client 67.243.133.73:50208]     con = sqlite3.connect(database_path)
+[Thu Jan 19 01:22:27.154830 2017] [wsgi:error] [pid 15017:tid 139795961906944] [client 67.243.133.73:50208] OperationalError: unable to open database file
+[Thu Jan 19 01:22:28.219958 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212] [2017-01-19 01:22:28,217] ERROR in app: Exception on /favicon.ico [GET], referer: http://45.55.191.189/
+[Thu Jan 19 01:22:28.220024 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212] Traceback (most recent call last):, referer: http://45.55.191.189/
+[Thu Jan 19 01:22:28.220033 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1982, in wsgi_app, referer: http://45.55.191.189/
+[Thu Jan 19 01:22:28.220041 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212]     response = self.full_dispatch_request(), referer: http://45.55.191.189/
+[Thu Jan 19 01:22:28.220049 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1614, in full_dispatch_request, referer: http://45.55.191.189/
+[Thu Jan 19 01:22:28.220057 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212]     rv = self.handle_user_exception(e), referer: http://45.55.191.189/
+[Thu Jan 19 01:22:28.220064 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1517, in handle_user_exception, referer: http://45.55.191.189/
+[Thu Jan 19 01:22:28.220071 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212]     reraise(exc_type, exc_value, tb), referer: http://45.55.191.189/
+[Thu Jan 19 01:22:28.220098 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1612, in full_dispatch_request, referer: http://45.55.191.189/
+[Thu Jan 19 01:22:28.220107 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212]     rv = self.dispatch_request(), referer: http://45.55.191.189/
+[Thu Jan 19 01:22:28.220114 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1598, in dispatch_request, referer: http://45.55.191.189/
+[Thu Jan 19 01:22:28.220121 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212]     return self.view_functions[rule.endpoint](**req.view_args), referer: http://45.55.191.189/
+[Thu Jan 19 01:22:28.220129 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212]   File "/var/www/vigilantwebgallery/vigilantwebgallery/__init__.py", line 36, in gallery, referer: http://45.55.191.189/
+[Thu Jan 19 01:22:28.220135 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212]     yrs = utils2.get_previous_years(), referer: http://45.55.191.189/
+[Thu Jan 19 01:22:28.220142 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212]   File "/var/www/vigilantwebgallery/vigilantwebgallery/utils2.py", line 292, in get_previous_years, referer: http://45.55.191.189/
+[Thu Jan 19 01:22:28.220149 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212]     years = get_years(), referer: http://45.55.191.189/
+[Thu Jan 19 01:22:28.220155 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212]   File "/var/www/vigilantwebgallery/vigilantwebgallery/utils2.py", line 286, in get_years, referer: http://45.55.191.189/
+[Thu Jan 19 01:22:28.220162 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212]     years =  screw_tuples2(run_sql(years_query)), referer: http://45.55.191.189/
+[Thu Jan 19 01:22:28.220230 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212]   File "/var/www/vigilantwebgallery/vigilantwebgallery/utils2.py", line 32, in run_sql, referer: http://45.55.191.189/
+[Thu Jan 19 01:22:28.220242 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212]     con = sqlite3.connect(database_path), referer: http://45.55.191.189/
+[Thu Jan 19 01:22:28.220249 2017] [wsgi:error] [pid 14988:tid 139795961906944] [client 67.243.133.73:50212] OperationalError: unable to open database file, referer: http://45.55.191.189/
+[Thu Jan 19 01:23:12.998481 2017] [wsgi:error] [pid 15017:tid 139795833526016] GAHHH
+[Thu Jan 19 01:23:13.000038 2017] [wsgi:error] [pid 15017:tid 139795833526016] None
+[Thu Jan 19 01:23:15.192608 2017] [wsgi:error] [pid 15017:tid 139795816740608] [client 67.243.133.73:50222] [2017-01-19 01:23:15,191] ERROR in app: Exception on /2016 [GET], referer: http://45.55.191.189/oldgalleries
+[Thu Jan 19 01:23:15.192666 2017] [wsgi:error] [pid 15017:tid 139795816740608] [client 67.243.133.73:50222] Traceback (most recent call last):, referer: http://45.55.191.189/oldgalleries
+[Thu Jan 19 01:23:15.192677 2017] [wsgi:error] [pid 15017:tid 139795816740608] [client 67.243.133.73:50222]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1982, in wsgi_app, referer: http://45.55.191.189/oldgalleries
+[Thu Jan 19 01:23:15.192686 2017] [wsgi:error] [pid 15017:tid 139795816740608] [client 67.243.133.73:50222]     response = self.full_dispatch_request(), referer: http://45.55.191.189/oldgalleries
+[Thu Jan 19 01:23:15.192693 2017] [wsgi:error] [pid 15017:tid 139795816740608] [client 67.243.133.73:50222]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1614, in full_dispatch_request, referer: http://45.55.191.189/oldgalleries
+[Thu Jan 19 01:23:15.192723 2017] [wsgi:error] [pid 15017:tid 139795816740608] [client 67.243.133.73:50222]     rv = self.handle_user_exception(e), referer: http://45.55.191.189/oldgalleries
+[Thu Jan 19 01:23:15.192731 2017] [wsgi:error] [pid 15017:tid 139795816740608] [client 67.243.133.73:50222]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1517, in handle_user_exception, referer: http://45.55.191.189/oldgalleries
+[Thu Jan 19 01:23:15.192739 2017] [wsgi:error] [pid 15017:tid 139795816740608] [client 67.243.133.73:50222]     reraise(exc_type, exc_value, tb), referer: http://45.55.191.189/oldgalleries
+[Thu Jan 19 01:23:15.192746 2017] [wsgi:error] [pid 15017:tid 139795816740608] [client 67.243.133.73:50222]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1612, in full_dispatch_request, referer: http://45.55.191.189/oldgalleries
+[Thu Jan 19 01:23:15.192753 2017] [wsgi:error] [pid 15017:tid 139795816740608] [client 67.243.133.73:50222]     rv = self.dispatch_request(), referer: http://45.55.191.189/oldgalleries
+[Thu Jan 19 01:23:15.192760 2017] [wsgi:error] [pid 15017:tid 139795816740608] [client 67.243.133.73:50222]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1598, in dispatch_request, referer: http://45.55.191.189/oldgalleries
+[Thu Jan 19 01:23:15.192767 2017] [wsgi:error] [pid 15017:tid 139795816740608] [client 67.243.133.73:50222]     return self.view_functions[rule.endpoint](**req.view_args), referer: http://45.55.191.189/oldgalleries
+[Thu Jan 19 01:23:15.192773 2017] [wsgi:error] [pid 15017:tid 139795816740608] [client 67.243.133.73:50222]   File "/var/www/vigilantwebgallery/vigilantwebgallery/__init__.py", line 36, in gallery, referer: http://45.55.191.189/oldgalleries
+[Thu Jan 19 01:23:15.192780 2017] [wsgi:error] [pid 15017:tid 139795816740608] [client 67.243.133.73:50222]     yrs = utils2.get_previous_years(), referer: http://45.55.191.189/oldgalleries
+[Thu Jan 19 01:23:15.192787 2017] [wsgi:error] [pid 15017:tid 139795816740608] [client 67.243.133.73:50222]   File "/var/www/vigilantwebgallery/vigilantwebgallery/utils2.py", line 293, in get_previous_years, referer: http://45.55.191.189/oldgalleries
+[Thu Jan 19 01:23:15.192794 2017] [wsgi:error] [pid 15017:tid 139795816740608] [client 67.243.133.73:50222]     years.remove(date.today().year), referer: http://45.55.191.189/oldgalleries
+[Thu Jan 19 01:23:15.192800 2017] [wsgi:error] [pid 15017:tid 139795816740608] [client 67.243.133.73:50222] ValueError: list.remove(x): x not in list, referer: http://45.55.191.189/oldgalleries
+[Thu Jan 19 01:23:15.404965 2017] [wsgi:error] [pid 14988:tid 139795833526016] [client 67.243.133.73:50221] [2017-01-19 01:23:15,404] ERROR in app: Exception on /favicon.ico [GET], referer: http://45.55.191.189/2016
+[Thu Jan 19 01:23:15.405011 2017] [wsgi:error] [pid 14988:tid 139795833526016] [client 67.243.133.73:50221] Traceback (most recent call last):, referer: http://45.55.191.189/2016
+[Thu Jan 19 01:23:15.405016 2017] [wsgi:error] [pid 14988:tid 139795833526016] [client 67.243.133.73:50221]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1982, in wsgi_app, referer: http://45.55.191.189/2016
+[Thu Jan 19 01:23:15.405020 2017] [wsgi:error] [pid 14988:tid 139795833526016] [client 67.243.133.73:50221]     response = self.full_dispatch_request(), referer: http://45.55.191.189/2016
+[Thu Jan 19 01:23:15.405023 2017] [wsgi:error] [pid 14988:tid 139795833526016] [client 67.243.133.73:50221]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1614, in full_dispatch_request, referer: http://45.55.191.189/2016
+[Thu Jan 19 01:23:15.405027 2017] [wsgi:error] [pid 14988:tid 139795833526016] [client 67.243.133.73:50221]     rv = self.handle_user_exception(e), referer: http://45.55.191.189/2016
+[Thu Jan 19 01:23:15.405046 2017] [wsgi:error] [pid 14988:tid 139795833526016] [client 67.243.133.73:50221]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1517, in handle_user_exception, referer: http://45.55.191.189/2016
+[Thu Jan 19 01:23:15.405051 2017] [wsgi:error] [pid 14988:tid 139795833526016] [client 67.243.133.73:50221]     reraise(exc_type, exc_value, tb), referer: http://45.55.191.189/2016
+[Thu Jan 19 01:23:15.405054 2017] [wsgi:error] [pid 14988:tid 139795833526016] [client 67.243.133.73:50221]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1612, in full_dispatch_request, referer: http://45.55.191.189/2016
+[Thu Jan 19 01:23:15.405057 2017] [wsgi:error] [pid 14988:tid 139795833526016] [client 67.243.133.73:50221]     rv = self.dispatch_request(), referer: http://45.55.191.189/2016
+[Thu Jan 19 01:23:15.405060 2017] [wsgi:error] [pid 14988:tid 139795833526016] [client 67.243.133.73:50221]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1598, in dispatch_request, referer: http://45.55.191.189/2016
+[Thu Jan 19 01:23:15.405064 2017] [wsgi:error] [pid 14988:tid 139795833526016] [client 67.243.133.73:50221]     return self.view_functions[rule.endpoint](**req.view_args), referer: http://45.55.191.189/2016
+[Thu Jan 19 01:23:15.405067 2017] [wsgi:error] [pid 14988:tid 139795833526016] [client 67.243.133.73:50221]   File "/var/www/vigilantwebgallery/vigilantwebgallery/__init__.py", line 36, in gallery, referer: http://45.55.191.189/2016
+[Thu Jan 19 01:23:15.405070 2017] [wsgi:error] [pid 14988:tid 139795833526016] [client 67.243.133.73:50221]     yrs = utils2.get_previous_years(), referer: http://45.55.191.189/2016
+[Thu Jan 19 01:23:15.405073 2017] [wsgi:error] [pid 14988:tid 139795833526016] [client 67.243.133.73:50221]   File "/var/www/vigilantwebgallery/vigilantwebgallery/utils2.py", line 293, in get_previous_years, referer: http://45.55.191.189/2016
+[Thu Jan 19 01:23:15.405076 2017] [wsgi:error] [pid 14988:tid 139795833526016] [client 67.243.133.73:50221]     years.remove(date.today().year), referer: http://45.55.191.189/2016
+[Thu Jan 19 01:23:15.405079 2017] [wsgi:error] [pid 14988:tid 139795833526016] [client 67.243.133.73:50221] ValueError: list.remove(x): x not in list, referer: http://45.55.191.189/2016
+[Thu Jan 19 01:23:43.173083 2017] [wsgi:error] [pid 14988:tid 139795825133312] [client 173.252.88.188:25730] [2017-01-19 01:23:43,172] ERROR in app: Exception on /2016 [GET]
+[Thu Jan 19 01:23:43.173131 2017] [wsgi:error] [pid 14988:tid 139795825133312] [client 173.252.88.188:25730] Traceback (most recent call last):
+[Thu Jan 19 01:23:43.173135 2017] [wsgi:error] [pid 14988:tid 139795825133312] [client 173.252.88.188:25730]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1982, in wsgi_app
+[Thu Jan 19 01:23:43.173139 2017] [wsgi:error] [pid 14988:tid 139795825133312] [client 173.252.88.188:25730]     response = self.full_dispatch_request()
+[Thu Jan 19 01:23:43.173142 2017] [wsgi:error] [pid 14988:tid 139795825133312] [client 173.252.88.188:25730]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1614, in full_dispatch_request
+[Thu Jan 19 01:23:43.173146 2017] [wsgi:error] [pid 14988:tid 139795825133312] [client 173.252.88.188:25730]     rv = self.handle_user_exception(e)
+[Thu Jan 19 01:23:43.173149 2017] [wsgi:error] [pid 14988:tid 139795825133312] [client 173.252.88.188:25730]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1517, in handle_user_exception
+[Thu Jan 19 01:23:43.173152 2017] [wsgi:error] [pid 14988:tid 139795825133312] [client 173.252.88.188:25730]     reraise(exc_type, exc_value, tb)
+[Thu Jan 19 01:23:43.173155 2017] [wsgi:error] [pid 14988:tid 139795825133312] [client 173.252.88.188:25730]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1612, in full_dispatch_request
+[Thu Jan 19 01:23:43.173187 2017] [wsgi:error] [pid 14988:tid 139795825133312] [client 173.252.88.188:25730]     rv = self.dispatch_request()
+[Thu Jan 19 01:23:43.173192 2017] [wsgi:error] [pid 14988:tid 139795825133312] [client 173.252.88.188:25730]   File "/var/www/vigilantwebgallery/vigilantwebgallery/vigilantenv/lib/python2.7/site-packages/flask/app.py", line 1598, in dispatch_request
+[Thu Jan 19 01:23:43.173195 2017] [wsgi:error] [pid 14988:tid 139795825133312] [client 173.252.88.188:25730]     return self.view_functions[rule.endpoint](**req.view_args)
+[Thu Jan 19 01:23:43.173199 2017] [wsgi:error] [pid 14988:tid 139795825133312] [client 173.252.88.188:25730]   File "/var/www/vigilantwebgallery/vigilantwebgallery/__init__.py", line 36, in gallery
+[Thu Jan 19 01:23:43.173201 2017] [wsgi:error] [pid 14988:tid 139795825133312] [client 173.252.88.188:25730]     yrs = utils2.get_previous_years()
+[Thu Jan 19 01:23:43.173204 2017] [wsgi:error] [pid 14988:tid 139795825133312] [client 173.252.88.188:25730]   File "/var/www/vigilantwebgallery/vigilantwebgallery/utils2.py", line 293, in get_previous_years
+[Thu Jan 19 01:23:43.173207 2017] [wsgi:error] [pid 14988:tid 139795825133312] [client 173.252.88.188:25730]     years.remove(date.today().year)
+[Thu Jan 19 01:23:43.173210 2017] [wsgi:error] [pid 14988:tid 139795825133312] [client 173.252.88.188:25730] ValueError: list.remove(x): x not in list

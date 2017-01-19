@@ -22,7 +22,7 @@ upload_path = flask_path + UPLOAD_FOLDER
 @app.route("/home")
 def home():
     gn = utils2.get_current_galleries()
-    return render_template("home.html",gallerynames=gn)
+    return render_template("home.html", gallerynames = gn)
 
 @app.route("/gallery/<g>")
 @app.route("/<year>/<g>")

@@ -1,12 +1,12 @@
 import sqlite3
 import json
 from datetime import date
-import PythonMagick
+#import PythonMagick
 import os, shutil
 
-flask_path = os.path.dirname(__file__) 
-database_path = os.path.join(flask_path, "imagegallery2.db")
-upload_path = os.path.join(flask_path, "static/uploads")
+flaskPath = os.path.dirname(__file__)
+databasePath = os.path.join(flask_path, "imagegallery2.db")
+uploadPath = os.path.join(flask_path, "static/uploads")
 
 
 '''
@@ -22,70 +22,67 @@ One huge table:
 '''
 
 # <---------------------- Utils ---------------------->
-def screw_tuples(shitty_tuple_list):
+def screwTuples(shittyTupleList):
     return  [str(i[1]) + i[0] for i in shitty_tuple_list]
 
-def screw_tuples2(shitty_tuple_list):
-    return [i[0] for i in shitty_tuple_list]
+def screwTuples2(shittyTupleList):
+    return [i[0] for i in shittyTupleList]
 
-def run_sql(sql):
+def runQuery(query, *args):
+    print query
     con = sqlite3.connect(database_path)
     cur = con.cursor()
-    out = cur.execute(sql).fetchall()
-    con.close()
-    return out
-
-def run_sql_params(sql, *args):
-    con = sqlite3.connect(database_path)
-    cur = con.cursor()
-    out = cur.execute(sql, args).fetchall()
-    con.close()
-    return out
-
-def insert(sql):
-    print "database path:" + database_path
-    print "flask path:" + flask_path
-    con = sqlite3.connect(database_path)
-    cur = con.cursor()
-    cur.execute(sql)
+    cursorOutput = cur.execute(query, *args)
+    queryOutput = cursorOutput.fetchall()
     con.commit()
     con.close()
+    return queryOutput
 
-def insert_params(sql, *args):
-    print "database path:" + database_path
-    print "flask path:" + flask_path
-    con = sqlite3.connect(database_path)
-    cur = con.cursor()
-    cur.execute(sql, args)
-    con.commit()
-    con.close()
-    
-def setup_db():
-    setup_table = "CREATE TABLE IF NOT EXISTS images (name TEXT, gallery TEXT, year INTEGER, location TEXT, filetype TEXT, visible INTEGER, archived INTEGER )"
-    run_sql(setup_table)
+def setupDB():
+    setupImagesTable = """ CREATE TABLE IF NOT EXISTS images
+                           (id INTEGER PRIMARY KEY,
+                            name TEXT,
+                            gallery INTEGER,
+                            location TEXT,
+                            filetype TEXT);"""
+    setupGalleriesTable = """ CREATE TABLE IF NOT EXISTS galleries
+                              (id INTEGER PRIMARY KEY,
+                               name TEXT,
+                               year INTEGER,
+                               visible BOOLEAN,
+                               archived BOOLEAN);"""
+
+    setupImageGalleriesView = """ CREATE VIEW [images with galleries] AS
+                                     SELECT * FROM images AS i
+                                     JOIN galleries AS g
+                                     ON i.gallery = g.id;"""
+    runQuery(setupImagesTable)
+    runQuery(setupGalleriesTable)
+    runQuery(setupImageGalleriesView)
     if os.path.exists(upload_path):
         shutil.rmtree(upload_path)
     os.makedirs(upload_path)
-    
-def reload_db():
-    run_sql("DROP TABLE IF EXISTS images")
-    setup_db()
+
+def reloadDB():
+    runQuery("DROP TABLE IF EXISTS images;")
+    runQuery("DROP TABLE IF EXISTS galleries;")
+    runQuery("DROP VIEW IF EXISTS [images with galleries]")
+    setupDB()
 
 
-def gallery_exists (year, gallery):
-    check_existence = "SELECT CASE WHEN EXISTS ( SELECT * FROM images WHERE gallery = '" + gallery + "' AND year = "+ str(year) + " ) THEN CAST(1 AS BIT) ELSE CAST (0 AS BIT) END;"
-    return run_sql(check_existence)[0][0]
+def doesGalleryExist (year, galleryName):
+    countGalleryQuery = """SELECT COUNT(*) FROM galleries WHERE
+                           name = '%s' AND year = %s ;"""
+    galleryCount = runQuery(countGalleryQuery % (galleryName, year))[0][0]
+    return galleryCount > 0
 
-def image_exists (year, gallery, name):
-    #check_existence = "SELECT CASE WHEN EXISTS ( SELECT * FROM images WHERE gallery = '" + gallery + "' AND year = "+ str(year) + " AND name = '" + name + "' ) THEN CAST(1 AS BIT) ELSE CAST (0 AS BIT) END;"
-    #return run_sql(check_existence)[0][0]
-    check_existence = "SELECT CASE WHEN EXISTS ( SELECT * FROM images WHERE gallery = ? AND year = ? AND name = ? ) THEN CAST(1 AS BIT) ELSE CAST (0 AS BIT) END;"
-    return run_sql_params(check_existence, gallery, str(year), name)[0][0]
-    
-
-
-def show_table():
-    print run_sql("SELECT * FROM images")
+def doesImageExist (year, galleryName, imageName):
+    countImageQuery = """  SELECT COUNT(*) FROM [images with galleries]
+                           WHERE name = '%s'
+                             AND [name:1] = '%s'
+                             AND year = %s;"""
+    imageCount = runQuery(countImageQuery % (imageName, galleryName, year))[0][0]
+    return imageCount > 0
 
 # <---------------------- Image Tools ---------------------->
 
@@ -102,8 +99,8 @@ def resize(image, w, h):
     return img
 
 
-def create_thumbnail(imagepath):   #creates a thumbnail named "thumbnail.png"
-    image = PythonMagick.Image(str(imagepath))
+def createThumbnail(imagePath):   #creates a thumbnail named "thumbnail.png"
+    image = PythonMagick.Image(str(imagePath))
     geometry = image.size()
     w, h = geometry.width(), geometry.height()
     if (w > h):
@@ -116,14 +113,14 @@ def create_thumbnail(imagepath):   #creates a thumbnail named "thumbnail.png"
     new_size = 175
     image = resize(image, new_size, new_size)
 
-    newpath = str(imagepath)[:-9]
-    newpath += "thumbnail.png"
+    newPath = str(imagePath)[:-9]
+    newPath += "thumbnail.png"
     image.write(newpath)
     return True
 
-def limit_size(imagepath):
-    print imagepath 
-    image = PythonMagick.Image(str(imagepath))
+def limitSize(imagePath):
+    print imagePath
+    image = PythonMagick.Image(str(imagePath))
     geometry = image.size()
     w, h = float(geometry.width()), float(geometry.height())
 
@@ -133,18 +130,19 @@ def limit_size(imagepath):
             image = resize(image, 1000, int(1000 * (h/w)))
         else:
             image = resize(image, int(1000 * (w/h)), 1000)
-        image.write(str(imagepath))
+        image.write(str(imagePath))
     return True
 
 # <---------------------- Images  ---------------------->
 
-def get_images_in_gallery(year, gallery):
-    #sql = "SELECT name, location, filetype FROM images WHERE gallery = '" + gallery + "' AND year =" + str(year) + " AND NOT name = '' AND visible = 1"
-    #sql_out = run_sql(sql)
-    sql = "SELECT name, location, filetype FROM images WHERE gallery = ? AND year = ? AND NOT name = '' AND visible = 1"
-    sql_out = run_sql_params(sql, gallery, str(year))
+def getImagesInGallery(year, galleryName):
+    imageQuery = """ SELECT name, location, filetype
+                       FROM [images with galleries]
+                     WHERE [name:1] = '%s'
+                       AND year = %s AND visible = 1"""
+    imageQueryOutput = runQuery(imageQuery % (galleryName, year))
     out = []
-    for i in sql_out:
+    for i in imageQueryOutput:
         dict = {}
         dict['title'] = i[0]
         dict['path'] = i[1]
@@ -152,51 +150,37 @@ def get_images_in_gallery(year, gallery):
         out.append(dict)
     return out
 
+def getCurrentYearImages(galleryName):
+    return getImagesInGallery(date.today().year, gallery)
 
-def get_images(gallery):
-    return get_images_in_gallery(date.today().year, gallery)
-
-def add_image(year, gallery, name, filetype, image_path):
+def insertImage(year, galleryName, imageName, filetype, imagePath):
     # Folder name is different from name cause it has timestamp added
-    if image_exists(year, gallery, name):
-        return False
-    #sql = "INSERT INTO images VALUES ('" + name + "', '" + gallery + "', " + str(year) + ", '" + image_path + "', '" + filetype + "', 1, 0)"
-    #insert(sql)
+    createGallery(year, galleryName) # If gallery exists will do nothing
+    galleryID = getGalleryID(year, galleryName)
 
-    sql = "INSERT INTO images VALUES (?, ?, ?, ?, ?, 1, 0)"
-    insert_params(sql, name, gallery, str(year), image_path, filetype)
+    if doesImageExist(year, galleryName, imageName):
+        return False
+
+    insertQuery = "INSERT INTO images (name, gallery, location, filetype) VALUES (?, ?, ?, ?)"
+    runQuery(insertQuery, (imageName, galleryID, imagePath, filetype))
     return True
 
-def get_sample_images():  #gets one image from each gallery
-   
-    galleries = get_current_galleries()
-    out = []
-    for gallery in galleries:
-        sql = "SELECT location FROM images WHERE gallery = '" + gallery + "' AND year = " + str(date.today().year) +  " AND NOT name = '' ORDER BY RANDOM() LIMIT 1"
-        dict = {}
-        dict["gallery"] = gallery
-        sql_out = run_sql(sql)
-        print sql_out
-        try:
-            dict["path"] = sql_out[0][0]
-        except IndexError:
-            dict["path"] = "static/images"
-        out.append(dict)
-    return out
+def getSampleImages():  #gets one image from each gallery
+    sampleImageQuery = """SELECT location FROM [images with galleries]
+                           WHERE year = %s GROUP BY gallery;"""
+    sampleImages = screwTuples2(runQuery(sampleImageQuery % date.today().year))
 
-def delete_image(year, gallery, name):
-    if image_exists(year, gallery, name):
-        #location_query = "SELECT location FROM images WHERE name = '" + name + "' AND gallery = '" + gallery + "' AND year = " + str(year)
-        #location = run_sql(location_query)[0][0]
-        location_query = "SELECT location FROM images WHERE name = ? AND gallery = ? AND year = ?"
-        location = run_sql_params(location_query, name, gallery, str(year))[0][0]
-        print location[3:]
-        
-        #delete_query= "DELETE FROM images WHERE year = " + str(year) + " AND gallery = '" + gallery + "' AND name = '" + name + "'"
-        delete_query= "DELETE FROM images WHERE year = ? AND gallery = ? AND name = ?"
-        print delete_query
-        #insert(delete_query)
-        insert_params(delete_query, str(year), gallery, name)
+def deleteImage(year, galleryName, imageName):
+    if doesImageExist(year, galleryName, imageName):
+        imageQuery = """SELECT location, [id:1] FROM [images with galleries]
+                            WHERE name = '%s' AND [name:1] = '%s' AND year = %s"""
+        imageQueryResult = runQuery(imageQuery % (imageName, galleryName, year))[0]
+        location = imageQueryResult[0]
+        galleryID = imageQueryResult[1]
+
+        deleteQuery= """DELETE FROM images
+                          WHERE gallery = ? AND name = ?"""
+        runQuery(deleteQuery, (galleryID, imageName))
         try:
             shutil.rmtree(location[3:]) #need to get rid of "../"
         except OSError:
@@ -207,39 +191,46 @@ def delete_image(year, gallery, name):
 
 # <---------------------- Galleries  ---------------------->
 
-def get_current_galleries():
-    galleries_query = "SELECT gallery FROM images WHERE name = '' AND archived = 0 AND visible = 1 AND year = " + str(date.today().year)
-    return screw_tuples2(run_sql(galleries_query))
+def getCurrentGalleries():
+    galleriesQuery = """SELECT name FROM galleries WHERE
+                       archived = 0 AND visible = 1 AND year = %s"""
+    return screwTuples2(runQuery(galleriesQuery % date.today().year))
 
-def get_all_galleries():
-    galleries_query = "SELECT gallery, year FROM images WHERE name = ''"
-    return screw_tuples(run_sql(galleries_query))
+def getAllGalleries():
+    galleriesQuery = "SELECT name, year FROM galleries"
+    return screwTuples(runQuery(galleriesQuery))
 
-def get_galleries_in_year(year):
-    galleries_query = "SELECT gallery FROM images WHERE year = " + str(year) + " AND name = ''"
-    return screw_tuples2(run_sql(galleries_query))
+def getGalleriesInYear(year):
+    galleriesQuery = "SELECT name FROM galleries WHERE year = '%s'"
+    return screwTuples2(runQuery(galleriesQuery % year))
 
-
-def add_gallery(year, gallery):
-    if gallery_exists(year, gallery):
+def createGallery(year, galleryName):
+    if doesGalleryExist(year, galleryName):
         return False
     else:
-        gallery_path = os.path.join(upload_path, str(year), gallery)
-        sql = "INSERT INTO images VALUES ('', '"+ gallery + "', " + str(year) + ", '"+ "', '.png', 1, 0)"
-        insert(sql)
-        if not os.path.exists(gallery_path):
-            os.makedirs(gallery_path)
+        createGalleryQuery = """ INSERT INTO galleries
+                                 (name, year, visible, archived)
+                                 VALUES
+                                 (?, ?, ?, ?) """
+        runQuery(createGalleryQuery, (galleryName, year, 1, 0))
+        galleryPath = os.path.join(uploadPath, str(year), galleryName)
+        if not os.path.exists(galleryPath):
+            os.makedirs(galleryPath)
         return True
 
+def getGalleryID(year, galleryName):
+     galleryIDQuery = """ SELECT id FROM galleries WHERE
+                          year = %s AND name = '%s' """
+     return runQuery(galleryIDQuery % (year, galleryName))[0][0]
 
-def set_visible(year, gallery, visible):
-     sql = "UPDATE images SET visible = " + str(visible) + " WHERE gallery = '" + gallery +  "' AND year = " + str(year)
-     insert(sql)
+def setVisibility(year, galleryName, visible):
+    visibilityQuery = "UPDATE galleries SET visible = ? WHERE name = ? AND year = ?"
+    runQuery(visibilityQuery, (visible, galleryName, year))
 
 
-def set_visible_by_year(year, visible):
-    sql = "UPDATE images SET visible = " + str(visible) + " WHERE year = " + str(year) 
-    insert(sql)
+def setVisibilityByYear(year, visible):
+    visibilityQuery = "UPDATE galleries SET visible = ? WHERE year = ?"
+    runQuery(visibilityQuery, (visible, year))
 
 def get_visible_by_year(year):
     visible_query = "SELECT gallery FROM images WHERE year = " + str(year) + " AND visible = 1 AND name = ''"
@@ -278,7 +269,7 @@ def get_archived_galleries():
 
 def get_unarchived_galleries():
     return get_galleries_by_archived(0)
-        
+
 
 
 def get_years():

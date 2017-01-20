@@ -68,11 +68,10 @@ def upload():
                                                request.files['file'],
                                                date.today().year)
         if processedProperly != True:
-                    render_template("error.html",
-                        error = processedProperly,
-                        galleryNames = galleries)
-        return redirect(url_for("gallery",
-                                currentGallery = request.form['Gallery']))
+            render_template("error.html",
+                            error = processedProperly,
+                            galleryNames = galleries)
+        return redirect(url_for("gallery", g = request.form['Gallery']))
 
 @app.route("/oldgalleries")
 def oldGalleries():

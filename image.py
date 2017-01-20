@@ -78,6 +78,8 @@ def create(image, galleries, imageFile, year):
     imageName = " ".join(fileName.split("_"))
     code = image['code'].encode('ascii', 'ignore')
 
+    filetype = imageFile.filename[-4:].lower(),
+
     imageValid = validImage(imageName,
                            galleryName,
                            galleries,
@@ -85,7 +87,6 @@ def create(image, galleries, imageFile, year):
     if imageValid != True:
         return imageValid
 
-    filetype = imageFile.filename[-4:].lower(),
     savedProperly = filesystem_interface.createImage(imageName,
                                                      year,
                                                      galleryName,

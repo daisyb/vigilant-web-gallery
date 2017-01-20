@@ -58,7 +58,6 @@ def validGalleryName(galleryName, galleries):
 def validImage(imageName,
                galleryName,
                galleries,
-               tempSize,
                fileType):
     if not validImageName(imageName):
         imageNameError = """Invalid image name. Names longer than 100 characters

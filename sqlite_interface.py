@@ -88,7 +88,8 @@ def insertImage(year, galleryName, imageName, filetype, imagePath):
     galleryID = getGalleryID(year, galleryName)
 
     if doesImageExist(year, galleryName, imageName):
-        return False
+        return """Failed to write entry to database. An image with the
+                 same name likely already exists in that gallery."""
 
     insertQuery = "INSERT INTO images (name, gallery, location, filetype) VALUES (?, ?, ?, ?)"
     runQuery(insertQuery, (imageName, galleryID, imagePath, filetype))

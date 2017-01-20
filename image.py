@@ -54,11 +54,6 @@ def validImageName(imageName):
 def validGalleryName(galleryName, galleries):
     return galleryName not in galleries
 
-def validGIF(tempSize):
-    return tempSize > 10 * 1024 * 1024
-
-def validPNG(tempSize):
-    return tempSize > 5 * 1024 * 1024
 
 def validImage(imageName,
                galleryName,
@@ -76,13 +71,6 @@ def validImage(imageName,
     if not imageFile or not allowed_file(imageFile.filename):
         return "You did not upload a file or your file name is unacceptable."
 
-    if file.filename[-4:].lower() == ".gif" and not validGIF(tempPath):
-        return """Your file is too large. The maximum allowed file
-                  size for a .gif is 10 megabytes."""
-
-    if file.filename[-4:].lower() == ".png" and not validPNG(tempPath):
-        return """Your file is too large. The maximum allowed file
-                  size for a .png is 5 megabytes."""
     return True
 
 def create(image, galleries, imageFile, year):
@@ -94,25 +82,24 @@ def create(image, galleries, imageFile, year):
     imageValid = validImage(imageName,
                            galleryName,
                            galleries,
-                           tempSize,
                            fileType)
     if imageValid != True:
         return imageValid
 
     filetype = imageFile.filename[-4:].lower(),
     savedProperly = filesystem_interface.createImage(imageName,
-                                                        year,
-                                                        galleryName)
+                                                     year,
+                                                     galleryName,
+                                                     fileType)
     insertedProperly = sqlite_interface.insertImage(year,
                                                     galleryName,
                                                     imageName,
                                                     filetype,
                                                     relativeImageDir)
-    if not insertedProperly:
-        return """Failed to write entry to database. An image with the
-                 same name likely already exists in that gallery."""
-    if not savedProperly:
-        return """Failed to save file"""
+    if insertedProperly != True:
+        return insertedProperly
+    if savedProperly != True:
+        return savedProperly
 
     if fileType == ".png":
         limitSize(imageFilePath)

@@ -9,10 +9,31 @@ try:
 except OSError:
     print "Already symlinked"
 
-def createImage(imageName, year, galleryName):
+def validGIF(tempSize):
+    return tempSize > 10 * 1024 * 1024
+
+def validPNG(tempSize):
+    return tempSize > 5 * 1024 * 1024
+
+def validFile(tempSize, fileType):
+    if fileType == ".gif" and not validGIF(tempPath):
+        return """Your file is too large. The maximum allowed file
+                  size for a .gif is 10 megabytes."""
+
+    if fileType == ".png" and not validPNG(tempPath):
+        return """Your file is too large. The maximum allowed file
+                  size for a .png is 5 megabytes."""
+    return True
+
+def createImage(imageName, year, galleryName, fileType):
     tempName = str(uuid.uuid4())
     tempPath = os.path.join(flaskPath, 'temp', tempName)
     file.save(tempPath) #file is saved as temp
+    tempSize = os.path.getsize(tempPath)
+    fileValid = validFile(tempSize, fileType)
+    if fileValid != True:
+        return fileValid
+
     folderName = secure_filename(imageName + "_" + str(int(time.time())))
       #sets foldername to first_last_timestamp
     relativeImageDir = os.path.join("Uploads",
@@ -22,8 +43,8 @@ def createImage(imageName, year, galleryName):
     imageDir = os.path.join(flaskPath, relativeImageDir)
     os.makedirs(imageDir)
     imageFilePath = os.path.join(image_dir,
-                                 "image" + filetype)
-    os.rename(temppath, image_file_path)
+                                 "image" + fileType)
+    os.rename(tempPath, imageFilePath)
     f = open(image_dir + "/code.txt", 'w')
     f.write(code)
     f.close()

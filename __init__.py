@@ -48,12 +48,25 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route("/backfill/<year>",methods=["GET","POST"])
-def backfil(year = None):
+def backfill(year = None):
     galleries = sqlite_interface.getVisibleByYear(year) #TEMPORARY
-    return render_template("upload.html",
-                           gallerynames = galleries,
-                           galleries = galleries,
-                           yr = year)
+    if request.method == "GET":
+        return render_template("upload.html",
+                               gallerynames = galleries,
+                               galleries = galleries,
+                               yr = year)
+    processedProperly = image.create(request.form,
+                                     galleries,
+                                     request.files['file'],
+                                     year)
+    if processedProperly != True:
+        render_template("error.html",
+                        error = processedProperly,
+                        galleryNames = galleries)
+    return redirect(url_for("previousGallery",
+                            galleryName = request.form['Gallery'],
+                            year = year))
+
 
 @app.route("/upload",methods=["GET","POST"])
 def upload():
@@ -71,7 +84,8 @@ def upload():
             render_template("error.html",
                             error = processedProperly,
                             galleryNames = galleries)
-        return redirect(url_for("gallery", g = request.form['Gallery']))
+        return redirect(url_for("currentGallery", galleryName = request.form['Gallery']))
+
 
 @app.route("/oldgalleries")
 def oldGalleries():

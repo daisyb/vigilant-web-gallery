@@ -77,9 +77,9 @@ def upload():
                                galleries = galleries)
     else:
         processedProperly = image.create(request.form,
-                                               galleries,
-                                               request.files['file'],
-                                               date.today().year)
+                                         galleries,
+                                         request.files['file'],
+                                         date.today().year)
         if processedProperly != True:
             render_template("error.html",
                             error = processedProperly,

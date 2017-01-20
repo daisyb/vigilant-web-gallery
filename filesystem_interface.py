@@ -1,4 +1,5 @@
 import os
+import image_utils
 from werkzeug.utils import secure_filename
 
 flaskPath = os.path.dirname(__file__)
@@ -50,6 +51,11 @@ def createImage(imageName, year, galleryName, fileType):
     f.close()
     shutil.rmtree(os.path.join(flaskPath, "temp"))
     os.makedirs(os.path.join(flaskPath, "temp"))
+    image_utils.createThumbnail(imageFilePath)
+
+    if fileType == ".png":
+        image_utils.limitSize(imageFilePath)
+
     return True
 
 

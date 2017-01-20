@@ -26,32 +26,32 @@ function getThumbs() {
 	    globalPaths = paths;
 	    //loops through list
 	    for(i in paths){
-		var img = new Image();
-		console.log(paths[i]);
-		img.src = paths[i]['path'] + "/thumbnail.png";
-		img.alt = paths[i]['title'];
-		img.onclick = function(num){
-		    //onlick edit gradient/box and make visible
-		    //opens up slideshow view
-		    return function() {
-			num = parseInt(num);
-			$(".gradientBox").css("visibility","visible");
-			editGradientContents(paths[num]);
-			pathIndex = num;
-		    }
-		}(i)
-		console.log(img.src);
-		//makes a div with thumbnail and name in it
-		//class = thumbnail
-		$(".main").append("<div class='thumbnail' id='d" + i.toString() + "'></div>");
-		document.getElementById("d"+i.toString()).appendChild(img);
-		$("#d" + i.toString()).append("<div class='imgTitle'>" + paths[i]['title'] +
-					      "</div>");
+		      var img = new Image();
+		      console.log(paths[i]);
+		      img.src = paths[i]['path'] + "/thumbnail.png";
+		      img.alt = paths[i]['title'];
+		      img.onclick = function(num){
+		          //onlick edit gradient/box and make visible
+		          //opens up slideshow view
+		          return function() {
+			            num = parseInt(num);
+			            $(".gradientBox").css("visibility","visible");
+			            editGradientContents(paths[num]);
+			            pathIndex = num;
+		          }
+		      }(i)
+		      console.log(img.src);
+		      //makes a div with thumbnail and name in it
+		      //class = thumbnail
+		      $(".main").append("<div class='thumbnail' id='d" + i.toString() + "'></div>");
+		      document.getElementById("d"+i.toString()).appendChild(img);
+		      $("#d" + i.toString()).append("<div class='imgTitle'>" + paths[i]['title'] +
+					                              "</div>");
 	    };
 	},
-	error: function(error) {
-	    console.log(error);
-	}
+	      error: function(error) {
+	          console.log(error);
+	      }
     });
 };
 

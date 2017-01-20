@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block head %}
 {% if yr is not defined %}
-<title>{{ cgallery }}</title>
+<title>{{ currentGallery }}</title>
 {% else %}
-<title>{{ cgallery }} - {{ yr }}</title>
+<title>{{ currentGallery }} - {{ yr }}</title>
 {% endif %}
 {% endblock %}
 
 {% block contents %}
-<h1 class="title">{{ cgallery }}</h1>
+<h1 class="title">{{ currentGallery }}</h1>
 
 {% endblock %}
 {% block scripts %}

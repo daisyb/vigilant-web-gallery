@@ -24,7 +24,7 @@ function getThumbs() {
 	    //gets list of dictionaries with paths, titles, and filetypes for each image
 	    var paths=JSON.parse(e);
 	    globalPaths = paths;
-	    //loops through list 
+	    //loops through list
 	    for(i in paths){
 		var img = new Image();
 		console.log(paths[i]);
@@ -32,7 +32,7 @@ function getThumbs() {
 		img.alt = paths[i]['title'];
 		img.onclick = function(num){
 		    //onlick edit gradient/box and make visible
-		    //opens up slideshow view 
+		    //opens up slideshow view
 		    return function() {
 			num = parseInt(num);
 			$(".gradientBox").css("visibility","visible");
@@ -103,7 +103,7 @@ var editGradientContents = function(path){
 
 //click event for left arrow on slideshow
 //loads .gradientBox of image to the left
-var leftAEvent = function(){   
+var leftAEvent = function(){
 
     if (pathIndex != 0){
 	pathIndex -= 1;
@@ -134,5 +134,5 @@ $(document).keydown(function(e){
 	leftAEvent();
     } else if (e.keyCode == 39) { //right key
 	rightAEvent();
-    }   
+    }
 });

@@ -2,35 +2,14 @@ import sqlite3
 import json
 from datetime import date
 #import PythonMagick
-import os, shutil
+import os
 
 flaskPath = os.path.dirname(__file__)
-databasePath = os.path.join(flask_path, "imagegallery2.db")
-uploadPath = os.path.join(flask_path, "static/uploads")
-
-
-'''
-Take 2
-
-Basically here's the setup:
-One huge table:
-| name        |  gallery    | year    |   location           | filetype |  visible     | archived     |
-|-------------|-------------|---------|----------------------|----------|--------------|--------------|
-| text        | text        | int     |  text                | text     | int (0 or 1) | int (0 or 1) |
-| bob's image | line        | 2016    | /2016/line/bobsimage | .png     | 1            |  1           |
-
-'''
-
-# <---------------------- Utils ---------------------->
-def screwTuples(shittyTupleList):
-    return  [str(i[1]) + i[0] for i in shitty_tuple_list]
-
-def screwTuples2(shittyTupleList):
-    return [i[0] for i in shittyTupleList]
+databasePath = os.path.join(flaskPath, "imagegallery.db")
 
 def runQuery(query, *args):
     print query
-    con = sqlite3.connect(database_path)
+    con = sqlite3.connect(databasePath)
     cur = con.cursor()
     cursorOutput = cur.execute(query, *args)
     queryOutput = cursorOutput.fetchall()
@@ -59,9 +38,7 @@ def setupDB():
     runQuery(setupImagesTable)
     runQuery(setupGalleriesTable)
     runQuery(setupImageGalleriesView)
-    if os.path.exists(upload_path):
-        shutil.rmtree(upload_path)
-    os.makedirs(upload_path)
+
 
 def reloadDB():
     runQuery("DROP TABLE IF EXISTS images;")
@@ -84,54 +61,6 @@ def doesImageExist (year, galleryName, imageName):
     imageCount = runQuery(countImageQuery % (imageName, galleryName, year))[0][0]
     return imageCount > 0
 
-# <---------------------- Image Tools ---------------------->
-
-def crop(image, x1, y1, w, h):
-    img = PythonMagick.Image(image) # make a copy
-    rect = "%sx%s+%s+%s" % (w, h, x1, y1)
-    img.crop(rect)
-    return img
-
-def resize(image, w, h):
-    img = PythonMagick.Image(image) # copy
-    s = "!%sx%s" % (w, h)
-    img.sample(s)
-    return img
-
-
-def createThumbnail(imagePath):   #creates a thumbnail named "thumbnail.png"
-    image = PythonMagick.Image(str(imagePath))
-    geometry = image.size()
-    w, h = geometry.width(), geometry.height()
-    if (w > h):
-        center = w/2
-        image = crop(image, int(center - h/2), 0, h, h)
-    else:
-        center = h/2
-        image = crop(image, 0, int(center - w/2), w, w)
-
-    new_size = 175
-    image = resize(image, new_size, new_size)
-
-    newPath = str(imagePath)[:-9]
-    newPath += "thumbnail.png"
-    image.write(newpath)
-    return True
-
-def limitSize(imagePath):
-    print imagePath
-    image = PythonMagick.Image(str(imagePath))
-    geometry = image.size()
-    w, h = float(geometry.width()), float(geometry.height())
-
-    new_size = 1000
-    if (w > new_size or h > new_size):
-        if (w > h):
-            image = resize(image, 1000, int(1000 * (h/w)))
-        else:
-            image = resize(image, int(1000 * (w/h)), 1000)
-        image.write(str(imagePath))
-    return True
 
 # <---------------------- Images  ---------------------->
 
@@ -181,10 +110,6 @@ def deleteImage(year, galleryName, imageName):
         deleteQuery= """DELETE FROM images
                           WHERE gallery = ? AND name = ?"""
         runQuery(deleteQuery, (galleryID, imageName))
-        try:
-            shutil.rmtree(location[3:]) #need to get rid of "../"
-        except OSError:
-            print "Deleting image with no path"
         return True
     return False
 
@@ -213,9 +138,6 @@ def createGallery(year, galleryName):
                                  VALUES
                                  (?, ?, ?, ?) """
         runQuery(createGalleryQuery, (galleryName, year, 1, 0))
-        galleryPath = os.path.join(uploadPath, str(year), galleryName)
-        if not os.path.exists(galleryPath):
-            os.makedirs(galleryPath)
         return True
 
 def getGalleryID(year, galleryName):
@@ -232,66 +154,89 @@ def setVisibilityByYear(year, visible):
     visibilityQuery = "UPDATE galleries SET visible = ? WHERE year = ?"
     runQuery(visibilityQuery, (visible, year))
 
-def get_visible_by_year(year):
-    visible_query = "SELECT gallery FROM images WHERE year = " + str(year) + " AND visible = 1 AND name = ''"
-    return screw_tuples2(run_sql(visible_query))
+def getVisibleByYear(year):
+    visibleQuery = "SELECT name FROM galleries WHERE year = %s AND visible = 1"
+    return screwTuples2(runQuery(visibleQuery % year))
 
-def get_invisible_by_year(year):
-    visible_query = "SELECT gallery FROM images WHERE year = " + str(year) + " AND visible = 0 AND name = ''"
-    return screw_tuples2(run_sql(visible_query))
+def getInvisibleByYear(year):
+    visibleQuery = "SELECT name FROM galleries WHERE year = %s AND visible = 0"
+    return screwTuples2(runQuery(visibleQuery % year))
 
-def delete_gallery(year, gallery):
-    if gallery_exists(year, gallery):
-        delete = "DELETE FROM images WHERE gallery = '" + gallery + "' AND year = " + year
-        insert(delete)
-        shutil.rmtree(os.path.join(upload_path, year, gallery))
-        return True
-    return False
+def deleteGallery(year, galleryName):
+    if not gallery_exists(year, gallery):
+        return False
+    deleteQuery = "DELETE FROM galleries WHERE year = ? AND name = ?"
+    runQuery(deleteQuery, (year, galleryName))
+    return True
 
-def set_archive(year, archive):
-    sql = "UPDATE image SET archive = " + str(archive) + "WHERE year = " + year
-    insert(sql)
+def setArchivedForGallery(year, galleryName, archive):
+    archiveQuery = """UPDATE galleries SET archived = ?
+                      WHERE name = ? AND year = ?"""
+    runQuery(archiveQuery, (archive, galleryName, year))
 
-def get_galleries_by_archived(archived):
-    sql = "SELECT DISTINCT gallery, year FROM images WHERE archived = " + archived
-    sql_out = run_sql(sql)
+def setArchivedForYear(year, archive):
+    archiveQuery = """UPDATE galleries SET archived = ?
+                      WHERE year = ?"""
+    runQuery(archiveQuery, (archive, year))
+
+
+def getGalleriesByArchived(archived):
+    archivedQuery = "SELECT name, year FROM galleries WHERE archived = %s"
+    queryOutput = runQuery(archivedQuery)
     out = []
-    for gallery in sql_out:
+    for gallery in queryOutput:
         dict = {}
         dict['gallery'] = gallery[0]
         dict['year'] = gallery[1]
         out.append(dict)
     return out
 
+def getArchivedGalleries():
+    return getGalleriesByArchived(1)
 
-def get_archived_galleries():
-    return get_galleries_by_archived(1)
-
-def get_unarchived_galleries():
-    return get_galleries_by_archived(0)
-
+def getUnarchivedGalleries():
+    return getGalleriesByArchived(0)
 
 
-def get_years():
-    years_query = "SELECT DISTINCT year FROM images WHERE name = '' "
-    years =  screw_tuples2(run_sql(years_query))
-    years.sort(reverse = True)
+
+def getYears():
+    yearsQuery = "SELECT DISTINCT year FROM galleries ORDER BY year DESC"
+    years =  screwTuples2(runQuery(yearsQuery))
     return years
 
 
-def get_previous_years():
-    years = get_years()
+def getPreviousYears():
+    years = getYears()
     years.remove(date.today().year)
     return years
 
-def get_invisible_years():
-    years_query = "SELECT DISTINCT year FROM images WHERE visible = 0"
-    years = screw_tuples2(run_sql(years_query))
-    years.sort(reverse = True)
+def getGalleriesByVisibility(visibility):
+    yearsQuery = """SELECT name, year FROM galleries
+                    WHERE visible = %s ORDER BY year DESC"""
+    return screwTuples(runQuery(yearsQuery % visibility))
+
+def getVisibleGalleries():
+    return getGalleriesByVisibility(1)
+
+def getInvisibleGalleries():
+    return getGalleriesByVisibility(0)
+
+def getYearsByVisibility(visibility):
+    yearsQuery = """SELECT DISTINCT year FROM galleries
+                    WHERE visible = %s ORDER BY year DESC"""
+    years = screwTuples2(runQuery(yearsQuery % visibility))
+    years.remove(date.today().year)
     return years
 
-def get_visible_years():
-    years_query = "SELECT DISTINCT year FROM images WHERE visible = 1"
-    years =  screw_tuples2(run_sql(years_query))
-    years.sort(reverse = True)
-    return years
+def getVisibleYears():
+    return getYearsByVisibility(1)
+
+def getInvisibleYears():
+    return getYearsByVisibility(0)
+
+# <---------------------- Utils ---------------------->
+def screwTuples(shittyTupleList):
+    return  [str(i[1]) + i[0] for i in shittyTupleList]
+
+def screwTuples2(shittyTupleList):
+    return [i[0] for i in shittyTupleList]

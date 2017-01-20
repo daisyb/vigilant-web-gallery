@@ -1,4 +1,5 @@
 import os
+from werkzeug.utils import secure_filename
 
 flaskPath = os.path.dirname(__file__)
 uploadPath = os.path.join(flaskPath, "uploads")

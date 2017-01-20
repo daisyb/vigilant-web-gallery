@@ -9,7 +9,7 @@ from datetime import date
 from flask import Flask, render_template, session, request, redirect, url_for
 
 
-admin_key = "mrdwisawesome" # PLEASE CHANGE
+adminKey = "mrdwisawesome" # PLEASE CHANGE
 app = Flask(__name__)
 
 UPLOAD_FOLDER = 'static/uploads'
@@ -81,7 +81,7 @@ def oldGalleries():
 
 @app.route("/getsamples")
 def getsamples():
-    d = sqlite_interface.get_sample_images()
+    d = sqlite_interface.getSampleImages()
     return json.dumps(d)
 
 
@@ -90,9 +90,9 @@ def getsamples():
 def getall(year = None):
     gallery = request.form['gallery']
     if year == None:
-        d = sqlite_interface.get_images_in_gallery(date.today().year, gallery) #this year
+        d = sqlite_interface.getImagesInGallery(date.today().year, gallery) #this year
     else:
-        d = sqlite_interface.get_images_in_gallery(year, gallery)
+        d = sqlite_interface.getImagesInGallery(year, gallery)
     print d
     return json.dumps(d)
 
@@ -100,14 +100,14 @@ def getall(year = None):
 
 @app.route("/getgalleries/<key>")
 def getgalleries(key):
-    if key == admin_key:
-        gn = sqlite_interface.get_current_galleries()
+    if key == adminKey:
+        gn = sqlite_interface.getCurrentGalleries()
         return json.dumps(gn)
     return "Error, invalid key"
 
 @app.route("/getimagename/<key>/<year>/<gallery>")
 def getimagename(key, year, gallery):
-    if key == admin_key:
+    if key == adminKey:
         g = sqlite_interface.getImagesInGallery(year, gallery)
         imgnames = []
         for image in g:
@@ -117,7 +117,7 @@ def getimagename(key, year, gallery):
 
 @app.route("/deleteimage/<key>/<year>/<gallery>/<name>")
 def deleteimage(key, year, gallery,name):
-    if key == admin_key:
+    if key == adminKey:
         if sqlite_interface.delete_image(year, gallery, name):
             return "success"
         else:
@@ -126,7 +126,7 @@ def deleteimage(key, year, gallery,name):
 
 @app.route("/deletegallery/<key>/<year>/<gallery>")
 def deletegallery(key, year, gallery):
-    if key == admin_key:
+    if key == adminKey:
         if sqlite_interface.delete_gallery(year, gallery):
             return "success"
         return "Error, gallery does not exist"
@@ -134,7 +134,7 @@ def deletegallery(key, year, gallery):
 
 @app.route("/creategallery/<key>/<year>/<gallery>")
 def creategallery(key, year, gallery):
-    if key == admin_key:
+    if key == adminKey:
         if sqlite_interface.add_gallery(year, gallery):
             return "success"
         return "Error, " + gallery + "  already exists"
@@ -142,14 +142,14 @@ def creategallery(key, year, gallery):
 
 @app.route("/getVisibleYears/<key>")
 def getVisibleYears(key):
-    if key == admin_key:
+    if key == adminKey:
         gn = sqlite_interface.get_visible_years()
         return json.dumps(gn)
     return "Error, invalid key"
 
 @app.route("/getInvisibleYears/<key>")
 def getInvisibleYears(key):
-    if key == admin_key:
+    if key == adminKey:
         gn =  sqlite_interface.get_invisible_years()
         return json.dumps(gn)
     return "Error, invalid key"
@@ -157,7 +157,7 @@ def getInvisibleYears(key):
 @app.route("/getInvisibleGalleries/<key>/")
 @app.route("/getInvisibleGalleries/<key>/<year>")
 def getInvisibleGalleries(key, year = None):
-    if key == admin_key:
+    if key == adminKey:
         if year == None:
             gn = sqlite_interface.get_invisible_by_year(date.today().year)
         else:
@@ -168,7 +168,7 @@ def getInvisibleGalleries(key, year = None):
 @app.route("/getVisibleGalleries/<key>/")
 @app.route("/getVisibleGalleries/<key>/<year>")
 def getVisibleGalleries(key, year = None):
-    if key == admin_key:
+    if key == adminKey:
         if year == None:
             gn = sqlite_interface.get_visible_by_year(date.today().year)
         else:
@@ -179,38 +179,40 @@ def getVisibleGalleries(key, year = None):
 @app.route("/setVisibility/<key>/<visibility>/<gallery>")
 @app.route("/setVisibility/<key>/<visibility>/<gallery>/<year>")
 def setVisibility(key, visibility, gallery, year = None):
-    if key == admin_key:
+    if key == adminKey:
         if year == None:
-            sqlite_interface.set_visible(date.today().year,gallery,visibility)
+            sqlite_interface.setVisibility(date.today().year,
+                                           gallery,
+                                           visibility)
             return "success"
         else:
-            sqlite_interface.set_visible(year,gallery,visibility)
+            sqlite_interface.setVisibility(year, gallery, visibility)
             return "success"
     return "Error, invalid key"
 
 @app.route("/setVisibilityByYear/<key>/<visibility>")
 @app.route("/setVisibilityByYear/<key>/<visibility>/<year>")
 def setVisibilityByYear(key, visibility, year = None):
-    if key == admin_key:
+    if key == adminKey:
         if year == None:
-            sqlite_interface.set_visible_by_year(date.today().year,visibility)
+            sqlite_interface.setVisibleByYear(date.today().year,visibility)
             return "success"
         else:
-            sqlite_interface.set_visible_by_year(year,visibility)
+            sqlite_interface.setVisibleByYear(year,visibility)
             return "success"
     return "Error, invalid key"
 
 @app.route("/getYears/<key>")
 def getYears(key):
-    if key == admin_key:
-        gn = sqlite_interface.get_years()
+    if key == adminKey:
+        gn = sqlite_interface.getYears()
         return json.dumps(gn)
     return "Error, invalid key"
 
 @app.route("/getGalleriesInYear/<key>/<year>")
 def getGalleriesInYear(key,year):
-    if key == admin_key:
-        gn = sqlite_interface.get_galleries_in_year(year)
+    if key == adminKey:
+        gn = sqlite_interface.getGalleriesInYear(year)
         return json.dumps(gn)
     return "Error, invalid key"
 

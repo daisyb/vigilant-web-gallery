@@ -7,7 +7,7 @@ import uuid
 import time
 from datetime import date
 from flask import Flask, render_template, session, request, redirect, url_for
-from werkzeug.utils import secure_filename
+
 
 admin_key = "mrdwisawesome" # PLEASE CHANGE
 app = Flask(__name__)

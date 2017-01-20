@@ -1,4 +1,5 @@
 import PythonMagick
+from werkzeug.utils import secure_filename
 
 def crop(image, x1, y1, w, h):
     img = PythonMagick.Image(image) # make a copy

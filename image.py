@@ -78,7 +78,7 @@ def create(image, galleries, imageFile, year):
     imageName = " ".join(fileName.split("_"))
     code = image['code'].encode('ascii', 'ignore')
 
-    filetype = imageFile.filename[-4:].lower(),
+    fileType = imageFile.filename[-4:].lower(),
 
     imageValid = validImage(imageName,
                            galleryName,

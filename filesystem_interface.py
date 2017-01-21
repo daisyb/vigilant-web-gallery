@@ -3,8 +3,6 @@ import image_utils
 
 
 ALLOWED_EXTENSIONS = set(['png', 'gif'])
-
-
 flaskPath = os.path.dirname(__file__)
 uploadPath = os.path.join(flaskPath, "static", "uploads")
 

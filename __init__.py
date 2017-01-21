@@ -13,8 +13,8 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 #max filesize limit of 10mb
-flask_path = os.path.dirname(__file__)
-upload_path = flask_path + UPLOAD_FOLDER
+flaskPath = os.path.dirname(__file__)
+uploadPath = os.path.join(flaskPath, UPLOAD_FOLDER)
 
 @app.route("/")
 @app.route("/home")
@@ -138,7 +138,7 @@ def getimagename(key, year, gallery):
     return "Error, invalid key"
 
 @app.route("/deleteimage/<key>/<year>/<gallery>/<name>")
-def deleteimage(key, year, gallery,name):
+def deleteimage(key, year, gallery, name):
     if key == adminKey:
         if sqlite_interface.deleteImage(year, gallery, name):
             return "success"

@@ -8,10 +8,10 @@ ALLOWED_EXTENSIONS = set(['png', 'gif'])
 flaskPath = os.path.dirname(__file__)
 uploadPath = os.path.join(flaskPath, "static", "uploads")
 
-try:
-    os.symlink(uploadPath, os.path.join(flaskPath, "static", "Uploads"))
-except OSError:
-    print "Already symlinked"
+# try:
+#     os.symlink(uploadPath, os.path.join(flaskPath, "static", "Uploads"))
+# except OSError:
+#     print "Already symlinked"
 
 try:
     os.makedirs(os.path.join(flaskPath, "temp"))

@@ -34,11 +34,14 @@ def currentGallery(galleryName = None):
                            currentGallery = galleryName,
                            galleryNames = galleries)
 
+@app.route("/<year>")
 @app.route("/<year>/<g>")
 def previousGallery(galleryName, year):
     if year not in sqlite_interface.getPreviousYears():
         return render_template("error.html", error = "Invalid year")
     galleries = sqlite_interface.getVisibleByYear(year)
+    if galleryName == None:
+        galleryName = galleries[0]
     return render_template("gallery.html", cgallery = g, year = year)
 
 

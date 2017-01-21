@@ -81,7 +81,7 @@ def deleteImage(location):
         print "Deleting image with no path"
 
 def createGallery(year, galleryName):
-p    galleryPath = os.path.join(uploadPath, str(year), galleryName)
+    galleryPath = os.path.join(uploadPath, str(year), galleryName)
     if not os.path.exists(galleryPath):
         os.makedirs(galleryPath)
         uploadPath = os.path.join(flaskPath, "uploads")

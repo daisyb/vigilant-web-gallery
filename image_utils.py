@@ -1,4 +1,7 @@
-import PythonMagick
+try:
+    import PythonMagick
+except ImportError:
+    print "Whatever, you don't need it"
 import os
 
 def crop(image, x1, y1, w, h):

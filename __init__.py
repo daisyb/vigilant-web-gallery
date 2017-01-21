@@ -37,12 +37,18 @@ def currentGallery(galleryName = None):
 @app.route("/<year>")
 @app.route("/<year>/<g>")
 def previousGallery(year, galleryName = None):
-    if year not in sqlite_interface.getPreviousYears():
+    print "YEAR: " + year
+    previousYears =  sqlite_interface.getPreviousYears():
+    print "PREVIOUS YEARS: " + previousYears
+    if year not in previousYears
         return render_template("error.html", error = "Invalid year")
     galleries = sqlite_interface.getVisibleByYear(year)
     if galleryName == None:
         galleryName = galleries[0]
-    return render_template("gallery.html", cgallery = g, year = year)
+    return render_template("gallery.html",
+                           currentGallery = galleryName,
+                           galleryNames = galleries,
+                           year = year)
 
 
 @app.route("/backfill/<year>",methods=["GET","POST"])
@@ -84,8 +90,7 @@ def upload():
             render_template("error.html",
                             error = processedProperly,
                             galleryNames = galleries)
-        return redirect(url_for("currentGallery",
-                                galleryName = request.form['Gallery']))
+        return redirect(url_for("currentGallery", galleryName = request.form['Gallery']))
 
 
 @app.route("/oldgalleries")

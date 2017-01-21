@@ -28,7 +28,7 @@ function getThumbs() {
 	    for(i in paths){
 		      var img = new Image();
 		      console.log(paths[i]);
-		      img.src = paths[i]['path'] + "/thumbnail.png";
+		      img.src = "static/" + paths[i]['path'] + "/thumbnail.png";
 		      img.alt = paths[i]['title'];
 		      img.onclick = function(num){
 		          //onlick edit gradient/box and make visible

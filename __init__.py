@@ -20,7 +20,7 @@ upload_path = flask_path + UPLOAD_FOLDER
 @app.route("/home")
 def home():
     galleries = sqlite_interface.getCurrentGalleries()
-    return render_template("home.html", gallerynames = galleries)
+    return render_template("home.html", galleryNames = galleries)
 
 
 

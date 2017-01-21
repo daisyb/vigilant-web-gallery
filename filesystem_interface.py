@@ -60,7 +60,7 @@ def createImage(imageFile,
     imageFilePath = os.path.join(imageDir,
                                  "image" + fileType)
     os.rename(tempPath, imageFilePath)
-    f = open(os.path.join(imageDir + "code.txt"), 'w')
+    f = open(os.path.join(imageDir, "code.txt"), 'w')
     f.write(code)
     f.close()
     shutil.rmtree(os.path.join(flaskPath, "temp"))
@@ -81,7 +81,7 @@ def deleteImage(location):
         print "Deleting image with no path"
 
 def createGallery(year, galleryName):
-    galleryPath = os.path.join(uploadPath, str(year), galleryName)
+p    galleryPath = os.path.join(uploadPath, str(year), galleryName)
     if not os.path.exists(galleryPath):
         os.makedirs(galleryPath)
         uploadPath = os.path.join(flaskPath, "uploads")

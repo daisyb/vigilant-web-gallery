@@ -103,6 +103,7 @@ def createGallery(year, galleryName):
     galleryPath = os.path.join(uploadPath, str(year), galleryName)
     if not os.path.exists(galleryPath):
         os.makedirs(galleryPath)
+    return True
 
 def deleteGallery(year, galleryName):
     shutil.rmtree(os.path.join(uploadPath, year, galleryName))

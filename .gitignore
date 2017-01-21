@@ -5,3 +5,4 @@ images/
 static/uploads
 *.db
 uploads
+secret_key

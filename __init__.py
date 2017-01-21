@@ -3,6 +3,7 @@ import hashlib
 import sqlite_interface
 import image
 import os
+import urllib
 from datetime import date
 from flask import Flask, render_template, session, request, redirect, url_for
 
@@ -139,6 +140,7 @@ def getimagename(key, year, gallery):
 
 @app.route("/deleteimage/<key>/<year>/<gallery>/<name>")
 def deleteimage(key, year, gallery, name):
+    name = urllib.unquote_plus(name)
     if key == adminKey:
         if sqlite_interface.deleteImage(year, gallery, name):
             return "success"

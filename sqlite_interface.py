@@ -94,6 +94,7 @@ def insertImage(year,
                 imageName,
                 fileType,
                 imagePath):
+    servedImagePath = os.path.join("static", imagePath)
     # Folder name is different from name cause it has timestamp added
     createGallery(year, galleryName) # If gallery exists will do nothing
     galleryID = getGalleryID(year, galleryName)
@@ -103,7 +104,7 @@ def insertImage(year,
                  same name likely already exists in that gallery."""
 
     insertQuery = "INSERT INTO images (name, gallery, location, filetype) VALUES (?, ?, ?, ?)"
-    runQuery(insertQuery, (imageName, galleryID, imagePath, fileType))
+    runQuery(insertQuery, (imageName, galleryID, servedImagePath, fileType))
     return True
 
 def getSampleImages():  #gets one image from each gallery
@@ -246,7 +247,7 @@ def getVisibleYears():
 def getInvisibleYears():
     return getYearsByVisibility(0)
 
-# <---------------------- Utils ---------------------->
+# <---------------p------- Utils ---------------------->
 def screwTuples(shittyTupleList):
     return  [str(i[1]) + i[0] for i in shittyTupleList]
 

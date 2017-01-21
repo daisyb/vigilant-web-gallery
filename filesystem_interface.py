@@ -106,7 +106,7 @@ def createGallery(year, galleryName):
         uploadPath = os.path.join(flaskPath, "uploads")
 
 def deleteGallery(year, galleryName):
-    shutil.rmtree(os.path.join(upload_path, year, gallery))
+    shutil.rmtree(os.path.join(uploadPath, year, gallery))
 
 def setupDB():
     os.makedirs(upload_path)

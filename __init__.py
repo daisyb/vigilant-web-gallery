@@ -150,6 +150,7 @@ def deleteimage(key, year, gallery, name):
 
 @app.route("/deletegallery/<key>/<year>/<gallery>")
 def deleteGallery(key, year, gallery):
+    gallery = urllib.unquote_plus(gallery)
     if key == adminKey:
         if not sqlite_interface.deleteGallery(year, gallery):
             return "Cannot remove gallery from database"
@@ -160,6 +161,7 @@ def deleteGallery(key, year, gallery):
 
 @app.route("/creategallery/<key>/<year>/<gallery>")
 def createGallery(key, year, gallery):
+    gallery = urllib.unquote_plus(gallery)
     if key == adminKey:
         if not sqlite_interface.createGallery(year, gallery):
             return "Error inserting gallery into database"
@@ -207,6 +209,7 @@ def getVisibleGalleries(key, year = None):
 @app.route("/setVisibility/<key>/<visibility>/<gallery>")
 @app.route("/setVisibility/<key>/<visibility>/<gallery>/<year>")
 def setVisibility(key, visibility, gallery, year = None):
+    gallery = urllib.unquote_plus(gallery)
     if key == adminKey:
         if year == None:
             sqlite_interface.setVisibility(date.today().year,

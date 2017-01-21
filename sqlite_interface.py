@@ -94,7 +94,7 @@ def insertImage(year,
                 imageName,
                 fileType,
                 imageDir):
-    servedImageDir = os.path.join("..", "static", imageDir)
+    servedImageDir = os.path.join("..", "static", "uploads", imageDir)
     # Folder name is different from name cause it has timestamp added
     createGallery(year, galleryName) # If gallery exists will do nothing
     galleryID = getGalleryID(year, galleryName)

@@ -16,7 +16,8 @@ flaskPath = os.path.dirname(__file__)
 uploadPath = os.path.join(flaskPath, UPLOAD_FOLDER)
 
 secretKeyFile = os.path.join(flaskPath, "secret_key")
-adminKey = open(secretKeyFile, 'r') # DO NOT ADD SECRET KEY TO GIT REPO
+adminKey = open(secretKeyFile, 'r').read().rstrip()
+# DO NOT ADD SECRET KEY TO GIT REPO
 
 
 def setup():

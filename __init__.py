@@ -37,10 +37,8 @@ def currentGallery(galleryName = None):
 @app.route("/<year>")
 @app.route("/<year>/<g>")
 def previousGallery(year, galleryName = None):
-    print "YEAR: " + year
-    previousYears =  sqlite_interface.getPreviousYears():
-    print "PREVIOUS YEARS: " + previousYears
-    if year not in previousYears
+    previousYears =  sqlite_interface.getPreviousYears()
+    if int(year) not in previousYears:
         return render_template("error.html", error = "Invalid year")
     galleries = sqlite_interface.getVisibleByYear(year)
     if galleryName == None:
@@ -48,7 +46,7 @@ def previousGallery(year, galleryName = None):
     return render_template("gallery.html",
                            currentGallery = galleryName,
                            galleryNames = galleries,
-                           year = year)
+                           yr = year)
 
 
 @app.route("/backfill/<year>",methods=["GET","POST"])
@@ -72,7 +70,7 @@ def backfill(year = None):
                             year = year))
 
 
-@app.route("/upload",methods=["GET","POST"])
+@app.route("/upload", methods=["GET","POST"])
 def upload():
     galleries = sqlite_interface.getCurrentGalleries()
     if request.method == "GET":
@@ -97,7 +95,9 @@ def upload():
 def oldGalleries():
     galleries = sqlite_interface.getCurrentGalleries()
     years = sqlite_interface.getVisibleYears()
-    return render_template("old.html", galleryNames = galleries, years = years)
+    return render_template("old.html",
+                           galleryNames = galleries,
+                           years = years)
 
 @app.route("/getsamples")
 def getsamples():
@@ -138,7 +138,7 @@ def getimagename(key, year, gallery):
 @app.route("/deleteimage/<key>/<year>/<gallery>/<name>")
 def deleteimage(key, year, gallery,name):
     if key == adminKey:
-        if sqlite_interface.delete_image(year, gallery, name):
+        if sqlite_interface.deleteImage(year, gallery, name):
             return "success"
         else:
             return "Error, image does not exist"
@@ -147,30 +147,34 @@ def deleteimage(key, year, gallery,name):
 @app.route("/deletegallery/<key>/<year>/<gallery>")
 def deleteGallery(key, year, gallery):
     if key == adminKey:
-        if sqlite_interface.delete_gallery(year, gallery):
-            return "success"
-        return "Error, gallery does not exist"
+        if not sqlite_interface.deleteGallery(year, gallery):
+            return "Cannot remove gallery from database"
+        if not filesystem_interface.deleteGallery(year, gallery):
+            return "Cannot delete gallery from filesystem"
+        return "Sucess"
     return "Error, invalid key"
 
 @app.route("/creategallery/<key>/<year>/<gallery>")
 def createGallery(key, year, gallery):
     if key == adminKey:
-        if sqlite_interface.createGallery(year, gallery):
-            return "success"
-        return "Error, " + gallery + "  already exists"
+        if not sqlite_interface.createGallery(year, gallery):
+            return "Error inserting gallery into database"
+        if not filesystem_interface.deleteGallery(year,gallery):
+            return "Error creating gallery folder"
+        return "Sucess"
     return "Error, invalid key"
 
 @app.route("/getVisibleYears/<key>")
 def getVisibleYears(key):
     if key == adminKey:
-        gn = sqlite_interface.get_visible_years()
+        gn = sqlite_interface.getVisibleYears()
         return json.dumps(gn)
     return "Error, invalid key"
 
 @app.route("/getInvisibleYears/<key>")
 def getInvisibleYears(key):
     if key == adminKey:
-        gn =  sqlite_interface.get_invisible_years()
+        gn =  sqlite_interface.getInvisibleYears()
         return json.dumps(gn)
     return "Error, invalid key"
 
@@ -179,9 +183,9 @@ def getInvisibleYears(key):
 def getInvisibleGalleries(key, year = None):
     if key == adminKey:
         if year == None:
-            gn = sqlite_interface.get_invisible_by_year(date.today().year)
+            gn = sqlite_interface.getInvisibleByYear(date.today().year)
         else:
-            gn = sqlite_interface.get_invisible_by_year(year)
+            gn = sqlite_interface.getInvisibleByYear(year)
         return json.dumps(gn)
     return "Error, invalid key"
 
@@ -190,9 +194,9 @@ def getInvisibleGalleries(key, year = None):
 def getVisibleGalleries(key, year = None):
     if key == adminKey:
         if year == None:
-            gn = sqlite_interface.get_visible_by_year(date.today().year)
+            gn = sqlite_interface.getVisibleByYear(date.today().year)
         else:
-            gn = sqlite_interface.get_visible_by_year(year)
+            gn = sqlite_interface.getVisibleByYear(year)
         return json.dumps(gn)
     return "Error, invalid key"
 

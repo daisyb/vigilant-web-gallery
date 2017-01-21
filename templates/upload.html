@@ -6,8 +6,8 @@
 
 
 <div id="upload">
-  {% if yr is defined %}
-  <form action="/upload/{{ yr }}" method="post" enctype="multipart/form-data">
+  {% if theYear is defined %}
+  <form action="/upload/{{ theYear }}" method="post" enctype="multipart/form-data">
   {% else %}
   <form action="/upload" method="post" enctype="multipart/form-data">
   {% endif %}

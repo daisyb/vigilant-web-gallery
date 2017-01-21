@@ -7,8 +7,6 @@ import urllib
 from datetime import date
 from flask import Flask, render_template, session, request, redirect, url_for
 
-
-adminKey = open('secret_key', 'r') # DO NOT ADD SECRET KEY TO GIT REPO
 app = Flask(__name__)
 
 UPLOAD_FOLDER = 'static/uploads'
@@ -16,6 +14,10 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 #max filesize limit of 10mb
 flaskPath = os.path.dirname(__file__)
 uploadPath = os.path.join(flaskPath, UPLOAD_FOLDER)
+
+secretKeyFile = os.path.join(flaskPath, "secret_key")
+adminKey = open(secretKeyFile, 'r') # DO NOT ADD SECRET KEY TO GIT REPO
+
 
 def setup():
     galleries = sqlite_interface.getAllGalleries()

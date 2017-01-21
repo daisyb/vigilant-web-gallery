@@ -176,7 +176,7 @@ def getInvisibleByYear(year):
     return screwTuples2(runQuery(visibleQuery % year))
 
 def deleteGallery(year, galleryName):
-    if not doesGalleryExist(year, gallery):
+    if not doesGalleryExist(year, galleryName):
         return False
     deleteQuery = "DELETE FROM galleries WHERE year = ? AND name = ?"
     runQuery(deleteQuery, (year, galleryName))

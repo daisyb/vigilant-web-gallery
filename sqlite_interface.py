@@ -113,9 +113,7 @@ def getSampleImages():  #gets one image from each gallery
     sampleImages = screwTuples2(runQuery(sampleImageQuery % date.today().year))
 
 def deleteImage(year, galleryName, imageName):
-    print "YEAR: " + str(year)
-    print "GALLERY: " + str(galleryName)
-    print "IMAGE NAME: " + str(imageName)
+    imageName = urllib.unquote_plus(imageName)
     if doesImageExist(year, galleryName, imageName):
         imageQuery = """SELECT location, [id:1] FROM [images with galleries]
                             WHERE name = '%s' AND [name:1] = '%s' AND year = %s"""

@@ -81,7 +81,7 @@ def getImagesInGallery(year, galleryName):
 
 def getImageLocation(year, galleryName, imageName):
     locationQuery = """SELECT location FROM [images with galleries]
-                        WHERE year = %s AND [name:1] = %s AND
+                        WHERE year = %s AND [name:1] = '%s' AND
                               name = %s"""
     return screwTuples2(runQuery(locationQuery % (year,
                                                   galleryName,

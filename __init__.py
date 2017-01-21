@@ -167,7 +167,7 @@ def createGallery(key, year, gallery):
             return "Error inserting gallery into database"
         if not filesystem_interface.createGallery(year,gallery):
             return "Error creating gallery folder"
-        return "Sucess"
+        return "Success"
     return "Error, invalid key"
 
 @app.route("/getVisibleYears/<key>")

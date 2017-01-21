@@ -165,7 +165,7 @@ def createGallery(key, year, gallery):
     if key == adminKey:
         if not sqlite_interface.createGallery(year, gallery):
             return "Error inserting gallery into database"
-        if not filesystem_interface.deleteGallery(year,gallery):
+        if not filesystem_interface.createGallery(year,gallery):
             return "Error creating gallery folder"
         return "Sucess"
     return "Error, invalid key"

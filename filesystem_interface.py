@@ -9,7 +9,7 @@ flaskPath = os.path.dirname(__file__)
 uploadPath = os.path.join(flaskPath, "uploads")
 
 try:
-    os.symlink(uploadPath, os.path.join(flaskPath, "static", "uploads"))
+    os.symlink(uploadPath, os.path.join(flaskPath, "static", "Uploads"))
 except OSError:
     print "Already symlinked"
 

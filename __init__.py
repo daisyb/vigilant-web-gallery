@@ -50,24 +50,26 @@ def previousGallery(year, galleryName = None):
 
 
 @app.route("/backfill/<year>",methods=["GET","POST"])
-def backfill(year = None):
-    galleries = sqlite_interface.getVisibleByYear(year) #TEMPORARY
+def backfill(year):
+    galleries = sqlite_interface.getVisibleByYear(year)
+    print "YEAR: " + year
     if request.method == "GET":
         return render_template("upload.html",
                                gallerynames = galleries,
                                galleries = galleries,
                                yr = year)
-    processedProperly = image.create(request.form,
+    else:
+        processedProperly = image.create(request.form,
                                      galleries,
                                      request.files['file'],
                                      year)
-    if processedProperly != True:
-        render_template("error.html",
-                        error = processedProperly,
-                        galleryNames = galleries)
-    return redirect(url_for("previousGallery",
-                            galleryName = request.form['Gallery'],
-                            year = year))
+        if processedProperly != True:
+            render_template("error.html",
+                            error = processedProperly,
+                            galleryNames = galleries)
+        return redirect(url_for("previousGallery",
+                                galleryName = request.form['Gallery'],
+                                year = year))
 
 
 @app.route("/upload", methods=["GET","POST"])

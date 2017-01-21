@@ -253,3 +253,8 @@ def screwTuples(shittyTupleList):
 
 def screwTuples2(shittyTupleList):
     return [i[0] for i in shittyTupleList]
+
+try:
+    setupDB()
+except sqlite3.OperationalError:
+    print "Already set up db"

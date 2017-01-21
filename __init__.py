@@ -17,6 +17,14 @@ app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 #max filesize limit of 10mb
 flaskPath = os.path.dirname(__file__)
 uploadPath = os.path.join(flaskPath, UPLOAD_FOLDER)
 
+def setup():
+    galleries = sqlite_interface.getAllGalleries()
+    for gallery, year in galleries:
+        try:
+            filesystem_interface.createGallery(year, gallery)
+        except:
+            print "Files already made"
+
 @app.route("/")
 @app.route("/home")
 def home():
@@ -252,7 +260,7 @@ def getGalleriesInYear(key,year):
 #def getcode():
 #    return json.dumps """stuff"""
 
-
+setup()
 
 if __name__ == "__main__":
     app.debug = True

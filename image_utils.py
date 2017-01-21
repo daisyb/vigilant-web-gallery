@@ -12,8 +12,9 @@ def resize(image, w, h):
     return img
 
 
-def createThumbnail(imagePath):   #creates a thumbnail named "thumbnail.png"
-    image = PythonMagick.Image(str(imagePath))
+def createThumbnail(imageDir, fileType):   #creates a thumbnail named "thumbnail.png"
+    imageFile = os.path.join(imageDir, "image" + fileType)
+    image = PythonMagick.Image(str(imageFile))
     geometry = image.size()
     w, h = geometry.width(), geometry.height()
     if (w > h):
@@ -26,8 +27,7 @@ def createThumbnail(imagePath):   #creates a thumbnail named "thumbnail.png"
     new_size = 175
     image = resize(image, new_size, new_size)
 
-    newPath = str(imagePath)[:-9]
-    newPath += "thumbnail.png"
+    newPath = os.path.join(imageDir, "thumbnail.png")
     image.write(newPath)
     return True
 

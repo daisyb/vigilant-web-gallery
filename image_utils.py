@@ -1,4 +1,6 @@
 import PythonMagick
+import os
+
 def crop(image, x1, y1, w, h):
     img = PythonMagick.Image(image) # make a copy
     rect = "%sx%s+%s+%s" % (w, h, x1, y1)

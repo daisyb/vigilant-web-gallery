@@ -136,7 +136,7 @@ def getCurrentGalleries():
 
 def getAllGalleries():
     galleriesQuery = "SELECT name, year FROM galleries"
-    return screwTuples(runQuery(galleriesQuery))
+    return runQuery(galleriesQuery)
 
 def getGalleriesInYear(year):
     galleriesQuery = "SELECT name FROM galleries WHERE year = '%s'"

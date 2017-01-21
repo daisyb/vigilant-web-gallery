@@ -8,7 +8,7 @@ from datetime import date
 from flask import Flask, render_template, session, request, redirect, url_for
 
 
-adminKey = "mrdwisawesome" # PLEASE CHANGE
+adminKey = open('secret_key', 'r') # DO NOT ADD SECRET KEY TO GIT REPO
 app = Flask(__name__)
 
 UPLOAD_FOLDER = 'static/uploads'

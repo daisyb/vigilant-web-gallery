@@ -35,7 +35,7 @@ def currentGallery(galleryName = None):
                            galleryNames = galleries)
 
 @app.route("/<year>")
-@app.route("/<year>/<g>")
+@app.route("/<year>/<galleryName>")
 def previousGallery(year, galleryName = None):
     previousYears =  sqlite_interface.getPreviousYears()
     if int(year) not in previousYears:

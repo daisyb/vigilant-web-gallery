@@ -28,7 +28,7 @@ def createThumbnail(imagePath):   #creates a thumbnail named "thumbnail.png"
 
     newPath = str(imagePath)[:-9]
     newPath += "thumbnail.png"
-    image.write(newpath)
+    image.write(newPath)
     return True
 
 def limitSize(imagePath):

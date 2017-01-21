@@ -13,6 +13,10 @@ try:
 except OSError:
     print "Already symlinked"
 
+try:
+    os.makedirs(os.path.join(flaskPath, "temp"))
+except OSError:
+    print "Already created temp"
 
 def validGIF(tempSize):
     return tempSize < 10 * 1024 * 1024

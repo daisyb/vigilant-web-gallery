@@ -52,7 +52,7 @@ def createImage(imageFile,
         return fileValid
 
     #sets foldername to first_last_timestamp
-    imageDir = os.path.join(flaskPath, relativeImageDir)
+    imageDir = os.path.join(uploadPath, relativeImageDir)
     os.makedirs(imageDir)
     print "Made directory: " + imageDir
     imageFilePath = os.path.join(imageDir,

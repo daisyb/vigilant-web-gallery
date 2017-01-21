@@ -36,7 +36,7 @@ def currentGallery(galleryName = None):
 
 @app.route("/<year>")
 @app.route("/<year>/<g>")
-def previousGallery(galleryName, year):
+def previousGallery(galleryName = None, year):
     if year not in sqlite_interface.getPreviousYears():
         return render_template("error.html", error = "Invalid year")
     galleries = sqlite_interface.getVisibleByYear(year)

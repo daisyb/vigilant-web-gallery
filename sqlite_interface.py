@@ -89,7 +89,11 @@ def getImageLocation(year, galleryName, imageName):
 def getCurrentYearImages(galleryName):
     return getImagesInGallery(date.today().year, gallery)
 
-def insertImage(year, galleryName, imageName, filetype, imagePath):
+def insertImage(year,
+                galleryName,
+                imageName,
+                fileType,
+                imagePath):
     # Folder name is different from name cause it has timestamp added
     createGallery(year, galleryName) # If gallery exists will do nothing
     galleryID = getGalleryID(year, galleryName)
@@ -99,7 +103,7 @@ def insertImage(year, galleryName, imageName, filetype, imagePath):
                  same name likely already exists in that gallery."""
 
     insertQuery = "INSERT INTO images (name, gallery, location, filetype) VALUES (?, ?, ?, ?)"
-    runQuery(insertQuery, (imageName, galleryID, imagePath, filetype))
+    runQuery(insertQuery, (imageName, galleryID, imagePath, fileType))
     return True
 
 def getSampleImages():  #gets one image from each gallery

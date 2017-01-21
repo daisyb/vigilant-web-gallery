@@ -1,14 +1,19 @@
+import filesystem_interface
+import sqlite_interface
+import time, os
 from werkzeug.utils import secure_filename
 
 
+
 def validImageName(imageName):
-    return not imageName or imageName == ' ' or len(imageName) > 100
+    return not imageName == '' and len(imageName) < 100 and imageName
 
 def validGalleryName(galleryName, galleries):
-    return galleryName not in galleries
+    return galleryName in galleries
 
 
-def validImage(imageName,
+def validImage(imageFile,
+               imageName,
                galleryName,
                galleries,
                fileType):
@@ -20,34 +25,49 @@ def validImage(imageName,
     if not validGalleryName(galleryName, galleries):
         return "Stop trying to be clever"
 
-    if not imageFile or not allowed_file(imageFile.filename):
-        return "You did not upload a file or your file name is unacceptable."
+    if not imageFile:
+        return "You did not upload a file"
 
     return True
 
 def create(image, galleries, imageFile, year):
+    print "CREATING"
     galleryName = image['Gallery']
     fileName = secure_filename(image['name'])
     imageName = " ".join(fileName.split("_"))
     code = image['code'].encode('ascii', 'ignore')
 
-    fileType = imageFile.filename[-4:].lower(),
+    fileType = imageFile.filename[-4:].lower()
 
-    imageValid = validImage(imageName,
-                           galleryName,
-                           galleries,
-                           fileType)
+    imageValid = validImage(imageFile,
+                            imageName,
+                            galleryName,
+                            galleries,
+                            fileType)
+    print imageValid
     if imageValid != True:
         return imageValid
 
-    savedProperly = filesystem_interface.createImage(imageName,
+    print "SAVING"
+    folderName = secure_filename(imageName +
+                                 "_" +
+                                 str(int(time.time())))
+    relativeImageDir = os.path.join("Uploads",
+                                    str(year),
+                                    galleryName,
+                                    folderName)
+
+    savedProperly = filesystem_interface.createImage(imageFile,
+                                                     imageName,
                                                      year,
                                                      galleryName,
-                                                     fileType)
+                                                     fileType,
+                                                     relativeImageDir,
+                                                     code)
     insertedProperly = sqlite_interface.insertImage(year,
                                                     galleryName,
                                                     imageName,
-                                                    filetype,
+                                                    fileType,
                                                     relativeImageDir)
     if insertedProperly != True:
         location = sqlite_interface.getImageLocation(year,
@@ -57,10 +77,11 @@ def create(image, galleries, imageFile, year):
         return insertedProperly
 
     if savedProperly != True:
+        print "NOT SAVED PROPERLY"
         sqlite_interface.deleteImage(year, galleryName, imageName)
         return savedProperly
 
     return True
 
-def delete(year, gallery, name)
-
+def delete(location):
+    shutil.rmtree(location)

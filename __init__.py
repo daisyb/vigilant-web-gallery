@@ -3,8 +3,6 @@ import hashlib
 import sqlite_interface
 import image
 import os
-import uuid
-import time
 from datetime import date
 from flask import Flask, render_template, session, request, redirect, url_for
 
@@ -13,7 +11,6 @@ adminKey = "mrdwisawesome" # PLEASE CHANGE
 app = Flask(__name__)
 
 UPLOAD_FOLDER = 'static/uploads'
-ALLOWED_EXTENSIONS = set(['png', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 #max filesize limit of 10mb
 flask_path = os.path.dirname(__file__)
@@ -44,8 +41,6 @@ def previousGallery(galleryName, year):
     galleries = sqlite_interface.getVisibleByYear(year)
     return render_template("gallery.html", cgallery = g, year = year)
 
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route("/backfill/<year>",methods=["GET","POST"])
 def backfill(year = None):
@@ -76,10 +71,12 @@ def upload():
                                galleryNames = galleries,
                                galleries = galleries)
     else:
+        print "PROCESSING IMAGE"
         processedProperly = image.create(request.form,
                                          galleries,
                                          request.files['file'],
                                          date.today().year)
+        print "FINISHED PROCESSING"
         if processedProperly != True:
             render_template("error.html",
                             error = processedProperly,

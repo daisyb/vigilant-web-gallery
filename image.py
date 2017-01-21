@@ -52,8 +52,7 @@ def create(image, galleries, imageFile, year):
     folderName = secure_filename(imageName +
                                  "_" +
                                  str(int(time.time())))
-    relativeImageDir = os.path.join("Uploads",
-                                    str(year),
+    relativeImageDir = os.path.join(str(year),
                                     galleryName,
                                     folderName)
 

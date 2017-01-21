@@ -66,7 +66,7 @@ def createImage(imageFile,
     shutil.rmtree(os.path.join(flaskPath, "temp"))
     os.makedirs(os.path.join(flaskPath, "temp"))
 
-    image_utils.createThumbnail(imageDir)
+    image_utils.createThumbnail(imageDir, fileType)
 
     if fileType == ".png":
         image_utils.limitSize(imageFilePath)

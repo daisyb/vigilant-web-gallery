@@ -238,7 +238,8 @@ def getYearsByVisibility(visibility):
     yearsQuery = """SELECT DISTINCT year FROM galleries
                     WHERE visible = %s ORDER BY year DESC"""
     years = screwTuples2(runQuery(yearsQuery % visibility))
-    years.remove(date.today().year)
+    if date.today().year in years:
+        years.remove(date.today().year)
     return years
 
 def getVisibleYears():

@@ -136,7 +136,7 @@ def deleteimage(key, year, gallery,name):
     return "Error, invalid key"
 
 @app.route("/deletegallery/<key>/<year>/<gallery>")
-def deletegallery(key, year, gallery):
+def deleteGallery(key, year, gallery):
     if key == adminKey:
         if sqlite_interface.delete_gallery(year, gallery):
             return "success"
@@ -144,9 +144,9 @@ def deletegallery(key, year, gallery):
     return "Error, invalid key"
 
 @app.route("/creategallery/<key>/<year>/<gallery>")
-def creategallery(key, year, gallery):
+def createGallery(key, year, gallery):
     if key == adminKey:
-        if sqlite_interface.add_gallery(year, gallery):
+        if sqlite_interface.addGallery(year, gallery):
             return "success"
         return "Error, " + gallery + "  already exists"
     return "Error, invalid key"

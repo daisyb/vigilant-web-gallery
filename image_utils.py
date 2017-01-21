@@ -30,7 +30,7 @@ def createThumbnail(imageDir, fileType):   #creates a thumbnail named "thumbnail
     image = resize(image, new_size, new_size)
 
     newPath = os.path.join(imageDir, "thumbnail.png")
-    image.write(newPath)
+    image.write(str(newPath))
     return True
 
 def limitSize(imagePath):
